@@ -8,6 +8,7 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 |---|---|
 | **A · Heritage Ivory** | Cream carton, botanical illustration, gold-ringed round window showing seasoned cashews, coloured side panel. Includes full **back panels** (about, ingredients, nutrition, storage, serving ideas, barcode/QR, FSSAI). |
 | **B · Noir Royale** | Black and gold premium carton, oval beaded gold frame, gold-outlined botanicals, engraved vine on the side. |
+| **D · Peacock Flash** | Wrap-around jar/tin label (220 × 180 mm: 155 mm front + 65 mm info panel), modelled on the striped "tattoo mascot" label reference. Tattoo-style peacock perched on a chilli / curry-leaf branch, vertical ASHVENA on both sides, stripe bands, and a rotated info panel (about, ingredients, allergens, storage, manufacturer, barcode). Fonts: DM Serif Display + Inter. |
 | **C · Spice Coast** | Bright illustrated scene: a bowl heaped with cashews, flowing botanicals, a wooden scoop, and a colour-block side panel. |
 
 ## Files (per direction folder)
@@ -15,7 +16,7 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 - `*_back.svg` (Direction A only) is the back panel, 120 × 170 mm.
 - `*.pdf` is a vector PDF at the same size, and `*.png` is a preview.
 
-**Fonts** (free, Google Fonts): Cinzel, Cormorant Garamond, Montserrat. Install them before opening in Illustrator.
+**Fonts** (free, Google Fonts): Cinzel, Cormorant Garamond, Montserrat, plus DM Serif Display and Inter for D. Install them before opening in Illustrator.
 
 ## Before print, replace these placeholders
 - Nutrition values (indicative only), ingredient percentages, and claims ("Made in India"). Get them from your lab report and your recipe.
@@ -25,7 +26,8 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 ## Regenerate
 ```
 pip install playwright
-python3 scripts/generate_packaging.py   # SVGs
+python3 scripts/generate_packaging.py   # SVGs (A-C)
+python3 scripts/generate_wrap_labels.py # SVGs (D)
 python3 scripts/render_previews.py      # PNG + PDF
 python3 scripts/render_mockups.py       # 3D board
 ```
