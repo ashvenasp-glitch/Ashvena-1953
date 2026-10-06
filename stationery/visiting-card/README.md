@@ -27,16 +27,19 @@ The code is rebuilt as vector artwork in Brick, in Instagram's own style (round 
 - `*.png` are previews cropped to the trim. `ashvena-visiting-card-board.png` shows both sides.
 
 ### CorelDRAW (.cdr)
-CorelDRAW's `.cdr` format is proprietary and can only be written by CorelDRAW itself, so the repo has no `.cdr` file. To make one:
-1. In CorelDRAW, **File → Open** `ashvena-visiting-card.ai` (or `ashvena-visiting-card_print.pdf`). Both pages come in as page 1 (front) and page 2 (back).
-2. If Cormorant Garamond and Montserrat are not installed, choose **Import text as: Curves** in the import dialog so the type keeps its exact look.
-3. **File → Save As → CorelDRAW (CDR)**.
+`ashvena-visiting-card_coreldraw-curves.pdf` is the CorelDRAW-ready file. It has the same two pages (front, back) with **all text converted to curves** and no fonts or images, only vector shapes in the exact brand colours, with 3 mm bleed and the trim marked. It opens in any CorelDRAW version with nothing missing.
+
+The `.cdr` format itself is proprietary and only CorelDRAW can write it, so there is no `.cdr` in the repo. To get one, in CorelDRAW:
+1. **File → Open** `ashvena-visiting-card_coreldraw-curves.pdf`.
+2. **File → Save As → CorelDRAW (CDR)**.
+
+A print shop that uses CorelDRAW can also take this PDF as it is.
 
 **Fonts** (free, Google Fonts): Cormorant Garamond and Montserrat.
 
 ## Regenerate
 Edit `CARD` or `INSTAGRAM` in `scripts/generate_visiting_card.py`, then run:
 ```
-pip install playwright pypdf segno
+pip install playwright pypdf segno cairosvg   # and poppler-utils for pdftocairo
 python3 scripts/generate_visiting_card.py
 ```

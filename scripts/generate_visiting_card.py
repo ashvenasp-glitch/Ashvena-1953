@@ -12,16 +12,19 @@ Card: 3.5 x 2 in (88.9 x 50.8 mm) trim + 3 mm bleed, at 10 px = 1 mm.
 Output (stationery/visiting-card/):
   ashvena-visiting-card.ai                    front + back as two artboards (PDF-compatible), with bleed
   ashvena-visiting-card_print.pdf             the same two pages for the printer
+  ashvena-visiting-card_coreldraw-curves.pdf  the same two pages, text converted to outlines
   ashvena-visiting-card_front.svg / .png      editable SVG master + preview
   ashvena-visiting-card_back.svg  / .png
   ashvena-visiting-card-board.png
 
-Requires: pip install playwright pypdf segno, plus Cormorant Garamond and Montserrat.
+Requires: pip install playwright pypdf segno cairosvg, poppler-utils (pdftocairo), plus Cormorant Garamond and Montserrat.
 """
 import base64
 import glob
 import os
 import re
+import subprocess
+import tempfile
 from xml.sax.saxutils import escape as esc
 
 import segno
@@ -297,6 +300,7 @@ def package(paths):
     """Front and back as two artboards in one PDF-compatible .ai, plus the same pages as a print PDF."""
     from pypdf import PdfWriter
     pdfs = [s[:-4] + ".pdf" for s in paths]
+    curves(pdfs)
     merged = PdfWriter()
     for pdf in pdfs:
         crop(pdf)
@@ -308,6 +312,36 @@ def package(paths):
         print("wrote", name)
     for pdf in pdfs:
         os.remove(pdf)
+
+
+def curves(pdfs):
+    """Same two pages with every glyph converted to outlines, for CorelDRAW (no fonts needed).
+
+    pdftocairo writes each glyph as a vector path in SVG; cairosvg turns that back into PDF.
+    Runs on Chromium's uncropped pages (content anchored top-left), then trims to the bleed size.
+    """
+    import cairosvg
+    from pypdf import PdfWriter
+    pt = 72 / 25.4 / MM
+    merged = PdfWriter()
+    with tempfile.TemporaryDirectory() as tmp:
+        for i, pdf in enumerate(pdfs):
+            svg_path = os.path.join(tmp, f"{i}.svg")
+            subprocess.run(["pdftocairo", "-svg", pdf, svg_path], check=True)
+            src = open(svg_path).read()
+            src = re.sub(r'width="[^"]+" height="[^"]+" viewBox="[^"]+"',
+                         f'width="{W * pt:.6f}pt" height="{H * pt:.6f}pt" viewBox="0 0 {W * pt:.6f} {H * pt:.6f}"',
+                         src, count=1)
+            out = os.path.join(tmp, f"{i}.pdf")
+            cairosvg.svg2pdf(bytestring=src.encode(), write_to=out)
+            crop(out)
+            merged.append(out)
+        merged.add_metadata({"/Title": "Ashvena 1953 Visiting Card (front, back) - text as curves",
+                             "/Creator": "generate_visiting_card.py"})
+        name = "ashvena-visiting-card_coreldraw-curves.pdf"
+        with open(os.path.join(OUT, name), "wb") as fh:
+            merged.write(fh)
+        print("wrote", name)
 
 
 def main():
