@@ -9,12 +9,10 @@ the wordmark in Khadi Cream.
 Uses the vector lockup in brand/ashvena-logo.svg (extracted from logo_final.ai).
 Card: 3.5 x 2 in (88.9 x 50.8 mm) trim + 3 mm bleed, at 10 px = 1 mm.
 
-One front is made per Instagram handle in HANDLES so each QR can be test-scanned.
-
 Output (stationery/visiting-card/):
-  ashvena-visiting-card_back.ai / .svg / .png
-  ashvena-visiting-card_front_<handle>.ai / .svg / .png
-  ashvena-visiting-card_print_<handle>.pdf     2 pages (front, back), with bleed
+  ashvena-visiting-card_front.ai / .svg / .png
+  ashvena-visiting-card_back.ai  / .svg / .png
+  ashvena-visiting-card_print.pdf             2 pages (front, back), with bleed
   ashvena-visiting-card-board.png
 
 Requires: pip install playwright pypdf segno, plus Cormorant Garamond and Montserrat.
@@ -55,11 +53,11 @@ CARD = dict(
     email="ashvena.sp@gmail.com",
     address="8 Marla, Sonipat, Haryana",
 )
-HANDLES = ["ashvena1953", "ashvena.sp"]
-
-
-def instagram_url(handle):
-    return f"https://instagram.com/{handle}"
+# Link taken verbatim from the QR code Instagram generated for the account.
+INSTAGRAM = dict(
+    handle="ashvena_1953",
+    url="https://www.instagram.com/ashvena_1953?utm_source=qr&stkn=ZHF3cnhwemdkc3Bu",
+)
 
 
 # ---------------------------------------------------------------- logo
@@ -138,7 +136,7 @@ def instagram_glyph(cx, cy, size, c, sw):
 # ---------------------------------------------------------------- QR
 
 def qr_code(gid, url, x, y, size, ink, paper):
-    """Dotted QR (round modules, rounded finders) with an Instagram glyph in the centre."""
+    """Dotted QR in Instagram's style (round modules, rounded rings with round centres), glyph in the middle."""
     qr = segno.make(url, error="h")
     m = [list(r) for r in qr.matrix]
     n = len(m)
@@ -162,9 +160,8 @@ def qr_code(gid, url, x, y, size, ink, paper):
     for fc, fr in finders:
         fx, fy = x + fc * u, y + fr * u
         o.append(f'<rect x="{fx + u / 2:.2f}" y="{fy + u / 2:.2f}" width="{6 * u:.2f}" height="{6 * u:.2f}" '
-                 f'rx="{.5 * u:.2f}" fill="none" stroke="{ink}" stroke-width="{u:.2f}"/>')
-        o.append(f'<rect x="{fx + 2 * u:.2f}" y="{fy + 2 * u:.2f}" width="{3 * u:.2f}" height="{3 * u:.2f}" '
-                 f'rx="{.3 * u:.2f}" fill="{ink}"/>')
+                 f'rx="{1.7 * u:.2f}" fill="none" stroke="{ink}" stroke-width="{u:.2f}"/>')
+        o.append(f'<circle cx="{fx + 3.5 * u:.2f}" cy="{fy + 3.5 * u:.2f}" r="{1.55 * u:.2f}" fill="{ink}"/>')
     cx, cy = x + size / 2, y + size / 2
     o.append(f'<rect x="{cx - hole * u / 2 + u * .3:.2f}" y="{cy - hole * u / 2 + u * .3:.2f}" '
              f'width="{hole * u - u * .6:.2f}" height="{hole * u - u * .6:.2f}" rx="{u * 1.6:.2f}" fill="{paper}"/>')
@@ -185,7 +182,7 @@ def place(gid, name, x, y, height, fill, anchor="start"):
             f'<path fill="{fill}" d="{d}"/></g>')
 
 
-def front(handle):
+def front():
     c = CARD
     o = [f'<rect id="Background" width="{W}" height="{H}" fill="{DISPENSARY}"/>']
     x = X0 + 64
@@ -204,9 +201,9 @@ def front(handle):
         lines.append(text(vx, y, value, 23, LAC, F_SANS, 500, ls=.2))
     o.append('<g id="Contact_Details">' + "".join(lines) + '</g>')
 
-    q = 196
+    q, handle = 216, INSTAGRAM["handle"]
     qx, qy = X0 + TW - 64 - q, Y0 + 442 - 44 - q
-    o.append(qr_code("QR_Instagram", instagram_url(handle), qx, qy, q, BRICK, DISPENSARY))
+    o.append(qr_code("QR_Instagram", INSTAGRAM["url"], qx, qy, q, BRICK, DISPENSARY))
     o.append('<g id="QR_Caption">'
              + instagram_glyph(qx + q / 2 - 2 - len(handle) * 6.6, qy + q + 37, 18, LAC, 1.8)
              + text(qx + q / 2 + 12, qy + q + 44, handle, 20, LAC, F_SANS, 500, ls=.4, anchor="middle")
@@ -237,18 +234,15 @@ def back():
 
 # ---------------------------------------------------------------- render
 
-def board_html(back_png, fronts):
+def board_html(front_png, back_png):
     card = "width:889px;height:508px;border-radius:6px;box-shadow:0 30px 60px rgba(53,7,15,.28),0 6px 14px rgba(53,7,15,.18)"
-    lab = "position:absolute;color:#35070F;font-size:20px;letter-spacing:3px"
-    imgs = [f'<img src="{back_png}" style="position:absolute;left:80px;top:300px;{card};transform:rotate(-4deg)">',
-            f'<div style="{lab};left:90px;top:870px">BACK</div>']
-    for i, (handle, png) in enumerate(fronts):
-        top = 70 + i * 610
-        imgs.append(f'<img src="{png}" style="position:absolute;left:1080px;top:{top}px;{card}">')
-        imgs.append(f'<div style="{lab};left:1080px;top:{top + 528}px">FRONT, OPTION {"AB"[i]}: QR OPENS '
-                    f'INSTAGRAM.COM/{handle.upper()}</div>')
-    return (f'<html><body style="margin:0;width:2060px;height:1260px;background:linear-gradient(135deg,#f6efe6,#e9dfd2);'
-            f'position:relative;font-family:Montserrat">{"".join(imgs)}</body></html>')
+    return f"""<html><body style="margin:0;width:2100px;height:1200px;background:linear-gradient(135deg,#f6efe6,#e9dfd2);
+position:relative;font-family:Montserrat">
+<img src="{back_png}" style="position:absolute;left:160px;top:150px;{card};transform:rotate(-6deg)">
+<img src="{front_png}" style="position:absolute;left:1000px;top:480px;{card};transform:rotate(4deg)">
+<div style="position:absolute;left:160px;bottom:70px;color:#35070F;font-size:20px;letter-spacing:4px">
+ASHVENA 1953 &middot; VISITING CARD &middot; 3.5 &times; 2 IN</div>
+</body></html>"""
 
 
 def render(paths):
@@ -277,9 +271,8 @@ def render(paths):
         def data(s):
             return "data:image/png;base64," + base64.b64encode(open(s[:-4] + ".png", "rb").read()).decode()
 
-        pg = b.new_page(viewport={"width": 2060, "height": 1260})
-        pg.set_content(board_html(data(paths[0]), [(h, data(s)) for h, s in zip(HANDLES, paths[1:])]),
-                       wait_until="networkidle")
+        pg = b.new_page(viewport={"width": 2100, "height": 1200})
+        pg.set_content(board_html(data(paths[0]), data(paths[1])), wait_until="networkidle")
         pg.evaluate("document.fonts.ready")
         pg.screenshot(path=os.path.join(OUT, "ashvena-visiting-card-board.png"))
         print("rendered ashvena-visiting-card-board.png")
@@ -307,24 +300,21 @@ def to_ai(pdf, title):
 
 def package(paths):
     from pypdf import PdfWriter
-    back_ai = to_ai(paths[0][:-4] + ".pdf", "Ashvena 1953 Visiting Card - Back")
-    for handle, s in zip(HANDLES, paths[1:]):
-        front_ai = to_ai(s[:-4] + ".pdf", f"Ashvena 1953 Visiting Card - Front (@{handle})")
-        merged = PdfWriter()
-        merged.append(front_ai)
-        merged.append(back_ai)
-        merged.add_metadata({"/Title": f"Ashvena 1953 Visiting Card (@{handle})"})
-        out = os.path.join(OUT, f"ashvena-visiting-card_print_{handle}.pdf")
-        with open(out, "wb") as fh:
-            merged.write(fh)
-        print("wrote", os.path.basename(out))
+    front_ai = to_ai(paths[0][:-4] + ".pdf", "Ashvena 1953 Visiting Card - Front")
+    back_ai = to_ai(paths[1][:-4] + ".pdf", "Ashvena 1953 Visiting Card - Back")
+    merged = PdfWriter()
+    merged.append(front_ai)
+    merged.append(back_ai)
+    merged.add_metadata({"/Title": "Ashvena 1953 Visiting Card"})
+    with open(os.path.join(OUT, "ashvena-visiting-card_print.pdf"), "wb") as fh:
+        merged.write(fh)
+    print("wrote ashvena-visiting-card_print.pdf")
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    sides = [("back", back())] + [(f"front_{h}", front(h)) for h in HANDLES]
     paths = []
-    for name, src in sides:
+    for name, src in (("front", front()), ("back", back())):
         p = os.path.join(OUT, f"ashvena-visiting-card_{name}.svg")
         open(p, "w").write(src)
         paths.append(p)

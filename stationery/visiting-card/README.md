@@ -11,29 +11,25 @@ A simple, premium two-colour card: plain colour, the logo and type, with no illu
 
 **Premium finish (optional):** the back's `Emboss_Mark` layer can go to the printer as a **blind-deboss** or **spot-UV** plate. Then the mark is felt rather than printed, as on the Shifo reference. Use a heavy uncoated or cotton stock (350 gsm or more).
 
-## Choose the Instagram QR
-There are two fronts. They are identical except for the QR code:
+## Instagram QR
+The QR code opens **@ashvena_1953**. It encodes the same link as the QR code Instagram generated for the account:
+`https://www.instagram.com/ashvena_1953?utm_source=qr&stkn=ZHF3cnhwemdkc3Bu`
 
-| Option | QR opens | Files |
-|---|---|---|
-| A | instagram.com/ashvena1953 | `*_front_ashvena1953.*`, `*_print_ashvena1953.pdf` |
-| B | instagram.com/ashvena.sp | `*_front_ashvena.sp.*`, `*_print_ashvena.sp.pdf` |
-
-Scan each code with a phone and keep the option that opens the right profile. Both codes were checked with the ZXing and OpenCV decoders. They use error correction level H, so the centre glyph does not affect scanning. The printed code is 19.6 mm wide.
+The code is rebuilt as vector artwork in Brick, in Instagram's own style (round dots, rounded corner rings with round centres, the Instagram glyph in the middle), so it prints sharp. It uses error correction level H and is 21.6 mm wide. It was checked with the ZXing decoder down to quarter-size previews and from the print PDF at 300 dpi. Do a final scan from a printed proof before the full run.
 
 ## Size
 3.5 × 2 in (88.9 × 50.8 mm) trim, plus 3 mm bleed on every side, so the artboard is 94.9 × 56.8 mm. The `.ai` and PDF files have their TrimBox and BleedBox set.
 
 ## Files
 - `*.ai` are PDF-compatible Illustrator files, one artboard each, with bleed. Everything stays vector and the fonts are embedded.
-- `ashvena-visiting-card_print_<handle>.pdf` is a 2-page print file (page 1 front, page 2 back).
+- `ashvena-visiting-card_print.pdf` is a 2-page print file (page 1 front, page 2 back).
 - `*.svg` are the editable masters. They have named layers (`Logo`, `Name_Block`, `Contact_Details`, `QR_Instagram`, `QR_Caption`, `Emboss_Mark`, `Wordmark`, and a hidden `Trim_Guide`) and live text.
-- `*.png` are previews cropped to the trim. `ashvena-visiting-card-board.png` shows all three.
+- `*.png` are previews cropped to the trim. `ashvena-visiting-card-board.png` shows both sides.
 
 **Fonts** (free, Google Fonts): Cormorant Garamond and Montserrat.
 
 ## Regenerate
-Edit `CARD` or `HANDLES` in `scripts/generate_visiting_card.py`, then run:
+Edit `CARD` or `INSTAGRAM` in `scripts/generate_visiting_card.py`, then run:
 ```
 pip install playwright pypdf segno
 python3 scripts/generate_visiting_card.py
