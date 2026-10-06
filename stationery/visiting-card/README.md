@@ -2,12 +2,14 @@
 
 ![Board](ashvena-visiting-card-board.png)
 
-This design follows the references: the botanical palm and jharokha-window illustrations, the Shifo card (dotted QR with an Instagram glyph) and the Almanova cards (labelled contact rows, interlocking-circle pattern).
+A simple, premium two-colour card: plain colour, the logo and type, with no illustration.
 
 | Side | Look |
 |---|---|
-| **Front: Dispensary blue** (`#CBE9F1`) | Horizontal logo lockup, **Krishana Arora** in Cormorant Garamond, then labelled rows: two mobile numbers, email and address. On the right is a dotted Instagram QR code in Brick with the Instagram glyph in the centre, captioned with the handle. A line-art palm leans in from the right edge. |
-| **Back: Brick red** (`#941528`) | The reversed logo inside a cusped jharokha arch (eave, double frame, scalloped sill), with line-art leaves in sage on both sides and a faint interlocking-circle lattice. |
+| **Front: Dispensary blue** (`#CBE9F1`) | Horizontal logo lockup, **Krishana Arora** in Cormorant Garamond, a short Brick rule, then labelled rows: two mobile numbers, email and address. On the right is a dotted Instagram QR code in Brick with the Instagram glyph in the centre. Its caption sits on the same line as the address. |
+| **Back: Brick red** (`#941528`) | An oversized logo mark, tone on tone with a soft debossed edge, bleeds off the left and bottom. The wordmark is in Khadi Cream with the year in sage, on the right. |
+
+**Premium finish (optional):** the back's `Emboss_Mark` layer can go to the printer as a **blind-deboss** or **spot-UV** plate. Then the mark is felt rather than printed, as on the Shifo reference. Use a heavy uncoated or cotton stock (350 gsm or more).
 
 ## Choose the Instagram QR
 There are two fronts. They are identical except for the QR code:
@@ -25,7 +27,7 @@ Scan each code with a phone and keep the option that opens the right profile. Bo
 ## Files
 - `*.ai` are PDF-compatible Illustrator files, one artboard each, with bleed. Everything stays vector and the fonts are embedded.
 - `ashvena-visiting-card_print_<handle>.pdf` is a 2-page print file (page 1 front, page 2 back).
-- `*.svg` are the editable masters. They have named layers (`Logo`, `Name_Block`, `Contact_Details`, `QR_Instagram`, `Palm`, `Jharokha`, `Banana_Leaves`, `Lattice`, and a hidden `Trim_Guide`) and live text.
+- `*.svg` are the editable masters. They have named layers (`Logo`, `Name_Block`, `Contact_Details`, `QR_Instagram`, `QR_Caption`, `Emboss_Mark`, `Wordmark`, and a hidden `Trim_Guide`) and live text.
 - `*.png` are previews cropped to the trim. `ashvena-visiting-card-board.png` shows all three.
 
 **Fonts** (free, Google Fonts): Cormorant Garamond and Montserrat.

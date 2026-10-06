@@ -2,9 +2,9 @@
 """Ashvena 1953 visiting card: front in Dispensary blue, back in Brick red.
 
 Front: horizontal logo lockup, name, labelled contact rows and a dotted
-Instagram QR code; a line-art palm leans in from the right edge.
-Back: the reversed logo inside a cusped jharokha arch, banana leaves and a
-faint interlocking-circle lattice (after the botanical / jharokha references).
+Instagram QR code on plain blue.
+Back: an oversized tone-on-tone (debossed) mark bleeding off the edge, with
+the wordmark in Khadi Cream.
 
 Uses the vector lockup in brand/ashvena-logo.svg (extracted from logo_final.ai).
 Card: 3.5 x 2 in (88.9 x 50.8 mm) trim + 3 mm bleed, at 10 px = 1 mm.
@@ -21,7 +21,6 @@ Requires: pip install playwright pypdf segno, plus Cormorant Garamond and Montse
 """
 import base64
 import glob
-import math
 import os
 import re
 from xml.sax.saxutils import escape as esc
@@ -39,11 +38,11 @@ W, H = TW + 2 * BLEED, TH + 2 * BLEED   # artboard incl. bleed
 X0, Y0 = BLEED, BLEED                   # trim origin
 
 BRICK = "#941528"
-BRICK_DARK = "#7E0F20"
+EMBOSS_FACE = "#8B1326"
+EMBOSS_SHADOW = "#6F0C1C"
+EMBOSS_LIGHT = "#A8293E"
 LAC = "#35070F"
 DISPENSARY = "#CBE9F1"
-BLUE_LINE = "#7DB3C6"
-BLUE_FILL = "#BCDFEA"
 SAGE = "#BFD9D6"                        # mark colour when reversed on brick
 KHADI = "#FCE4CD"
 
@@ -87,14 +86,6 @@ def union(*names):
 
 def logo_path(gid, name, fill):
     return f'<path id="{gid}_{name}" fill="{fill}" d="{LOGO_PARTS[name][1]}"/>'
-
-
-def lockup_stacked(gid, cx, top, height, mark, word, year):
-    bx, by, bw, bh = union("Mark", "Wordmark", "Year")
-    s = height / bh
-    tx, ty = cx - (bx + bw / 2) * s, top - by * s
-    body = logo_path(gid, "Mark", mark) + logo_path(gid, "Wordmark", word) + logo_path(gid, "Year", year)
-    return f'<g id="{gid}" transform="translate({tx:.2f} {ty:.2f}) scale({s:.5f})">{body}</g>'
 
 
 def lockup_horizontal(gid, x, y, mark_h, mark, word, year):
@@ -144,18 +135,6 @@ def instagram_glyph(cx, cy, size, c, sw):
             f'<circle cx="{cx + size * .27:.2f}" cy="{cy - size * .27:.2f}" r="{size * .06:.2f}" fill="{c}"/>')
 
 
-def bezier(p0, p1, p2, t):
-    a = (1 - t) ** 2
-    b = 2 * (1 - t) * t
-    c = t * t
-    x = a * p0[0] + b * p1[0] + c * p2[0]
-    y = a * p0[1] + b * p1[1] + c * p2[1]
-    dx = 2 * (1 - t) * (p1[0] - p0[0]) + 2 * t * (p2[0] - p1[0])
-    dy = 2 * (1 - t) * (p1[1] - p0[1]) + 2 * t * (p2[1] - p1[1])
-    n = math.hypot(dx, dy) or 1
-    return x, y, dx / n, dy / n
-
-
 # ---------------------------------------------------------------- QR
 
 def qr_code(gid, url, x, y, size, ink, paper):
@@ -194,167 +173,26 @@ def qr_code(gid, url, x, y, size, ink, paper):
     return "".join(o)
 
 
-# ---------------------------------------------------------------- botanicals
-
-def palm_frond(base, ctrl, tip, leaflets, length, stroke, fill, sw=1.2, droop=.35, side=1):
-    """Feathery palm frond: curved rachis with narrow drooping leaflets on both sides."""
-    o = [f'<path d="M{base[0]:.1f},{base[1]:.1f} Q{ctrl[0]:.1f},{ctrl[1]:.1f} {tip[0]:.1f},{tip[1]:.1f}" '
-         f'fill="none" stroke="{stroke}" stroke-width="{sw * 1.6:.2f}" stroke-linecap="round"/>']
-    for i in range(leaflets):
-        t = .08 + .92 * i / (leaflets - 1)
-        px, py, dx, dy = bezier(base, ctrl, tip, t)
-        L = length * (1 - .72 * t) * (0.75 + .25 * math.sin(math.pi * min(t * 1.3, 1)))
-        for s in (-1, 1):
-            a = math.atan2(dy, dx) + s * math.radians(38 - 12 * t)
-            ex, ey = px + L * math.cos(a), py + L * math.sin(a) + L * droop
-            mx, my = px + L * .5 * math.cos(a), py + L * .5 * math.sin(a)
-            nx, ny = -(ey - py), ex - px
-            nn = math.hypot(nx, ny) or 1
-            wv = L * .07
-            o.append(f'<path d="M{px:.1f},{py:.1f} Q{mx + nx / nn * wv:.1f},{my + ny / nn * wv:.1f} {ex:.1f},{ey:.1f} '
-                     f'Q{mx - nx / nn * wv:.1f},{my - ny / nn * wv:.1f} {px:.1f},{py:.1f} Z" '
-                     f'fill="{fill}" stroke="{stroke}" stroke-width="{sw:.2f}" stroke-linejoin="round"/>')
-    return "".join(o)
-
-
-def palm_tree(gid, top, foot, ctrl, stroke, fill, scale=1.0):
-    """Curved trunk with ring marks and a crown of fronds."""
-    o = [f'<g id="{gid}">']
-    # trunk
-    n = 22
-    left, right = [], []
-    for i in range(n + 1):
-        t = i / n
-        x, y, dx, dy = bezier(foot, ctrl, top, t)
-        w = (13 - 6 * t) * scale
-        left.append((x - dy * w, y + dx * w))
-        right.append((x + dy * w, y - dx * w))
-    pts = left + right[::-1]
-    o.append('<path d="M' + " L".join(f"{a:.1f},{b:.1f}" for a, b in pts) + f' Z" fill="{fill}" stroke="{stroke}" '
-             f'stroke-width="1.3" stroke-linejoin="round"/>')
-    for i in range(2, n - 1, 2):
-        (ax, ay), (bx, by) = left[i], right[i]
-        o.append(f'<path d="M{ax:.1f},{ay:.1f} Q{(ax + bx) / 2:.1f},{(ay + by) / 2 + 3:.1f} {bx:.1f},{by:.1f}" '
-                 f'fill="none" stroke="{stroke}" stroke-width=".9"/>')
-    # crown
-    cx, cy = top
-    for ang, ln, bend in [(-168, 175, 40), (-140, 190, 30), (-110, 170, 25), (-75, 165, -25), (-40, 185, -30),
-                          (-10, 175, -40), (20, 140, -40), (190, 150, 45)]:
-        a = math.radians(ang)
-        ln *= scale
-        tip = (cx + ln * math.cos(a), cy + ln * math.sin(a) + ln * .25)
-        c = (cx + ln * .55 * math.cos(a) - bend * scale * math.sin(a) * .3,
-             cy + ln * .55 * math.sin(a) - abs(bend) * scale * .5)
-        o.append(palm_frond((cx, cy), c, tip, 16, 58 * scale, stroke, fill, sw=1.0, droop=.3))
-    o.append('</g>')
-    return "".join(o)
-
-
-def banana_leaf(base, ctrl, tip, width, stroke, fill):
-    """Broad banana leaf: outline from a width profile along the midrib, oblique parallel veins."""
-    n = 30
-    left, right, mid = [], [], []
-    for i in range(n + 1):
-        t = i / n
-        x, y, dx, dy = bezier(base, ctrl, tip, t)
-        w = width * (math.sin(math.pi * min(t * 1.05, 1)) ** .7) * (1 - .15 * t)
-        mid.append((x, y, dx, dy))
-        left.append((x - dy * w, y + dx * w))
-        right.append((x + dy * w, y - dx * w))
-    outline = "M" + " L".join(f"{a:.1f},{b:.1f}" for a, b in left + right[::-1]) + " Z"
-    o = [f'<path d="{outline}" fill="{fill}" stroke="{stroke}" stroke-width="1.4" stroke-linejoin="round"/>']
-    o.append(f'<path d="M{base[0]:.1f},{base[1]:.1f} Q{ctrl[0]:.1f},{ctrl[1]:.1f} {tip[0]:.1f},{tip[1]:.1f}" '
-             f'fill="none" stroke="{stroke}" stroke-width="2.2"/>')
-    for i in range(2, n - 1):
-        x, y, dx, dy = mid[i]
-        for edge, sgn in ((left, 1), (right, -1)):
-            j = min(i + 1, n)
-            ex, ey = edge[j]
-            o.append(f'<path d="M{x:.1f},{y:.1f} Q{(x + ex) / 2 + dx * 4:.1f},{(y + ey) / 2 + dy * 4:.1f} {ex:.1f},{ey:.1f}" '
-                     f'fill="none" stroke="{stroke}" stroke-width=".6" opacity=".75"/>')
-    return "".join(o)
-
-
-def lattice(x0, y0, x1, y1, r, stroke, op):
-    """Interlocking circles (as on the Almanova pattern card)."""
-    o = [f'<g id="Lattice" fill="none" stroke="{stroke}" stroke-width="1" opacity="{op}">']
-    step = r
-    y, row = y0, 0
-    while y <= y1 + r:
-        x = x0 + (step / 2 if row % 2 else 0)
-        while x <= x1 + r:
-            o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r * .72:.1f}"/>')
-            x += step
-        y += step / 2
-        row += 1
-    o.append('</g>')
-    return "".join(o)
-
-
-def cusped_arch(cx, half, spring, apex, lobes):
-    """Opening of a multifoil (cusped) pointed arch, returned as path commands from left spring to right spring."""
-    rise = spring - apex
-    a = (rise ** 2 - half ** 2) / (2 * half)          # pointed-arch centre offset
-    R = half + a
-    th_end = math.atan2(rise, -a) if a else math.pi / 2  # left arc: centre (cx + a, spring)
-    pts = []
-    for k in range(lobes + 1):                         # left half, spring -> apex
-        th = math.pi - (math.pi - th_end) * k / lobes
-        pts.append((cx + a + R * math.cos(th), spring - R * math.sin(th)))
-    right = [(2 * cx - px, py) for px, py in pts[-2::-1]]
-    pts += right
-    d = []
-    for (ax, ay), (bx, by) in zip(pts, pts[1:]):
-        ch = math.hypot(bx - ax, by - ay)
-        d.append(f"A{ch * .58:.1f},{ch * .58:.1f} 0 0 1 {bx:.1f},{by:.1f}")
-    return pts[0], " ".join(d)
-
-
-def jharokha(gid, cx, top, stroke, bg):
-    """Window frame after the reference: eave, frame, cusped arch opening, sill with scallop fringe."""
-    o = [f'<g id="{gid}" fill="none" stroke="{stroke}" stroke-linejoin="round">']
-    fw, ew = 150, 186                                  # frame / eave half widths
-    eave_t, eave_b = top, top + 30
-    f_top, f_bot = eave_b, top + 382
-    o.append(f'<path d="M{cx - ew},{eave_t} H{cx + ew} V{eave_t + 9} H{cx - ew} Z" stroke-width="1.6"/>')
-    o.append(f'<path d="M{cx - ew + 6},{eave_t + 9} L{cx - fw + 4},{eave_b} H{cx + fw - 4} L{cx + ew - 6},{eave_t + 9}" '
-             f'stroke-width="1.6"/>')
-    o.append(f'<path d="M{cx - ew + 6},{eave_t + 16} H{cx + ew - 6}" stroke-width=".8" opacity=".7"/>')
-    o.append(f'<rect x="{cx - fw}" y="{f_top}" width="{2 * fw}" height="{f_bot - f_top}" stroke-width="1.6"/>')
-    o.append(f'<rect x="{cx - fw + 10}" y="{f_top + 10}" width="{2 * fw - 20}" height="{f_bot - f_top - 20}" '
-             f'stroke-width=".8" opacity=".7"/>')
-    half, spring, apex = 112, f_top + 128, f_top + 34
-    (sx, sy), arc = cusped_arch(cx, half, spring, apex, 4)
-    bottom = f_bot - 22
-    o.append(f'<path d="M{sx:.1f},{bottom} V{sy:.1f} {arc} V{bottom} Z" fill="{bg}" stroke-width="1.6"/>')
-    # sill and scallop fringe
-    sw2 = fw + 14
-    o.append(f'<rect x="{cx - sw2}" y="{f_bot}" width="{2 * sw2}" height="12" stroke-width="1.6"/>')
-    k = 12
-    step = 2 * sw2 / k
-    d = f"M{cx - sw2:.1f},{f_bot + 12}"
-    for i in range(k):
-        d += f" a{step / 2:.2f},{step / 2:.2f} 0 0 0 {step:.2f},0"
-    o.append(f'<path d="{d}" stroke-width="1.2"/>')
-    o.append('</g>')
-    return "".join(o), (cx, apex, bottom)
-
-
 # ---------------------------------------------------------------- sides
+
+def place(gid, name, x, y, height, fill, anchor="start"):
+    """One logo part scaled to `height`; (x, y) is its top-left, or top-right with anchor='end'."""
+    (bx, by, bw, bh), d = LOGO_PARTS[name]
+    s = height / bh
+    if anchor == "end":
+        x -= bw * s
+    return (f'<g id="{gid}" transform="translate({x - bx * s:.2f} {y - by * s:.2f}) scale({s:.5f})">'
+            f'<path fill="{fill}" d="{d}"/></g>')
+
 
 def front(handle):
     c = CARD
     o = [f'<rect id="Background" width="{W}" height="{H}" fill="{DISPENSARY}"/>']
-    o.append('<g id="Palm" opacity=".9">'
-             + palm_tree("Palm_Tree", (X0 + TW - 46, Y0 + 74), (X0 + TW - 4, H + 20), (X0 + TW + 6, Y0 + 330),
-                         BLUE_LINE, BLUE_FILL, scale=.6)
-             + '</g>')
-
-    x = X0 + 58
-    o.append(lockup_horizontal("Logo", x, Y0 + 48, 92, BRICK, LAC, BRICK))
+    x = X0 + 64
+    o.append(lockup_horizontal("Logo", x, Y0 + 52, 88, BRICK, LAC, BRICK))
     o.append('<g id="Name_Block">'
-             + text(x, Y0 + 236, c["name"], 54, LAC, F_SERIF, 600)
-             + f'<line x1="{x + 2}" y1="{Y0 + 262}" x2="{x + 64}" y2="{Y0 + 262}" stroke="{BRICK}" stroke-width="2.4"/>'
+             + text(x, Y0 + 238, c["name"], 54, LAC, F_SERIF, 600)
+             + f'<line x1="{x + 2}" y1="{Y0 + 264}" x2="{x + 56}" y2="{Y0 + 264}" stroke="{BRICK}" stroke-width="2"/>'
              + '</g>')
     lx, vx = x + 2, x + 128
     rows = [("MOBILE", c["mobile"][0], Y0 + 318), ("", c["mobile"][1], Y0 + 350),
@@ -366,13 +204,12 @@ def front(handle):
         lines.append(text(vx, y, value, 23, LAC, F_SANS, 500, ls=.2))
     o.append('<g id="Contact_Details">' + "".join(lines) + '</g>')
 
-    q, qx, qy = 196, X0 + 536, Y0 + 132
-    o.append(f'<rect id="QR_Quiet_Zone" x="{qx - 14}" y="{qy - 14}" width="{q + 28}" height="{q + 28}" rx="14" '
-             f'fill="{DISPENSARY}"/>')
+    q = 196
+    qx, qy = X0 + TW - 64 - q, Y0 + 442 - 44 - q
     o.append(qr_code("QR_Instagram", instagram_url(handle), qx, qy, q, BRICK, DISPENSARY))
     o.append('<g id="QR_Caption">'
-             + text(qx + q / 2, qy - 30, "SCAN · FOLLOW", 14, BRICK, F_SANS, 600, ls=3, anchor="middle")
-             + text(qx + q / 2, qy + q + 44, "@" + handle, 21, LAC, F_SANS, 500, ls=.4, anchor="middle")
+             + instagram_glyph(qx + q / 2 - 2 - len(handle) * 6.6, qy + q + 37, 18, LAC, 1.8)
+             + text(qx + q / 2 + 12, qy + q + 44, handle, 20, LAC, F_SANS, 500, ls=.4, anchor="middle")
              + '</g>')
     o.append(guides())
     return svg("\n".join(o))
@@ -380,21 +217,19 @@ def front(handle):
 
 def back():
     o = [f'<rect id="Background" width="{W}" height="{H}" fill="{BRICK}"/>']
-    o.append(lattice(0, 0, W, H, 64, KHADI, .07))
-    cx = X0 + TW / 2
-    frame, (ax, apex, bottom) = jharokha("Jharokha", cx, Y0 + 44, KHADI, BRICK)
-    o.append(frame)
-    o.append(lockup_stacked("Logo_Reversed", cx, apex + 40, bottom - apex - 58, SAGE, KHADI, SAGE))
-    leaves = [((X0 + TW + 30, H + 10), (X0 + TW - 40, Y0 + 300), (X0 + TW - 150, Y0 + 150), 72),
-              ((X0 + TW + 40, H - 10), (X0 + TW - 10, Y0 + 330), (X0 + TW - 40, Y0 + 70), 60),
-              ((X0 + TW + 20, H + 20), (X0 + TW - 120, Y0 + 420), (X0 + TW - 250, Y0 + 330), 58)]
-    o.append('<g id="Banana_Leaves">'
-             + "".join(banana_leaf(b, c_, t, w, SAGE, BRICK_DARK) for b, c_, t, w in leaves)
+    # Oversized mark, tone on tone, bleeding off the left and bottom edges. Drawn as a soft
+    # deboss (light edge top-left, shadow bottom-right); the Emboss_Mark layer can also go
+    # to the printer as a blind-deboss or spot-UV plate.
+    mh, mx, my = 600, X0 - 120, Y0 + 40
+    o.append('<g id="Emboss_Mark">'
+             + place("Emboss_Lit_Edge", "Mark", mx + 1.6, my + 1.6, mh, EMBOSS_LIGHT)
+             + place("Emboss_Shade_Edge", "Mark", mx - 1.6, my - 1.6, mh, EMBOSS_SHADOW)
+             + place("Emboss_Face", "Mark", mx, my, mh, EMBOSS_FACE)
              + '</g>')
-    lf = [((X0 - 30, H + 10), (X0 + 40, Y0 + 300), (X0 + 120, Y0 + 170), 64),
-          ((X0 - 40, H - 30), (X0 + 120, Y0 + 430), (X0 + 230, Y0 + 360), 54)]
-    o.append('<g id="Banana_Leaves_Left">'
-             + "".join(banana_leaf(b, c_, t, w, SAGE, BRICK_DARK) for b, c_, t, w in lf)
+    rx = X0 + TW - 70
+    o.append('<g id="Wordmark">'
+             + place("Wordmark_Ashvena", "Wordmark", rx, Y0 + 205, 50, KHADI, anchor="end")
+             + place("Wordmark_Year", "Year", rx, Y0 + 269, 24, SAGE, anchor="end")
              + '</g>')
     o.append(guides())
     return svg("\n".join(o))
