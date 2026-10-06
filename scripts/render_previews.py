@@ -1,21 +1,46 @@
 #!/usr/bin/env python3
 """Render PNG previews and print-ready PDFs for every packaging SVG.
 
+Usage: render_previews.py [folder ...]   (default: every direction folder)
+
 Requires: pip install playwright  (uses Chromium) and the Cinzel,
 Cormorant Garamond and Montserrat fonts installed locally.
 """
 import glob
 import os
 import re
+import sys
 
 from playwright.sync_api import sync_playwright
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except ImportError:              # optional: exact trim boxes need pypdf
+    PdfReader = None
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "packaging")
 CHROME = "/opt/pw-browsers/chromium"
 
 
+def trim_pdf(path, w_mm, h_mm):
+    """Chromium rounds the page size up; crop to the exact trim, anchored top-left."""
+    if PdfReader is None:
+        return
+    r, wr = PdfReader(path), PdfWriter()
+    for page in r.pages:
+        top = float(page.mediabox.top)
+        box = (0, top - h_mm / 25.4 * 72, w_mm / 25.4 * 72, top)
+        page.mediabox.lower_left, page.mediabox.upper_right = box[:2], box[2:]
+        page.cropbox.lower_left, page.cropbox.upper_right = box[:2], box[2:]
+        page.trimbox.lower_left, page.trimbox.upper_right = box[:2], box[2:]
+        wr.add_page(page)
+    with open(path, "wb") as fh:
+        wr.write(fh)
+
+
 def main():
-    svgs = sorted(glob.glob(os.path.join(ROOT, "*", "*.svg")))
+    dirs = sys.argv[1:] or ["*"]          # optional: only these direction folders
+    svgs = sorted(s for d in dirs for s in glob.glob(os.path.join(ROOT, d, "*.svg")))
     kw = {}
     exe = glob.glob(CHROME + "*/chrome-linux/chrome")
     if exe:
@@ -27,7 +52,7 @@ def main():
             w, h = map(float, re.search(r'viewBox="0 0 (\S+) (\S+)"', src).groups())
             pg = b.new_page(viewport={"width": int(w), "height": int(h)}, device_scale_factor=2)
             body = src.split("?>", 1)[1].replace("<svg ", "<svg style='display:block' ", 1)
-            px = re.sub(r'width="[^"]+mm" height="[^"]+mm"', f'width="{w}" height="{h}"', body, 1)
+            px = re.sub(r'width="[^"]+mm" height="[^"]+mm"', f'width="{w}" height="{h}"', body, count=1)
             pg.set_content(f"<html><body style='margin:0'>{px}</body></html>", wait_until="networkidle")
             pg.evaluate("document.fonts.ready")
             pg.screenshot(path=s[:-4] + ".png", clip={"x": 0, "y": 0, "width": w, "height": h})
@@ -35,6 +60,7 @@ def main():
             pg.evaluate("document.fonts.ready")
             pg.pdf(path=s[:-4] + ".pdf", width=f"{w / 4}mm", height=f"{h / 4}mm",
                    print_background=True, margin={"top": "0", "right": "0", "bottom": "0", "left": "0"})
+            trim_pdf(s[:-4] + ".pdf", w / 4, h / 4)
             pg.close()
             print("rendered", os.path.relpath(s, ROOT))
         b.close()
