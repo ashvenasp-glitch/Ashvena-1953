@@ -6,8 +6,9 @@ of bays (jharokha windows with jaali, cusped arched niches with banana
 trees, palms, potted fruit trees) in bright festive colours, around a
 central cusped-arch cartouche carrying the brand and product name.
 
-Artboard: 297.04 x 74.8 mm (4 px = 1 mm), two flavours.
-Output: packaging/F-palace-garden/ashvena-<flavour>_belt.svg
+Artboard: 297.04 x 74.8 mm (4 px = 1 mm), two flavours, each in the
+festive colourway (v1) and the client palette colourway (v2).
+Output: packaging/F-palace-garden/ashvena-<flavour>[-v2]_belt.svg
 """
 import math
 import os
@@ -72,6 +73,34 @@ def dark(c, t):
 
 def light(c, t):
     return mix(c, "#ffffff", t)
+
+
+# softer sage/olive foliage for the v2 palettes (v1 green -> v2 green)
+SOFT_GREENS = {"#9fd36a": "#b5c77a", "#4f9a45": "#6f8f4a", "#5fae4a": "#7f9e52", "#2f7a3a": "#4f6e38",
+               "#3f8a3e": "#5c7a40", "#7fae4e": "#93a860", "#86b85a": "#a0b46a", "#7cc35a": "#98b062",
+               "#6cbf5a": "#8aa85c", "#8fd36a": "#adc276", "#24502a": "#3d4f2a"}
+# palm frond shades are mixed at draw time, so map those too
+for _c in ("#5fae4a", "#7cc35a"):
+    SOFT_GREENS[mix(_c, "#2f7a3a", .4)] = mix(SOFT_GREENS[_c], "#4f6e38", .4)
+SOFT_GREENS[dark("#2f7a3a", .3)] = dark("#4f6e38", .3)
+
+# v2: client palettes. Mango = coral / mango gold / light yellow / mango
+# with the card's deep maroon for type; Fruit Cocktail = raspberry / pink
+# grapefruit / lemon / lime / vanilla.
+FLAVOURS["aam-papad-v2"] = dict(
+    FLAVOURS["aam-papad"],
+    title_bg="#cb6155", head="#680b1c", accent="#cb6155",
+    band="#680b1c", dots=["#ead34c", "#cb6155", "#efdc6a", "#fdf5dc"],
+    cream="#fdf5dc", gold="#e4ba43", greens=SOFT_GREENS,
+    bays=[("palm_pot", "#efdc6a"), ("niche_banana", "#cb6155"), ("palms", "#e4ba43"),
+          ("banana_leaves", "#e4ba43"), ("jharokha", "#ead34c"), ("niche_fruit", "#cb6155")])
+FLAVOURS["fruit-cocktail-v2"] = dict(
+    FLAVOURS["fruit-cocktail"],
+    title_bg="#9e4554", head="#9e4554", accent="#7a7826",
+    band="#6e2a36", dots=["#dbb44f", "#b9b75f", "#bb7881", "#f0ead2"],
+    cream="#f0ead2", gold="#dbb44f", greens=SOFT_GREENS,
+    bays=[("palms", "#bb7881"), ("jharokha", "#b9b75f"), ("niche_banana", "#dbb44f"),
+          ("banana_leaves", "#bb7881"), ("niche_fruit", "#b9b75f"), ("palm_pot", "#9e4554")])
 
 
 def t(x, y, s, size, fill, family=F_SANS, weight=400, anchor="middle", ls=0, italic=False):
@@ -634,7 +663,7 @@ def title_bay(f):
          # finial
          f'<path d="M {cx},{top - 24} C {cx + 6},{top - 14} {cx + 6},{top - 8} {cx},{top - 3} '
          f'C {cx - 6},{top - 8} {cx - 6},{top - 14} {cx},{top - 24} Z" fill="{GOLD}" stroke="{LINE}" stroke-width=".8"/>',
-         rosette(cx, top + 34, 9, "#ffc21a", f["head"])]
+         rosette(cx, top + 34, 9, f["dots"][0], f["head"])]
     o.append(fruit_pile_left(f["fruit"]))
     o.append(fruit_pile_right(f["fruit"]))
     # type
@@ -705,7 +734,9 @@ DEFS = """
 
 
 def belt(key):
+    global CREAM, GOLD
     f = FLAVOURS[key]
+    CREAM, GOLD = f.get("cream", "#fff4dc"), f.get("gold", "#e8b84a")
     o = [g("Background", f'<rect width="{W:.2f}" height="{H:.2f}" fill="{f["band"]}"/>')]
     bays = f["bays"]
     for i, (kind, col) in enumerate(bays[:3]):
@@ -715,9 +746,12 @@ def belt(key):
     o.append(g("Pillars", pillars()))
     o.append(title_bay(f))
     o.append(g("Border_Bands", band(0, f, False) + band(H - BAND, f, True)))
-    return (f'<?xml version="1.0" encoding="UTF-8"?>\n'
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="{W_MM}mm" height="{H_MM}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
-            f'<title>Ashvena {esc(f["name"])} - box belt</title>\n<defs>{DEFS}</defs>\n' + "\n".join(o) + "\n</svg>\n")
+    doc = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
+           f'<svg xmlns="http://www.w3.org/2000/svg" width="{W_MM}mm" height="{H_MM}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+           f'<title>Ashvena {esc(f["name"])} - box belt</title>\n<defs>{DEFS}</defs>\n' + "\n".join(o) + "\n</svg>\n")
+    for v1, v2 in f.get("greens", {}).items():
+        doc = doc.replace(v1, v2)
+    return doc
 
 
 def main():
