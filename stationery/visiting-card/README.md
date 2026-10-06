@@ -21,10 +21,16 @@ The code is rebuilt as vector artwork in Brick, in Instagram's own style (round 
 3.5 × 2 in (88.9 × 50.8 mm) trim, plus 3 mm bleed on every side, so the artboard is 94.9 × 56.8 mm. The `.ai` and PDF files have their TrimBox and BleedBox set.
 
 ## Files
-- `*.ai` are PDF-compatible Illustrator files, one artboard each, with bleed. Everything stays vector and the fonts are embedded.
-- `ashvena-visiting-card_print.pdf` is a 2-page print file (page 1 front, page 2 back).
+- `ashvena-visiting-card.ai` holds **front and back in one file**, as two artboards: page 1 front, page 2 back. It is a PDF-compatible Illustrator file with 3 mm bleed and the trim marked. Everything stays vector and the fonts are embedded. If Illustrator asks which pages to open, choose **All**.
+- `ashvena-visiting-card_print.pdf` has the same two pages, to send to a printer.
 - `*.svg` are the editable masters. They have named layers (`Logo`, `Name_Block`, `Contact_Details`, `QR_Instagram`, `QR_Caption`, `Emboss_Mark`, `Wordmark`, and a hidden `Trim_Guide`) and live text.
 - `*.png` are previews cropped to the trim. `ashvena-visiting-card-board.png` shows both sides.
+
+### CorelDRAW (.cdr)
+CorelDRAW's `.cdr` format is proprietary and can only be written by CorelDRAW itself, so the repo has no `.cdr` file. To make one:
+1. In CorelDRAW, **File → Open** `ashvena-visiting-card.ai` (or `ashvena-visiting-card_print.pdf`). Both pages come in as page 1 (front) and page 2 (back).
+2. If Cormorant Garamond and Montserrat are not installed, choose **Import text as: Curves** in the import dialog so the type keeps its exact look.
+3. **File → Save As → CorelDRAW (CDR)**.
 
 **Fonts** (free, Google Fonts): Cormorant Garamond and Montserrat.
 

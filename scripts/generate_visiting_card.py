@@ -10,9 +10,10 @@ Uses the vector lockup in brand/ashvena-logo.svg (extracted from logo_final.ai).
 Card: 3.5 x 2 in (88.9 x 50.8 mm) trim + 3 mm bleed, at 10 px = 1 mm.
 
 Output (stationery/visiting-card/):
-  ashvena-visiting-card_front.ai / .svg / .png
-  ashvena-visiting-card_back.ai  / .svg / .png
-  ashvena-visiting-card_print.pdf             2 pages (front, back), with bleed
+  ashvena-visiting-card.ai                    front + back as two artboards (PDF-compatible), with bleed
+  ashvena-visiting-card_print.pdf             the same two pages for the printer
+  ashvena-visiting-card_front.svg / .png      editable SVG master + preview
+  ashvena-visiting-card_back.svg  / .png
   ashvena-visiting-card-board.png
 
 Requires: pip install playwright pypdf segno, plus Cormorant Garamond and Montserrat.
@@ -279,8 +280,8 @@ def render(paths):
         b.close()
 
 
-def to_ai(pdf, title):
-    """Crop Chromium's rounded page back to the exact bleed size, mark the trim, save as PDF-compatible .ai."""
+def crop(pdf):
+    """Crop Chromium's rounded-up page back to the exact bleed size and mark the trim."""
     from pypdf import PdfReader, PdfWriter
     from pypdf.generic import RectangleObject
     pt = 72 / 25.4 / MM
@@ -289,26 +290,24 @@ def to_ai(pdf, title):
     top = float(page.mediabox.top)            # content is anchored top-left
     page.mediabox = page.cropbox = page.bleedbox = RectangleObject([0, top - H * pt, W * pt, top])
     page.trimbox = RectangleObject([BLEED * pt, top - (BLEED + TH) * pt, (BLEED + TW) * pt, top - BLEED * pt])
-    w.add_metadata({"/Title": title, "/Creator": "generate_visiting_card.py"})
-    ai = pdf[:-4] + ".ai"
-    with open(ai, "wb") as fh:
-        w.write(fh)
-    os.remove(pdf)
-    print("wrote", os.path.basename(ai))
-    return ai
+    w.write(pdf)
 
 
 def package(paths):
+    """Front and back as two artboards in one PDF-compatible .ai, plus the same pages as a print PDF."""
     from pypdf import PdfWriter
-    front_ai = to_ai(paths[0][:-4] + ".pdf", "Ashvena 1953 Visiting Card - Front")
-    back_ai = to_ai(paths[1][:-4] + ".pdf", "Ashvena 1953 Visiting Card - Back")
+    pdfs = [s[:-4] + ".pdf" for s in paths]
     merged = PdfWriter()
-    merged.append(front_ai)
-    merged.append(back_ai)
-    merged.add_metadata({"/Title": "Ashvena 1953 Visiting Card"})
-    with open(os.path.join(OUT, "ashvena-visiting-card_print.pdf"), "wb") as fh:
-        merged.write(fh)
-    print("wrote ashvena-visiting-card_print.pdf")
+    for pdf in pdfs:
+        crop(pdf)
+        merged.append(pdf)
+    merged.add_metadata({"/Title": "Ashvena 1953 Visiting Card (front, back)", "/Creator": "generate_visiting_card.py"})
+    for name in ("ashvena-visiting-card.ai", "ashvena-visiting-card_print.pdf"):
+        with open(os.path.join(OUT, name), "wb") as fh:
+            merged.write(fh)
+        print("wrote", name)
+    for pdf in pdfs:
+        os.remove(pdf)
 
 
 def main():
