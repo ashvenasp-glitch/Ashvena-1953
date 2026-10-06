@@ -8,12 +8,14 @@ paper tone, so the art bleeds into the label, with a centred type stack.
 
 Size: 174 x 80 mm trim, 3 mm bleed.
 Output (packaging/F-modern-botanical/):
-  ashvena-<flavour>-cashews_label.ai   Illustrator file (PDF-compatible),
-                                       artboard = 174 x 80 mm trim
-  ashvena-<flavour>-cashews_label.pdf  print PDF with bleed, TrimBox set
+  ashvena-cashews_modern-labels.ai     ONE Illustrator file (PDF-compatible)
+                                       with both labels on a sheet, each
+                                       with 3 mm bleed + crop marks
+  ashvena-modern-labels-board.png      preview of that sheet
+  ashvena-<flavour>-cashews_label.pdf  print PDF per label, TrimBox set
   ashvena-<flavour>-cashews_label.png  preview (trim only)
 
-Usage:  pip install reportlab pillow
+Usage:  pip install reportlab pillow svglib
         python3 scripts/generate_modern_labels.py
 """
 import os
@@ -25,12 +27,16 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.graphics import renderPDF
 from reportlab.pdfgen import canvas
+from svglib.svglib import svg2rlg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "packaging", "F-modern-botanical")
 ART = os.path.join(OUT, "art")
 FONTS = os.path.join(HERE, "fonts")
+# horizontal lockup from art/logo/logo_final.ai (artboard 2), background removed
+LOGO = os.path.join(ART, "logo", "ashvena-logo_horizontal.svg")
 
 W, H, B = 174.0, 80.0, 3.0          # trim width/height, bleed (mm)
 UPSCALE = 4                          # source art is ~270 px wide
@@ -110,16 +116,16 @@ def prep_art(src, feather_side):
 # ---------------------------------------------------------------------------
 
 class Label:
-    def __init__(self, c):
-        self.c = c
+    """Draws in trim space; (ox, oy) is the trim's bottom-left on the page, mm."""
 
-    @staticmethod
-    def X(x):
-        return (B + x) * mm
+    def __init__(self, c, ox=B, oy=B):
+        self.c, self.ox, self.oy = c, ox, oy
 
-    @staticmethod
-    def Y(y):
-        return (B + H - y) * mm
+    def X(self, x):
+        return (self.ox + x) * mm
+
+    def Y(self, y):
+        return (self.oy + H - y) * mm
 
     def text(self, x, y, s, font, size, color, anchor="middle", track=0.0):
         """Draw text with tracking (em fraction); y is the baseline."""
@@ -166,6 +172,20 @@ class Label:
         c.setLineWidth(lw * mm)
         c.line(self.X(x0), self.Y(y0), self.X(x1), self.Y(y1))
 
+    def logo(self, cx, top, height):
+        """Place the brand lockup centred on cx, vector, original colours."""
+        d = svg2rlg(LOGO)
+        bx0, by0, bx1, by1 = d.getBounds()
+        k = height * mm / (by1 - by0)
+        w = (bx1 - bx0) * k / mm
+        c = self.c
+        c.saveState()
+        c.translate(self.X(cx - w / 2), self.Y(top + height))
+        c.scale(k, k)
+        renderPDF.draw(d, c, -bx0, -by0)
+        c.restoreState()
+        return w
+
     def image(self, path, x, y, w, h):
         self.c.drawImage(path, self.X(x), self.Y(y + h), w * mm, h * mm, mask="auto")
 
@@ -179,8 +199,13 @@ def veg_mark(L, x, y, s=3.6):
     L.circle(x + s / 2, y + s / 2, s * .26, fill="#2E8B3A")
 
 
-def draw(c, f):
-    L = Label(c)
+def draw(c, f, ox=B, oy=B):
+    L = Label(c, ox, oy)
+    # keep everything inside the bleed box
+    c.saveState()
+    p = c.beginPath()
+    p.rect((ox - B) * mm, (oy - B) * mm, (W + 2 * B) * mm, (H + 2 * B) * mm)
+    c.clipPath(p, stroke=0, fill=0)
     # background, full bleed
     L.rect(-B, -B, W + 2 * B, H + 2 * B, fill=f["bg"])
 
@@ -201,8 +226,7 @@ def draw(c, f):
     cx = (x0 + x1) / 2
     ink, acc, muted = f["ink"], f["acc"], f["muted"]
 
-    L.text(cx, 12.2, "ASHVENA", "Manrope-ExtraBold", 10.5, ink, track=.42)
-    L.text(cx, 16.6, "SMALL-BATCH ROASTED  ·  EST. 1953", "Manrope-Medium", 4.6, muted, track=.22)
+    L.logo(cx, 5.2, 12.5)
 
     name_size = 38
     while L.width(f["name"], "Fraunces-SemiBold", name_size, -.01) > (x1 - x0) - 6:
@@ -238,35 +262,82 @@ def draw(c, f):
         else:
             L.circle(px, fy - 1.0, .75, stroke=acc, lw=.22)
     L.text(x1 - 4, fy - .2, "NET WT. 200 g", "Manrope-Bold", 4.8, ink, "end", .12)
+    c.restoreState()
 
 
-def build(slug, f, path, ai):
-    c = canvas.Canvas(path, pagesize=((W + 2 * B) * mm, (H + 2 * B) * mm),
+def new_canvas(path, w, h, title):
+    c = canvas.Canvas(path, pagesize=(w * mm, h * mm),
                       initialFontName="Manrope-Regular", initialFontSize=6)
-    c.setTitle(f"Ashvena {f['name']} Cashews - label 174 x 80 mm")
+    c.setTitle(title)
     c.setAuthor("Ashvena")
     c.setSubject("Direction F - Modern Botanical")
+    return c
+
+
+def build(f, path, crop_to_trim):
+    """One label on its own page: bleed page with TrimBox set."""
+    c = new_canvas(path, W + 2 * B, H + 2 * B, f"Ashvena {f['name']} Cashews - label 174 x 80 mm")
     trim = (B * mm, B * mm, (B + W) * mm, (B + H) * mm)
     c.setTrimBox(trim)
     c.setBleedBox((0, 0, (W + 2 * B) * mm, (H + 2 * B) * mm))
-    if ai:
-        # Illustrator sets the artboard from the crop box: make it the trim.
+    if crop_to_trim:
         c.setCropBox(trim)
-        c.setArtBox(trim)
     draw(c, f)
+    c.showPage()
+    c.save()
+
+
+# combined Illustrator sheet: both labels stacked, each with bleed + crop marks
+SIDE, TOP, GAP = 14.0, 16.0, 22.0
+SHEET_W = SIDE + W + 2 * B + SIDE
+SHEET_H = TOP + 2 * (H + 2 * B) + GAP + TOP
+
+
+def crop_marks(c, ox, oy):
+    """Registration-colour crop marks around a trim box at (ox, oy) mm."""
+    c.setStrokeColorCMYK(1, 1, 1, 1)
+    c.setLineWidth(.25)
+    off, ln = B + 2, 5
+    for x in (ox, ox + W):
+        for y, d in ((oy, -1), (oy + H, 1)):
+            c.line(x * mm, (y + d * off) * mm, x * mm, (y + d * (off + ln)) * mm)
+    for y in (oy, oy + H):
+        for x, d in ((ox, -1), (ox + W, 1)):
+            c.line((x + d * off) * mm, y * mm, (x + d * (off + ln)) * mm, y * mm)
+
+
+def build_sheet(path):
+    c = new_canvas(path, SHEET_W, SHEET_H, "Ashvena Peri Peri & Kadi Patta Cashews - labels 174 x 80 mm")
+    for i, (slug, f) in enumerate(LABELS.items()):
+        bleed_top = TOP + i * (H + 2 * B + GAP)          # from the sheet top
+        ox = SIDE + B
+        oy = SHEET_H - bleed_top - B - H
+        draw(c, f, ox, oy)
+        crop_marks(c, ox, oy)
+        t = c.beginText((ox + 8) * mm, (SHEET_H - bleed_top + 6) * mm)
+        t.setFont("Manrope-Medium", 6.5)
+        t.setFillColor(HexColor("#7a7a7a"))
+        t.textOut(f"{f['name'].upper()} CASHEWS   ·   174 × 80 mm trim   ·   3 mm bleed")
+        c.drawText(t)
     c.showPage()
     c.save()
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    sheet = os.path.join(OUT, "ashvena-cashews_modern-labels.ai")
+    build_sheet(sheet)
+    subprocess.run(["pdftoppm", "-png", "-r", "150", "-singlefile", sheet,
+                    os.path.join(OUT, "ashvena-modern-labels-board")], check=True)
+    print("built", os.path.basename(sheet))
     for slug, f in LABELS.items():
         base = os.path.join(OUT, f"ashvena-{slug}-cashews_label")
-        build(slug, f, base + ".ai", ai=True)
-        build(slug, f, base + ".pdf", ai=False)
-        # preview of the trim area (the .ai crop box) at 300 dpi
+        build(f, base + ".pdf", crop_to_trim=False)
+        # preview of the trim area at 300 dpi
+        trim_pdf = os.path.join(TMP, slug + ".pdf")
+        build(f, trim_pdf, crop_to_trim=True)
         subprocess.run(["pdftoppm", "-png", "-r", "300", "-singlefile", "-cropbox",
-                        base + ".ai", base], check=True)
+                        trim_pdf, base], check=True)
         print("built", os.path.relpath(base, OUT))
 
 
