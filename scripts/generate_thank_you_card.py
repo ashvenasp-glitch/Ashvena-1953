@@ -150,17 +150,17 @@ def back(handle, phone):
                + text(cx, 136, "your special moments", 38, BRICK, F_SERIF, 400, extra=' font-style="italic"')))
     o.append(g("Message", "".join(text(cx, 176 + i * 16, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(BODY) if s)))
 
-    # Instagram row: QR on the left, call to action on the right, centred as a unit
+    # contact row: Instagram QR on the left; follow + order details on the right
     url = f"https://www.instagram.com/{handle}/"
     qs, qx, qy = 82, 192, 278
     o.append(g("Instagram",
                qr_code(qx, qy, qs, url, DEEP_LAC)
                + f'<line x1="{qx + qs + 18}" y1="{qy + 6}" x2="{qx + qs + 18}" y2="{qy + qs - 6}" stroke="{BRICK}" '
                  f'stroke-width=".8" opacity=".45"/>'
-               + text(qx + qs + 34, qy + 12, "SCAN TO FOLLOW", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
-               + text(qx + qs + 34, qy + 28, "our story on Instagram", 11, DEEP_LAC, F_SANS, 500, anchor="start")
-               + insta_glyph(qx + qs + 41, qy + 50, 13, BRICK)
-               + text(qx + qs + 54, qy + 54, f"@{esc(handle)}", 11, BRICK, F_SANS, 600, .3, anchor="start")
+               + text(qx + qs + 34, qy + 8, "SCAN TO FOLLOW", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
+               + insta_glyph(qx + qs + 41, qy + 22, 13, BRICK)
+               + text(qx + qs + 54, qy + 26, f"@{esc(handle)}", 11, BRICK, F_SANS, 600, .3, anchor="start")
+               + text(qx + qs + 34, qy + 56, "TO PLACE AN ORDER", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
                + phone_glyph(qx + qs + 41, qy + 70, 13, BRICK)
                + text(qx + qs + 54, qy + 74, esc(phone), 11, BRICK, F_SANS, 600, .3, anchor="start")))
     return svg_doc("\n".join(o), "Ashvena thank-you card - back")
