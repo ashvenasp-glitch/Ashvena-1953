@@ -28,7 +28,7 @@ LOGO = json.load(open(os.path.join(HERE, "..", "brand", "ashvena-logo-parts.json
 W, H = 600, 400
 
 INSTAGRAM = "ashvena.1953"  # PLACEHOLDER - confirm the real handle before print
-PHONE = "+91 XXXXX XXXXX"  # PLACEHOLDER - set with --phone
+PHONE = "+91 79886 26068"
 
 F_SERIF = "'Bodoni Moda', 'Libre Caslon Display', Didot, serif"
 F_SANS = "Montserrat, Helvetica, Arial, sans-serif"

@@ -26,7 +26,7 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 ## Before print, replace these placeholders
 - Nutrition values (indicative only), ingredient percentages, and claims ("Made in India"). Get them from your lab report and your recipe.
 - FSSAI licence no., address, MRP, barcode (EAN), QR code, batch and dates.
-- Thank-you card (F): the QR and handle point to `instagram.com/ashvena.1953`, which is a placeholder. The mobile number is a placeholder (`+91 XXXXX XXXXX`). Regenerate with `python3 scripts/generate_thank_you_card.py --insta <your_handle> --phone "+91 98xxx xxxxx"`. Confirm the 15% offer (or remove it) and add 3 mm bleed.
+- Thank-you card (F): the QR and handle point to `instagram.com/ashvena.1953`, which is a placeholder. Regenerate with `python3 scripts/generate_thank_you_card.py --insta <your_handle> --phone "<number>"`. Confirm the 15% offer (or remove it) and add 3 mm bleed.
 - Add bleed (3 mm), glue flap, top and bottom tuck flaps for your printer's actual dieline.
 
 ## Regenerate
