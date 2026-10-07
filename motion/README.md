@@ -15,7 +15,8 @@ wordmark settles in beneath it.
 
 ## Files
 
-- `ashvena-1953_logo-reveal_logo-section.mp4`: the finished logo section, starting from the light. This part is final.
+- `ashvena-1953_logo-reveal_logo-section.mp4`: the finished logo section, 4.27 s, starting from the light. This part is final.
+- `ashvena-1953_logo-reveal_end-frame.png`: the closing lockup frame.
 - `ashvena-1953_logo-reveal_animatic.mp4`: the full 8 s timing. The opening is a **placeholder** built from a tin photo (push-in, light from above, spice dust) and is labelled as such. It gets replaced by the AI tin shot.
 - `a_strokes.json`: stroke centrelines, order, pauses and durations for the अ.
 - `../scripts/render_logo_reveal.py`: the renderer and compositor.
@@ -71,10 +72,16 @@ The clip is retimed to 0–3.75 s, then blooms into the light and the logo secti
 ## Re-rendering the parts that exist now
 
 ```
-python3 scripts/render_logo_reveal.py --logo motion/source/logo_final.ai --logo-only \
-    -o motion/ashvena-1953_logo-reveal_logo-section.mp4
 python3 scripts/render_logo_reveal.py --logo motion/source/logo_final.ai --still <tin photo> \
-    -o motion/ashvena-1953_logo-reveal_animatic.mp4
+    -o animatic_master.mp4            # CRF 15 master, about 9 min on 4 cores
+ffmpeg -i animatic_master.mp4 -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p \
+    -movflags +faststart motion/ashvena-1953_logo-reveal_animatic.mp4
+ffmpeg -i animatic_master.mp4 -vf "trim=start_frame=112,setpts=PTS-STARTPTS" -c:v libx264 \
+    -preset slow -crf 19 -pix_fmt yuv420p -movflags +faststart \
+    motion/ashvena-1953_logo-reveal_logo-section.mp4
 ```
+
+`--logo-only` renders the logo section on its own, starting at 3.6 s. Pass
+`--frames 0,120,239` to also write review stills.
 
 Requirements: Python 3 with numpy, Pillow and scipy, plus `pdftocairo` (poppler) and `ffmpeg`.
