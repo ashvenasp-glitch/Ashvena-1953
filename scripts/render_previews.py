@@ -38,6 +38,18 @@ def trim_pdf(path, w_mm, h_mm):
         wr.write(fh)
 
 
+def load(pg, svg_path, markup):
+    """Open the markup from the SVG's own folder so linked art (e.g. art/*.png) resolves."""
+    tmp = os.path.join(os.path.dirname(svg_path), ".render-tmp.html")
+    with open(tmp, "w") as fh:
+        fh.write(f"<html><body style='margin:0'>{markup}</body></html>")
+    try:
+        pg.goto("file://" + os.path.abspath(tmp), wait_until="networkidle")
+    finally:
+        os.remove(tmp)
+    pg.evaluate("document.fonts.ready")
+
+
 def main():
     dirs = sys.argv[1:] or ["*"]          # optional: only these direction folders
     svgs = sorted(s for d in dirs for s in glob.glob(os.path.join(ROOT, d, "*.svg")))
@@ -53,11 +65,9 @@ def main():
             pg = b.new_page(viewport={"width": int(w), "height": int(h)}, device_scale_factor=2)
             body = src.split("?>", 1)[1].replace("<svg ", "<svg style='display:block' ", 1)
             px = re.sub(r'width="[^"]+mm" height="[^"]+mm"', f'width="{w}" height="{h}"', body, count=1)
-            pg.set_content(f"<html><body style='margin:0'>{px}</body></html>", wait_until="networkidle")
-            pg.evaluate("document.fonts.ready")
+            load(pg, s, px)
             pg.screenshot(path=s[:-4] + ".png", clip={"x": 0, "y": 0, "width": w, "height": h})
-            pg.set_content(f"<html><body style='margin:0'>{body}</body></html>", wait_until="networkidle")
-            pg.evaluate("document.fonts.ready")
+            load(pg, s, body)
             pg.pdf(path=s[:-4] + ".pdf", width=f"{w / 4}mm", height=f"{h / 4}mm",
                    print_background=True, margin={"top": "0", "right": "0", "bottom": "0", "left": "0"})
             trim_pdf(s[:-4] + ".pdf", w / 4, h / 4)
