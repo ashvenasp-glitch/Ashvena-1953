@@ -147,9 +147,10 @@ KIN = dict(              # defaults; a stroke may override any of them under "ki
 )
 WET_DECAY = 0.28         # s, fresh ink settles from dark to Brick
 WET_DARK = 0.22          # fresh ink is this much darker
-SHUTTER = 1.0            # exposure per frame, in frame intervals (360-degree shutter)
-TIP_RAMP = 0.010         # s, softness of the brush tip as it passes a pixel
-FRONT_ROUND = 0.45       # the edges of the brush trail its centre by this many half-widths
+SHUTTER = 0.35           # exposure per frame, in frame intervals: a little motion blur, a crisp tip
+TIP_RAMP = 0.006         # s, softness of the brush tip as it passes a pixel
+BRUSH_REACH = 1.06       # brush radius as a multiple of the stroke's half-width
+REWET_AFTER = 0.08       # s, a later pass of the brush over laid ink re-wets it
 
 
 def min_jerk(x):
@@ -269,125 +270,62 @@ def stroke_schedule(spec, t0):
     return samples, t
 
 
-def _project(pix, P, a, b, tree):
-    """Nearest point of the centreline samples a..b-1 for every pixel, refined
-    onto the polyline: the fractional sample index and the distance."""
-    d, j = tree.query(pix)
-    j = j + a
-    best_f = j.astype(np.float64)
-    best_d = d
-    for lo in (j - 1, j):
-        hi = lo + 1
-        ok = (lo >= a) & (hi <= b - 1)
-        lo_, hi_ = np.clip(lo, a, b - 1), np.clip(hi, a, b - 1)
-        e = P[hi_] - P[lo_]
-        ee = np.maximum((e * e).sum(1), 1e-12)
-        u = np.clip(((pix - P[lo_]) * e).sum(1) / ee, 0, 1)
-        q = P[lo_] + u[:, None] * e
-        dd = np.linalg.norm(pix - q, axis=1)
-        better = ok & (dd < best_d)
-        best_d = np.where(better, dd, best_d)
-        best_f = np.where(better, lo_ + u, best_f)
-    return best_f, best_d
-
-
-def _through_ink(ink, a, b, n=16):
-    """True where the straight line from a to b stays on ink."""
-    hgt, wid = ink.shape
-    ok = np.ones(len(a), bool)
-    for k in range(1, n):
-        q = a + (b - a) * (k / n)
-        ok &= ink[np.clip(np.rint(q[:, 1]).astype(int), 0, hgt - 1),
-                  np.clip(np.rint(q[:, 0]).astype(int), 0, wid - 1)]
-    return ok
-
-
 _REVEAL_CACHE = {}   # id(T) -> the time map's companions (re-wet times, ink pixels)
 
 
 def time_map(mark, samples):
     """Arrival time of the brush for every pixel of the mark.
 
-    Every pixel is projected onto the nearest point of each overlap pass of the
-    centreline, so the leading edge runs across the stroke like the edge of a
-    brush, slightly rounded (the edges trail the centre). A pass covers the
-    pixels within its band (half the brush width on each side of the
-    centreline) that it reaches through ink. Where two passes cover a pixel
-    (the crossings), the earlier pass lays the ink and the later one re-wets
-    it (kept for mark_reveal as a second time). Pixels outside every band
-    (junction fillets, corners, the dry-brush streaks of the tail) take the
-    pass whose band is nearest, kept in step with the nearest banded ink."""
-    inside = mark > 0
-    ys, xs = np.nonzero(inside)
-    pix = np.stack([xs, ys], 1).astype(np.float64)
-    ink = mark > 0.3
-    big = np.float64(1e9)
-    cand_t, cand_ex, cand_in = [], [], []
+    A round brush, as wide as the stroke at that point, slides along the
+    centreline. Every ink pixel is laid the moment the brush first touches it,
+    so the leading edge is always the brush's own rounded tip. The brush only
+    reaches ink connected to its centre (never across bare paper into a
+    neighbouring part of the letter). Where the brush passes over ink it has
+    already laid (the crossings), the ink keeps its first time and gets a
+    second, re-wet time for mark_reveal. Ink the brush never touches (corners,
+    dry-brush streaks) is laid with the nearest touched ink."""
+    hgt, wid = mark.shape
+    ink = mark > 0.02
+    T = np.full(mark.shape, np.inf, np.float64)
+    T2 = np.full(mark.shape, np.inf, np.float64)
     for smp in samples:
-        P, tt, v, N = smp["path"], smp["t"], smp["v"], smp["nrm"]
-        hw_s = smp["hw"]
-        n_all = len(P)
-        for a, b in smp["passes"]:
-            tree = cKDTree(P[a:b])
-            f, _ = _project(pix, P, a, b, tree)
-            i0 = np.clip(np.floor(f).astype(int), 0, n_all - 1)
-            i1 = np.clip(i0 + 1, 0, n_all - 1)
-            w = f - i0
-            foot = P[i0] * (1 - w[:, None]) + P[i1] * w[:, None]
-            nn = N[i0] * (1 - w[:, None]) + N[i1] * w[:, None]
-            off = pix - foot
-            n_off = (off * nn).sum(1)
-            tan_off = (off * (smp["tan"][i0])).sum(1)
-            # a foot at the end of a pass that is not the end of the stroke only
-            # counts for pixels beside it, not for those ahead of or behind it
-            valid = np.ones(len(pix), bool)
-            if a > 0:
-                valid &= ~((i0 <= a) & (tan_off < -1.5))
-            if b < n_all:
-                valid &= ~((i0 >= b - 2) & (tan_off > 1.5))
-            hw = np.interp(f, np.arange(n_all), hw_s)
-            t_here = np.interp(f, np.arange(n_all), tt)
-            v_here = np.interp(f, np.arange(n_all), v)
-            rel = np.minimum(np.abs(n_off) / hw, 1.0)
-            t_here = t_here + FRONT_ROUND * rel * rel * hw / v_here
-            excess = np.abs(n_off) - (1.05 * hw + 1.0)
-            # the bristles only reach a pixel through ink: a pass does not cover
-            # ink on the far side of bare paper (a notch, a gap between strokes)
-            sees = _through_ink(ink, foot, pix)
-            cand_t.append(t_here)
-            cand_ex.append(np.where(valid, np.maximum(excess, 0) + np.where(sees, 0.0, 40.0), big))
-            cand_in.append(valid & sees & (excess <= 0))
-    cand_t, cand_ex, cand_in = np.array(cand_t), np.array(cand_ex), np.array(cand_in)
-    t_in = np.where(cand_in, cand_t, np.inf)
-    any_in = cand_in.any(0)
-    first = np.argmin(t_in, 0)
-    near = np.argmin(cand_ex, 0)
-    pick = np.where(any_in, first, near)
-    cols = np.arange(len(pix))
-    Tv = cand_t[pick, cols]
-    # ink outside every band (junction fillets, corners, flecks) is laid with the
-    # nearest banded ink: no later or earlier than the brush needs to get there
-    if (~any_in).any() and any_in.any():
-        inb = np.zeros(mark.shape, bool)
-        inb[ys[any_in], xs[any_in]] = True
-        Tb = np.zeros(mark.shape, np.float64)
-        Tb[ys[any_in], xs[any_in]] = Tv[any_in]
-        dist, (iy, ix) = ndimage.distance_transform_edt(~inb, return_indices=True)
-        out = ~any_in
-        oy, ox_ = ys[out], xs[out]
+        P, tt, hw = smp["path"], smp["t"], smp["hw"]
+        for i in range(0, len(P), 2):
+            x, y = P[i]
+            r = hw[i] * BRUSH_REACH + 1.5
+            x0, x1 = int(max(np.floor(x - r), 0)), int(min(np.ceil(x + r) + 1, wid))
+            y0, y1 = int(max(np.floor(y - r), 0)), int(min(np.ceil(y + r) + 1, hgt))
+            if x0 >= x1 or y0 >= y1:
+                continue
+            yy, xx = np.ogrid[y0:y1, x0:x1]
+            disk = ((xx - x) ** 2 + (yy - y) ** 2 <= r * r) & ink[y0:y1, x0:x1]
+            if not disk.any():
+                continue
+            # only ink joined to the brush centre within the disk
+            lab, n = ndimage.label(disk)
+            cy, cx = int(round(y)) - y0, int(round(x)) - x0
+            if 0 <= cy < y1 - y0 and 0 <= cx < x1 - x0 and lab[cy, cx]:
+                disk = lab == lab[cy, cx]
+            elif n > 1:
+                sizes = ndimage.sum(disk, lab, range(1, n + 1))
+                disk = lab == (1 + int(np.argmax(sizes)))
+            sub, sub2 = T[y0:y1, x0:x1], T2[y0:y1, x0:x1]
+            t = tt[i]
+            fresh = disk & ~np.isfinite(sub)
+            sub[fresh] = t
+            again = disk & np.isfinite(sub) & (t - sub > REWET_AFTER)
+            sub2[again] = t
+    # ink the brush never touched follows the nearest touched ink
+    got = np.isfinite(T)
+    miss = ink & ~got
+    if miss.any() and got.any():
+        dist, (iy, ix) = ndimage.distance_transform_edt(~got, return_indices=True)
         v_med = np.median(np.concatenate([smp["v"] for smp in samples]))
-        slack = dist[oy, ox_] / v_med
-        tq = Tb[iy[oy, ox_], ix[oy, ox_]]
-        Tv[out] = np.clip(Tv[out], tq - slack, tq + slack)
-    # re-wet: a later pass of the brush over ink that is already laid
-    last = np.max(np.where(cand_in, cand_t, -np.inf), 0)
-    T2v = np.where(any_in & (last > Tv + 0.06), last, np.inf)
-    T = np.full(mark.shape, 1e9, np.float32)
-    T[ys, xs] = Tv
-    T2 = np.full(mark.shape, np.inf, np.float32)
-    T2[ys, xs] = T2v
+        T[miss] = T[iy[miss], ix[miss]] + dist[miss] / v_med
+    T = np.where(ink, T, 1e9).astype(np.float32)
+    T2 = np.where(ink, T2, np.inf).astype(np.float32)
     _REVEAL_CACHE.clear()
-    _REVEAL_CACHE[id(T)] = dict(T=T, T2=T2, idx=np.flatnonzero(inside))
+    _REVEAL_CACHE[id(T)] = dict(T=T, T2=T2, idx=np.flatnonzero(ink))
     return T
 
 
