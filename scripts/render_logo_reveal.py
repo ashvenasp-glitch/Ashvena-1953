@@ -239,7 +239,26 @@ def opening_frames_from_clip(path, n):
                           "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
     frames = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
     idx = np.linspace(0, len(frames) - 1, n).round().astype(int)
-    return lambda i: frames[idx[min(i, n - 1)]].astype(np.float32), None
+    # the glow of the open tin: brightness-weighted centre of the hottest pixels in the last frame
+    luma = frames[-1].astype(np.float32) @ np.array([0.299, 0.587, 0.114], np.float32)
+    hot = np.clip(luma - np.percentile(luma, 97), 0, None)
+    ys, xs = np.mgrid[0:H, 0:W]
+    glow = np.array([(xs * hot).sum(), (ys * hot).sum()]) / hot.sum()
+
+    def frame(i):
+        f = frames[idx[min(i, n - 1)]]
+        # the camera moves into the light: eased push toward the glowing opening under the bloom
+        p = ease_io((i / FPS - T_BLOOM) / (T_OPEN_END - T_BLOOM))
+        if p <= 0:
+            return f.astype(np.float32)
+        z = 1.0 + 1.4 * p
+        cx, cy = np.array([W / 2, H / 2]) * (1 - p) + glow * p
+        vw, vh = W / z, H / z
+        cx, cy = min(max(cx, vw / 2), W - vw / 2), min(max(cy, vh / 2), H - vh / 2)
+        box = (cx - vw / 2, cy - vh / 2, cx + vw / 2, cy + vh / 2)
+        return np.asarray(Image.fromarray(f).resize((W, H), Image.BICUBIC, box=box)).astype(np.float32)
+
+    return frame, None
 
 
 def opening_from_still(path, rng):
