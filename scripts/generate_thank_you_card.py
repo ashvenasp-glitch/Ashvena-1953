@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Ashvena "thank you for your purchase" insert card - Direction F.
 
-Modelled on the clean "Say hello to your new favorite" retail insert:
-Front: solid Ashvena red with a giant tone-on-tone emblem merging into the
-field, the wordmark, bold sans + script headline and a peacock-blue foot.
-Back: cream card, bold sans heading with a script line, a short heartfelt
-note, and a scannable Instagram QR code.
+Modelled on the clean "Say hello to your new favorite" retail insert, in the
+colours and style of the official logo (brand/ashvena-logo_final.ai):
+brush-stroke "अ" mark, high-contrast serif wordmark, Brick + Dispensary blue.
+
+Front: Brick field with the brush mark blown up and merged tone-on-tone into
+the background, the horizontal logo lockup and a serif / italic headline.
+Back: Dispensary-blue card with a heartfelt note and a scannable Instagram QR.
 
 Artboard: 150 x 100 mm (4 px = 1 mm), landscape.
 Output: packaging/F-thank-you-card/ashvena-thank-you-card_<side>.svg
@@ -13,33 +15,32 @@ Output: packaging/F-thank-you-card/ashvena-thank-you-card_<side>.svg
 Usage: python3 scripts/generate_thank_you_card.py [--insta HANDLE]
 """
 import argparse
+import json
 import os
 
 import segno
 
-from generate_packaging import CASHEW, esc
+from generate_packaging import esc
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "packaging", "F-thank-you-card")
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "..", "packaging", "F-thank-you-card")
+LOGO = json.load(open(os.path.join(HERE, "..", "brand", "ashvena-logo-parts.json")))
 W, H = 600, 400
 
 INSTAGRAM = "ashvena.1953"  # PLACEHOLDER - confirm the real handle before print
 
-F_DISPLAY = "Cinzel, 'Trajan Pro', serif"
+F_SERIF = "'Bodoni Moda', 'Libre Caslon Display', Didot, serif"
 F_SANS = "Montserrat, Helvetica, Arial, sans-serif"
-F_SCRIPT = "'Pinyon Script', 'Great Vibes', cursive"
 
-RED = "#7d1a26"
-RED_DEEP = "#5e111c"
-RED_LIGHT = "#8f2533"
-BLUE = "#1b4f8a"
-BLUE_DEEP = "#123a6b"
-CREAM = "#f2ecdf"
-IVORY = "#f6efe2"
-GOLD = "#c9a45c"
+# logo palette (see brand/ashvena-logo-parts.json)
+BRICK = LOGO["palette"]["brick"]
+DEEP_LAC = LOGO["palette"]["deep_lac"]
+DISPENSARY = LOGO["palette"]["dispensary"]
+KHADI = LOGO["palette"]["khadi_cream"]
 
 DEFS = f"""
-<radialGradient id="redBg" cx=".7" cy=".4" r=".9">
-  <stop offset="0" stop-color="{RED_LIGHT}"/><stop offset=".6" stop-color="{RED}"/><stop offset="1" stop-color="{RED_DEEP}"/>
+<radialGradient id="brickBg" cx=".72" cy=".38" r=".95">
+  <stop offset="0" stop-color="#a11a2f"/><stop offset=".55" stop-color="{BRICK}"/><stop offset="1" stop-color="#7a0f20"/>
 </radialGradient>
 <clipPath id="cardClip"><rect width="{W}" height="{H}"/></clipPath>
 """
@@ -54,31 +55,29 @@ def g(gid, body):
     return f'<g id="{gid}">\n{body}\n</g>'
 
 
-def emblem(cx, cy, r, col, sw=1.5, op=1):
-    """Ashvena roundel: double ring, diamond finial, Cinzel 'A' and a cashew."""
-    s = r / 70
-    return (f'<g opacity="{op}">'
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{col}" stroke-width="{sw}"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="{r * .93:.1f}" fill="none" stroke="{col}" stroke-width="{sw * .45:.2f}"/>'
-            f'<path d="M {cx},{cy - r * .78:.1f} l {r * .07:.1f},{r * .09:.1f} l {-r * .07:.1f},{r * .09:.1f} '
-            f'l {-r * .07:.1f},{-r * .09:.1f} Z" fill="{col}"/>'
-            f'<text x="{cx}" y="{cy + r * .14:.1f}" font-family="{F_DISPLAY}" font-size="{r * .82:.1f}" '
-            f'font-weight="600" fill="{col}" text-anchor="middle">A</text>'
-            f'<path d="{CASHEW}" transform="translate({cx} {cy + r * .42:.1f}) scale({s:.3f})" fill="{col}"/>'
-            f'</g>')
+def logo_part(name, x, y, h, fill, op=1, rot=0):
+    """Place a logo path so its bounding box top-left sits at (x, y) with height h."""
+    x0, y0, x1, y1 = LOGO[name]["bbox"]
+    k = h / (y1 - y0)
+    r = f" rotate({rot} {(x0 + x1) / 2:.1f} {(y0 + y1) / 2:.1f})" if rot else ""
+    o = f' opacity="{op}"' if op != 1 else ""
+    return (f'<path fill="{fill}"{o} transform="translate({x:.2f} {y:.2f}) scale({k:.4f}) '
+            f'translate({-x0:.2f} {-y0:.2f}){r}" d="{LOGO[name]["d"]}"/>')
 
 
-def monogram(cx, cy, r, col, op=1):
-    """Oversized emblem ring + 'A' for the merged watermark (cashew left out at this scale)."""
-    return (f'<g opacity="{op}">'
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{col}" stroke-width="7"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="{r * .93:.1f}" fill="none" stroke="{col}" stroke-width="2"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="{r * 1.08:.1f}" fill="none" stroke="{col}" stroke-width="1.2"/>'
-            f'<path d="M {cx},{cy - r * .82:.1f} l {r * .06:.1f},{r * .08:.1f} l {-r * .06:.1f},{r * .08:.1f} '
-            f'l {-r * .06:.1f},{-r * .08:.1f} Z" fill="{col}"/>'
-            f'<text x="{cx}" y="{cy + r * .4:.1f}" font-family="{F_DISPLAY}" font-size="{r * 1.2:.1f}" '
-            f'font-weight="600" fill="{col}" text-anchor="middle">A</text>'
-            f'</g>')
+def part_width(name, h):
+    x0, y0, x1, y1 = LOGO[name]["bbox"]
+    return (x1 - x0) * h / (y1 - y0)
+
+
+def lockup_horizontal(x, y, h, mark_col, word_col, year_col):
+    """Mark + 'Ashvena' / '1953' side by side (logo artboard 2 arrangement)."""
+    o = [logo_part("mark", x, y, h, mark_col)]
+    wx = x + part_width("mark", h) + h * .22
+    wh = h * .36
+    o.append(logo_part("wordmark", wx, y + h * .22, wh, word_col))
+    o.append(logo_part("year", wx + h * .02, y + h * .22 + wh + h * .06, wh * .5, year_col))
+    return "".join(o)
 
 
 def svg_doc(body, title):
@@ -93,27 +92,14 @@ def svg_doc(body, title):
 # ---------------------------------------------------------------------------
 
 def front():
-    o = [g("Background", f'<rect width="{W}" height="{H}" fill="url(#redBg)"/>')]
-
-    # giant emblem bleeding off the top-right corner, tone-on-tone so it merges into the red
-    o.append(g("Logo_Watermark",
-               monogram(462, 170, 250, "#a33545", op=.55)))
-
-    o.append(g("Ashvena_Logo",
-               emblem(64, 66, 22, IVORY, sw=1.3)
-               + text(98, 63, "ASHVENA", 17, IVORY, F_DISPLAY, 600, 5, anchor="start")
-               + text(99, 77, "EST. 1953", 6.5, GOLD, F_SANS, 600, 3, anchor="start")))
-
+    o = [g("Background", f'<rect width="{W}" height="{H}" fill="url(#brickBg)"/>')]
+    # the brush mark, blown up and bleeding off the right edge, inked tone-on-tone into the brick
+    o.append(g("Logo_Watermark", logo_part("mark", 262, -22, 440, DEEP_LAC, op=.28)))
+    o.append(g("Ashvena_Logo", lockup_horizontal(44, 40, 58, DISPENSARY, KHADI, DISPENSARY)))
     o.append(g("Headline",
-               text(46, 272, "Say", 44, IVORY, F_SANS, 700, 1, anchor="start")
-               + text(152, 268, "hello", 92, IVORY, F_SCRIPT, 400, anchor="start")
-               + text(46, 322, "to your new favourite.", 44, IVORY, F_SANS, 700, .5, anchor="start")))
-
-    # peacock-blue foot with a fine gold rule
-    o.append(g("Blue_Foot",
-               f'<rect x="0" y="{H - 30}" width="{W}" height="30" fill="{BLUE_DEEP}"/>'
-               f'<rect x="0" y="{H - 30}" width="{W}" height="1.6" fill="{GOLD}"/>'
-               + text(W / 2, H - 11.5, "PREMIUM CASHEWS  ·  SINCE 1953", 7.5, IVORY, F_SANS, 600, 4)))
+               text(44, 286, "Say", 50, KHADI, F_SERIF, 500, anchor="start")
+               + text(138, 286, "hello", 64, DISPENSARY, F_SERIF, 400, anchor="start", extra=' font-style="italic"')
+               + text(44, 344, "to your new favourite.", 50, KHADI, F_SERIF, 500, anchor="start")))
     return svg_doc("\n".join(o), "Ashvena thank-you card - front")
 
 
@@ -150,24 +136,25 @@ def insta_glyph(x, y, s, col):
 
 def back(handle):
     cx = W / 2
-    o = [g("Background", f'<rect width="{W}" height="{H}" fill="{CREAM}"/>')]
+    o = [g("Background", f'<rect width="{W}" height="{H}" fill="{DISPENSARY}"/>')]
+    o.append(g("Logo_Mark", logo_part("mark", cx - part_width("mark", 34) / 2, 24, 34, BRICK)))
     o.append(g("Heading",
-               text(cx, 70, "Thank you for choosing us for", 25, RED, F_SANS, 700, .2)
-               + text(cx, 116, "your special moments", 50, BLUE, F_SCRIPT, 400)))
-    o.append(g("Message", "".join(text(cx, 153 + i * 16, s, 11.5, RED, F_SANS, 500) for i, s in enumerate(BODY))))
-    o.append(g("Offer", "".join(text(cx, 215 + i * 16, s, 11.5, RED, F_SANS, 500) for i, s in enumerate(OFFER))))
+               text(cx, 96, "Thank you for choosing us for", 25, DEEP_LAC, F_SERIF, 500)
+               + text(cx, 136, "your special moments", 38, BRICK, F_SERIF, 400, extra=' font-style="italic"')))
+    o.append(g("Message", "".join(text(cx, 166 + i * 15.5, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(BODY))))
+    o.append(g("Offer", "".join(text(cx, 222 + i * 15.5, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(OFFER))))
 
     # Instagram row: QR on the left, call to action on the right, centred as a unit
     url = f"https://www.instagram.com/{handle}/"
-    qs, qx, qy = 84, 190, 270
+    qs, qx, qy = 82, 192, 278
     o.append(g("Instagram",
-               qr_code(qx, qy, qs, url, RED_DEEP)
-               + f'<line x1="{qx + qs + 18}" y1="{qy + 6}" x2="{qx + qs + 18}" y2="{qy + qs - 6}" stroke="{RED}" '
-                 f'stroke-width=".8" opacity=".35"/>'
-               + text(qx + qs + 34, qy + 22, "SCAN TO FOLLOW", 8, BLUE, F_SANS, 700, 2.5, anchor="start")
-               + text(qx + qs + 34, qy + 38, "our story on Instagram", 11.5, RED, F_SANS, 500, anchor="start")
-               + insta_glyph(qx + qs + 41, qy + 59, 13, RED)
-               + text(qx + qs + 54, qy + 63, f"@{esc(handle)}", 11, RED, F_SANS, 600, .3, anchor="start")))
+               qr_code(qx, qy, qs, url, DEEP_LAC)
+               + f'<line x1="{qx + qs + 18}" y1="{qy + 6}" x2="{qx + qs + 18}" y2="{qy + qs - 6}" stroke="{BRICK}" '
+                 f'stroke-width=".8" opacity=".45"/>'
+               + text(qx + qs + 34, qy + 22, "SCAN TO FOLLOW", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
+               + text(qx + qs + 34, qy + 38, "our story on Instagram", 11, DEEP_LAC, F_SANS, 500, anchor="start")
+               + insta_glyph(qx + qs + 41, qy + 58, 13, BRICK)
+               + text(qx + qs + 54, qy + 62, f"@{esc(handle)}", 11, BRICK, F_SANS, 600, .3, anchor="start")))
     return svg_doc("\n".join(o), "Ashvena thank-you card - back")
 
 
