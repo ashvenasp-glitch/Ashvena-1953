@@ -264,6 +264,8 @@ def opening_from_still(path, rng):
         cx, cy = bw / 2, bh / 2 - (bh * 0.18) * ease_io((t - T_BLOOM + 0.6) / 1.1)
         vw = bw / 1.25 / z
         vh = vw * H / W
+        cx = min(max(cx, vw / 2), bw - vw / 2)
+        cy = min(max(cy, vh / 2), bh - vh / 2)
         box = (cx - vw / 2, cy - vh / 2, cx + vw / 2, cy + vh / 2)
         img = np.asarray(big.resize((W, H), Image.BICUBIC, box=box)).astype(np.float32) * vign[..., None]
         light = smoothstep(1.0, 3.0, t) * 0.75 + smoothstep(3.0, T_OPEN_END, t) * 0.25
