@@ -132,6 +132,7 @@ def bbox(a, thr=0.5):
 # ds / v along arc length, so the speed never jumps.
 
 DS = 1.0                 # centreline sample spacing, work px
+REST_EASE = 18.0         # work px of path over which the brush eases into and out of a rest
 KIN = dict(              # defaults; a stroke may override any of them under "kinematics"
     beta=1 / 3,          # power-law exponent: v ~ (curvature + 1/r_sat)^-beta
     r_sat=260.0,         # radius (work px) beyond which a run counts as straight
@@ -151,6 +152,8 @@ SHUTTER = 0.35           # exposure per frame, in frame intervals: a little moti
 TIP_RAMP = 0.006         # s, softness of the brush tip as it passes a pixel
 BRUSH_REACH = 1.06       # brush radius as a multiple of the stroke's half-width
 REWET_AFTER = 0.08       # s, a later pass of the brush over laid ink re-wets it
+SWELL = 0.10             # s, the edges of the stroke fill in this long after the brush centre
+TOUCH_SWELL = 2.5        # extra swell time at the first touch, as the brush settles
 UNDER_GROW = 2.4         # the place of a later stroke spans this many of its brush radii
 JUNCTION_SPAN = 70       # work px either side over which the brush keeps its width through a junction
 
@@ -258,8 +261,16 @@ def stroke_schedule(spec, t0):
                 g *= 1 - 0.4 * min_jerk((tt - (dur - k["release_dur"])) / k["release_dur"])
         vv = v * g
         tt = np.concatenate([[0], np.cumsum(2 * DS / (vv[1:] + vv[:-1]))])
-        scale = dur / tt[-1]
+        rests = st.get("rests", {})
+        rest_total = sum(rests.values())
+        scale = (dur - rest_total) / tt[-1]
         tt *= scale
+        # a calligrapher's brief rests: the brush slows into the point, holds, and
+        # moves off again (eased, so it never stops dead between frames)
+        for k_, sec in rests.items():
+            j = int(round(knot_s[int(k_)] / DS))
+            ramp = min_jerk((np.arange(len(tt)) - (j - REST_EASE / DS)) / (2 * REST_EASE / DS))
+            tt = tt + sec * ramp
         t += st.get("gap", 0.0)
         tan = np.gradient(geom, axis=0)
         tan /= np.maximum(np.linalg.norm(tan, axis=1, keepdims=True), 1e-9)
@@ -327,6 +338,8 @@ def time_map(mark, samples):
                 band[y0:y1, x0:x1] |= (xx[:, x0:x1] - x) ** 2 + (yy[y0:y1] - y) ** 2 <= r * r
             return band
         K = smp["knots"]
+        # light at the touch-down (the edges swell slowly), full pressure soon after
+        press = 1.0 + TOUCH_SWELL * np.exp(-(tt - tt[0]) / 0.12)
         for u in smp["under"]:
             a_, b_, c_, d_ = u[:4]
             band = sweep(K[c_], K[d_], UNDER_GROW)
@@ -357,10 +370,15 @@ def time_map(mark, samples):
                 disk = lab == (1 + int(np.argmax(sizes)))
             sub, sub2 = T[y0:y1, x0:x1], T2[y0:y1, x0:x1]
             t = tt[i]
-            fresh = disk & ~np.isfinite(sub)
-            sub[fresh] = t
-            again = disk & np.isfinite(sub) & (t - sub > REWET_AFTER)
+            # brush pressure: the centre of the stroke is laid as the tip passes
+            # and the edges swell in just behind it, so the tip reads as a
+            # tapered brush point and the stroke grows from the brush
+            d2 = ((xx - x) ** 2 + (yy - y) ** 2) / (r * r)
+            cand = t + SWELL * d2 * press[i]
+            again = disk & np.isfinite(sub) & (t - sub > REWET_AFTER + SWELL)
             sub2[again] = t
+            better = disk & (cand < sub)
+            sub[better] = cand[better]
     # ink the brush never touched follows the nearest touched ink
     got = np.isfinite(T)
     miss = ink & ~got

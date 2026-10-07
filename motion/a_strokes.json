@@ -4,7 +4,7 @@
   {
    "name": "the whole अ in one movement, as the client drew it",
    "gap": 0.0,
-   "dur": 2.15,
+   "dur": 2.0,
    "ease_in": true,
    "end": "flick",
    "pts": [
@@ -660,7 +660,16 @@
      39,
      44
     ]
-   ]
+   ],
+   "rests": {
+    "33": 0.1,
+    "18": 0.04,
+    "87": 0.06
+   },
+   "kinematics": {
+    "v_floor": 0.22,
+    "sigma_speed": 30.0
+   }
   }
  ]
 }
