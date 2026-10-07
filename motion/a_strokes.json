@@ -1,5 +1,5 @@
 {
- "_comment": "Centerline of the Devanagari mark, written in one continuous movement like a '3' and then the stem: up from the dry tail and over the hook, down into the middle, a rounded turn at the bottom of the curl, out to the right through the joint, down the bowl's right side, round the bowl and up its left side, along the crossbar, up into the top loop, down the stem and out in the dry-brush tail. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100). 'gap' is the pause before a stroke, 'dur' its duration in seconds, 'ease_in'/'end' shape the brush speed.",
+ "_comment": "Centreline of the Devanagari mark, written in one continuous movement like a '3' and then the stem: up from the dry tail and over the hook, down into the middle, a rounded turn at the bottom of the curl, out to the right through the joint, down the bowl's right side, round the bowl and up its left side, along the crossbar, up into the top loop, down the stem and out in the dry-brush tail. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100), centred in the ink. 'w' is the brush width (pressure) at each point in the same px, measured across the ink and set by hand where strokes meet; a broad, pressed stroke moves more slowly. 'pass_breaks' are the points where the brush starts a new pass over the mark: where two passes cross (the curl's exit over the crossbar, the stem over the crossbar), the earlier pass lays the ink and the later one re-wets it. 'gap' is the pause before a stroke and 'dur' its duration in seconds. The brush speed follows the two-thirds power law of hand movement, with minimum-jerk ramps for the press-in ('ease_in') and the release ('end': 'flick' or 'settle'); 'kinematics' may override the defaults in render_logo_reveal.py.",
  "strokes": [
   {
    "name": "the whole अ in one movement",
@@ -7,255 +7,79 @@
    "dur": 2.15,
    "ease_in": true,
    "end": "flick",
+   "pass_breaks": [25, 44],
    "pts": [
-    [
-     110,
-     860
-    ],
-    [
-     158,
-     690
-    ],
-    [
-     232,
-     520
-    ],
-    [
-     335,
-     365
-    ],
-    [
-     460,
-     232
-    ],
-    [
-     585,
-     165
-    ],
-    [
-     690,
-     150
-    ],
-    [
-     790,
-     175
-    ],
-    [
-     862,
-     250
-    ],
-    [
-     895,
-     355
-    ],
-    [
-     872,
-     465
-    ],
-    [
-     805,
-     560
-    ],
-    [
-     705,
-     650
-    ],
-    [
-     615,
-     712
-    ],
-    [
-     562,
-     758
-    ],
-    [
-     588,
-     792
-    ],
-    [
-     680,
-     797
-    ],
-    [
-     790,
-     772
-    ],
-    [
-     900,
-     770
-    ],
-    [
-     985,
-     796
-    ],
-    [
-     1040,
-     852
-    ],
-    [
-     1058,
-     925
-    ],
-    [
-     1050,
-     985
-    ],
-    [
-     1052,
-     1060
-    ],
-    [
-     1045,
-     1170
-    ],
-    [
-     1000,
-     1278
-    ],
-    [
-     912,
-     1350
-    ],
-    [
-     800,
-     1390
-    ],
-    [
-     682,
-     1395
-    ],
-    [
-     575,
-     1365
-    ],
-    [
-     500,
-     1290
-    ],
-    [
-     475,
-     1180
-    ],
-    [
-     500,
-     1078
-    ],
-    [
-     562,
-     1000
-    ],
-    [
-     655,
-     950
-    ],
-    [
-     760,
-     905
-    ],
-    [
-     875,
-     845
-    ],
-    [
-     1025,
-     785
-    ],
-    [
-     1175,
-     720
-    ],
-    [
-     1310,
-     650
-    ],
-    [
-     1412,
-     612
-    ],
-    [
-     1525,
-     520
-    ],
-    [
-     1620,
-     425
-    ],
-    [
-     1670,
-     312
-    ],
-    [
-     1670,
-     212
-    ],
-    [
-     1630,
-     130
-    ],
-    [
-     1570,
-     100
-    ],
-    [
-     1508,
-     130
-    ],
-    [
-     1470,
-     212
-    ],
-    [
-     1450,
-     312
-    ],
-    [
-     1425,
-     450
-    ],
-    [
-     1390,
-     600
-    ],
-    [
-     1358,
-     800
-    ],
-    [
-     1345,
-     1000
-    ],
-    [
-     1352,
-     1200
-    ],
-    [
-     1390,
-     1390
-    ],
-    [
-     1462,
-     1545
-    ],
-    [
-     1570,
-     1670
-    ],
-    [
-     1705,
-     1760
-    ],
-    [
-     1900,
-     1825
-    ],
-    [
-     2120,
-     1860
-    ],
-    [
-     2400,
-     1885
-    ]
+    [150, 900],
+    [157, 690],
+    [233, 520],
+    [333, 363],
+    [462, 234],
+    [587, 170],
+    [690, 155],
+    [788, 179],
+    [873, 244],
+    [908, 354],
+    [887, 472],
+    [822, 572],
+    [708, 612],
+    [618, 664],
+    [548, 716],
+    [578, 758],
+    [655, 775],
+    [770, 755],
+    [885, 768],
+    [965, 808],
+    [1018, 866],
+    [1040, 930],
+    [1036, 992],
+    [1037, 1060],
+    [1016, 1163],
+    [965, 1250],
+    [890, 1311],
+    [793, 1352],
+    [686, 1366],
+    [590, 1340],
+    [540, 1270],
+    [533, 1182],
+    [550, 1102],
+    [597, 1040],
+    [676, 994],
+    [782, 952],
+    [898, 895],
+    [1044, 832],
+    [1199, 771],
+    [1306, 720],
+    [1422, 656],
+    [1556, 522],
+    [1620, 425],
+    [1664, 312],
+    [1660, 225],
+    [1626, 166],
+    [1572, 144],
+    [1522, 170],
+    [1498, 228],
+    [1467, 312],
+    [1427, 440],
+    [1392, 600],
+    [1360, 800],
+    [1345, 1000],
+    [1355, 1200],
+    [1391, 1390],
+    [1458, 1547],
+    [1560, 1682],
+    [1693, 1785],
+    [1890, 1866],
+    [2120, 1918],
+    [2430, 1910]
+   ],
+   "w": [
+    180, 200, 218, 228, 228, 210, 178, 122, 86, 166,
+    218, 236, 190, 165, 150, 150, 150, 150, 150, 145,
+    145, 150, 150, 182, 214, 232, 226, 208, 176, 126,
+    140, 212, 170, 150, 156, 190, 186, 186, 186, 180,
+    165, 150, 146, 124, 88, 120, 150, 176, 176, 174,
+    170, 168, 168, 168, 162, 140, 96, 100, 146, 174,
+    150, 110
    ]
   }
  ]
