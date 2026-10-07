@@ -14,10 +14,10 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 | **C · Spice Coast** | Bright illustrated scene: a bowl heaped with cashews, flowing botanicals, a wooden scoop, and a colour-block side panel. |
 
 ## G · Thank-you cards (stall)
-A6 cards (105 × 148 mm, artboards include 3 mm bleed) for every stall purchase. ![Cards](G-thank-you-cards/ashvena-thankyou-cards-board.png)
-- **Fronts (6):** Gen Z one-liners set big, stacked and two-tone in Bricolage Grotesque Condensed ExtraBold, on the brand brick red `#941528` and dispensary blue `#cbe9f1` (accents: khadi cream `#fce4cd`, deep lac `#350710`). The horizontal logo sits bottom-left, reversed on brick.
+A6 cards (105 × 148 mm, artboards include 3 mm bleed) for every stall purchase.
+- **Fronts:** four "Heirloom, remixed" Gen Z lines: *Old school recipe. New school cravings.* · *We've been viral since 1953. The internet just found out.* · *Tradition? Check. Vibes? Double check.* · *Our elders made it. You made it trendy.* Each has three colour options (`options/`, board: `options/ashvena-thankyou-options-board.png`) in the brand brick red `#941528` and dispensary blue `#cbe9f1`, plus darker and lighter tones (deep red `#5e0b19`, rose `#d0566a`, blush `#f6d3d8`, deep blue `#2b6a7c`, mid blue `#8fc6d6`, ice `#eef8fb`). Set the chosen option per message in `FRONTS` in `scripts/generate_thankyou_cards.py`; the print set is currently 1A, 2A, 3A, 4A.
 - **Back (shared):** khadi cream, the stacked logo, "Thank you for bringing us home.", a short note from the 1947 / 1953 family story, and a QR code to `https://wa.me/917988626068` (customer care on WhatsApp).
-- **Files:** `G-thank-you-cards/ashvena-thankyou-front-NN` and `-back` as SVG / PDF / PNG; `Ashvena-ThankYou-Cards-A6-duplex-print.pdf` (front, back, front, back … with TrimBox set at 105 × 148 mm); `ai/` has one Illustrator file per card.
+- **Files:** `ashvena-thankyou-front-NN` and `-back` as SVG / PDF / PNG; `Ashvena-ThankYou-Cards-A6-duplex-print.pdf` (front, back, front, back … with TrimBox at 105 × 148 mm); `ai/` has one Illustrator file per card.
 - **Brand assets:** `brand/Ashvena logo final.pdf` (source), `brand/ashvena-logo-stacked.svg` and `-horizontal.svg` (vector, original colours), `brand/fonts/BricolageGrotesque-CondensedExtraBold.ttf` (OFL; install it to edit the fronts).
 
 ## Files (per direction folder)
