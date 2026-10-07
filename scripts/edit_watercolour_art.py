@@ -42,7 +42,7 @@ EDITS = {
                         [(1238, 216), (1282, 216), (1232, 434), (1204, 434)]],
                   base=(1212, 427)),
         corners=(80, 1920),
-        tint="#f7e3ab",                                    # soft mango (palette light yellow)
+        tint="#f6eedc",                                    # warm cream
         paper_sat=(26, 6)),                                # warm cream washes count as paper too
 }
 

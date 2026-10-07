@@ -13,7 +13,7 @@ Ashvena band art (curry-leaf and soul-of-tradition bands).
 in this folder are retouched from them by `scripts/edit_watercolour_art.py`:
 the stray post and melon pot are removed from Fruit Cocktail, a palm is added at
 each end of both belts, the floor line runs end to end, and the white paper
-becomes a soft coloured wash (mango for Aam Papad, lime-sage for Fruit Cocktail)
+becomes a soft coloured wash (warm cream for Aam Papad, lime-sage for Fruit Cocktail)
 while the painted motifs keep their own colours.
 
 For print, save Magnific's full-size 16-bit PNG exports (4096 × 1032 px, about
