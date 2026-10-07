@@ -2,17 +2,18 @@
 
 ## Logo reveal: spice tin (`ashvena-logo-reveal_tin.mp4`)
 
-6.5 s, 1080 × 1920 (9:16), 24 fps, H.264. No audio.
+9.25 s, 1080 × 1920 (9:16), 24 fps, H.264. No audio.
 
 | Time | What happens |
 |---|---|
-| 0.0–1.3 s | Push-in on the antique sea-green tin. The latch lifts and light spills out. |
-| 1.3–2.6 s | The brick **अ** mark rises out of the opening, lit from behind, while dust drifts up. |
-| 2.6–3.8 s | The mark flies toward camera, and the tin's light over-exposes the frame. |
-| 3.8–4.3 s | The light settles into Dispensary Blue. |
-| 4.2–6.5 s | "Ashvena" wipes in and "1953" follows. The video holds on the final lockup. |
+| 0.0–1.25 s | Push-in on the antique sea-green tin. The latch lifts and light spills out. |
+| 1.25–4.0 s | Golden sparkles stream out of the opening and gather into the **अ** mark, written left to right. The tin's glow dims to amber as its light leaves. |
+| 4.0–4.7 s | The sparkle mark hovers and glitters. |
+| 4.7–6.2 s | The mark zooms toward camera. The sparkles melt together into the solid mark (gold → copper → brick) while the light over-exposes the frame. |
+| 6.2–6.8 s | The light settles into Dispensary Blue. |
+| 6.75–9.25 s | "Ashvena" wipes in and "1953" follows. The video holds on the final lockup. |
 
-The end frame is the primary lockup from page 1 of `brand/Ashvena_logo_final.pdf`, in the same colours (Brick, Deep Lac, Dispensary Blue) and the same proportions.
+The end frame is the primary lockup from page 1 of `brand/Ashvena_logo_final.pdf`, in the same colours (Brick, Deep Lac, Dispensary Blue) and the same proportions. The sparkles are sampled from the mark's own outline, so they form its exact shape.
 
 Source clip: `source/spice-tin-pushin.mov` (Seedance, 4 s).
 
@@ -25,4 +26,4 @@ python3 scripts/render_logo_reveal.py \
     --out motion/ashvena-logo-reveal_tin.mp4
 ```
 - `--bg cream` ends on Khadi Cream instead of Dispensary Blue.
-- `--preview 40,72,155` saves those frames as PNGs instead of rendering the video.
+- `--preview 70,120,221` saves those frames as PNGs instead of rendering the video.
