@@ -1,12 +1,12 @@
 {
- "_comment": "Centerlines of the Devanagari mark, drawn as one continuous brush movement. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100). 'gap' is the time between strokes (0 = no lift), 'dur' each stroke's duration in seconds, 'ease_in'/'end' shape the brush speed. A stroke with 'branch' [stroke, point] starts when that stroke's brush passes that point and runs alongside it (ink flowing into the curl at the fork), without holding up the main stroke.",
+ "_comment": "Centerline of the Devanagari mark, written in one continuous movement like a '3' and then the stem: up from the dry tail and over the hook, down into the middle, a rounded turn at the bottom of the curl, out to the right through the joint, down the bowl's right side, round the bowl and up its left side, along the crossbar, up into the top loop, down the stem and out in the dry-brush tail. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100). 'gap' is the pause before a stroke, 'dur' its duration in seconds, 'ease_in'/'end' shape the brush speed.",
  "strokes": [
   {
-   "name": "hook, through the joint, crossbar to the left and round the bowl",
+   "name": "the whole अ in one movement",
    "gap": 0.0,
-   "dur": 1.22,
+   "dur": 2.15,
    "ease_in": true,
-   "end": "flow",
+   "end": "flick",
    "pts": [
     [
      110,
@@ -61,32 +61,76 @@
      650
     ],
     [
-     790,
-     735
-    ],
-    [
-     900,
-     805
-    ],
-    [
-     840,
-     862
-    ],
-    [
-     760,
-     905
-    ],
-    [
-     655,
-     950
+     615,
+     712
     ],
     [
      562,
-     1000
+     758
+    ],
+    [
+     588,
+     792
+    ],
+    [
+     680,
+     797
+    ],
+    [
+     790,
+     772
+    ],
+    [
+     900,
+     770
+    ],
+    [
+     985,
+     796
+    ],
+    [
+     1040,
+     852
+    ],
+    [
+     1058,
+     925
+    ],
+    [
+     1050,
+     985
+    ],
+    [
+     1052,
+     1060
+    ],
+    [
+     1045,
+     1170
+    ],
+    [
+     1000,
+     1278
+    ],
+    [
+     912,
+     1350
+    ],
+    [
+     800,
+     1390
+    ],
+    [
+     682,
+     1395
+    ],
+    [
+     575,
+     1365
     ],
     [
      500,
-     1078
+     1290
     ],
     [
      475,
@@ -94,52 +138,23 @@
     ],
     [
      500,
-     1290
+     1078
     ],
     [
-     575,
-     1365
+     562,
+     1000
     ],
     [
-     682,
-     1395
+     655,
+     950
     ],
     [
-     800,
-     1390
+     760,
+     905
     ],
     [
-     912,
-     1350
-    ],
-    [
-     1000,
-     1278
-    ],
-    [
-     1045,
-     1170
-    ],
-    [
-     1052,
-     1060
-    ],
-    [
-     1040,
-     975
-    ]
-   ]
-  },
-  {
-   "name": "crossbar to the right, top loop, stem and dry-brush tail",
-   "gap": 0.0,
-   "dur": 0.93,
-   "ease_in": false,
-   "end": "flick",
-   "pts": [
-    [
-     990,
-     800
+     875,
+     845
     ],
     [
      1025,
@@ -240,30 +255,6 @@
     [
      2400,
      1885
-    ]
-   ]
-  },
-  {
-   "name": "curl of the hook (ink flowing into it at the fork)",
-   "branch": [
-    0,
-    12
-   ],
-   "dur": 0.22,
-   "ease_in": false,
-   "end": "settle",
-   "pts": [
-    [
-     705,
-     650
-    ],
-    [
-     608,
-     712
-    ],
-    [
-     548,
-     752
     ]
    ]
   }
