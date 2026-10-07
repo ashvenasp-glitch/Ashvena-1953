@@ -227,10 +227,15 @@ def back(m_type, m_serif, m_ital):
                + qr_svg(x0, qy, qs, QR_URL, LAC)))
     tx = x0 + qs + 18
     o.append(g("QR_Label",
-               text(tx, qy + 22, "SCAN TO SAY HI", 17, DEEP_BLUE, F_TYPE, 400, ls=.6)
-               + text(tx, qy + 42, "& REORDER ON WHATSAPP", 17, BRICK, F_TYPE, 400, ls=.6)
-               + text(tx, qy + 60, "+91 79886 26068", 11, LAC, F_SANS, 600, ls=.6)
-               + text(tx, qy + 78, "Heirloom, remixed. · Since 1953", 9.5, LAC, F_SERIF, 400, italic=True)))
+               text(tx, qy + 16, "SCAN TO SAY HI", 16, DEEP_BLUE, F_TYPE, 400, ls=.6)
+               + text(tx, qy + 34, "& REORDER ON WHATSAPP", 16, BRICK, F_TYPE, 400, ls=.6)
+               + text(tx, qy + 82, "Heirloom, remixed. · Since 1953", 9.5, LAC, F_SERIF, 400, italic=True)))
+    # mobile number, set large with a phone icon
+    py = qy + 61
+    phone = (f'<g transform="translate({tx:.1f} {py - 15:.1f}) scale(.85)">'
+             f'<rect x="0" y="0" width="12" height="20" rx="2.5" fill="none" stroke="{BRICK}" stroke-width="2"/>'
+             f'<line x1="4" y1="16.5" x2="8" y2="16.5" stroke="{BRICK}" stroke-width="1.6" stroke-linecap="round"/></g>')
+    o.append(g("Mobile_Number", phone + text(tx + 16, py, "+91 79886 26068", 20, LAC, F_TYPE, 400, ls=.8)))
     return doc("\n".join(o), "Ashvena thank-you card - back")
 
 
