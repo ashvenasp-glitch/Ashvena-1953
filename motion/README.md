@@ -28,20 +28,24 @@ wordmark settles in beneath it.
 ## How the अ is drawn
 
 The mark is never redrawn. The exact vector mark from `logo_final.ai` is
-revealed along hand-placed brush centrelines as **one continuous stroke**:
-the brush never lifts and never pauses, so new ink appears in every frame
-from the first touch (3.95 s) to the final flick (6.10 s).
+revealed along a hand-placed brush centreline as **one continuous stroke**,
+in the order the client sketched: the अ is written like a "3" and then the stem.
 
-1. **Hook, joint, crossbar and bowl** (1.22 s): enters at the dry tail on the lower left, sweeps up and over the top and comes down the hook. It runs through the joint where the hook meets the crossbar, along the crossbar to the left, and around the bowl to its right tip.
-2. **Crossbar, top loop, stem and tail** (0.93 s): from the bowl's tip the brush carries straight on into the crossbar just above it, with no lift. It climbs to the top loop, comes down the stem and releases in a quick dry-brush flick.
+1. Up from the dry tail at the lower left, over the top of the hook and down into the curl.
+2. A rounded turn at the bottom of the curl, then out to the right through the joint.
+3. Down the bowl's right side, round the bottom and up its left side.
+4. Along the crossbar, up into the top loop, down the stem and out in a dry-brush flick.
 
-The hook's curl tip is a short branch (0.22 s). Ink flows into it as the brush
-passes the fork, alongside the main stroke, so the movement is never held up.
-
-Brush speed varies along each stroke. It starts slowly as the brush presses
-down, slows in tight turns and accelerates through the final flick. Fresh ink
-is slightly darker and settles to Brick (#941528) over about 0.3 s. Where the
-stem crosses the crossbar, the first pass lays the ink.
+The brush moves like a writing hand. Its speed follows the two-thirds power law
+of handwriting: it slows smoothly in tight curves and runs faster on straight
+stretches. It moves more slowly where the stroke is broad and quicker through
+thin hairlines, and it eases in and out on the press-in and the final flick. Each pixel is
+revealed when the brush tip passes it, so the leading edge is a clean line
+across the stroke, with a closed-form 360° shutter blur for fluid 30 fps
+playback. Where the stroke crosses ink it has already laid (the joint and the
+stem over the crossbar), the first pass keeps the ink and the brush re-wets it
+as it passes, so the movement never visibly stops. Fresh ink is darkest at the
+tip and settles to Brick (#941528). It draws from 3.95 s to 6.10 s.
 
 Colours: the mark and "1953" use Brick #941528, and "Ashvena" uses Deep Lac #35070F. The
 pale sea-green field is #CFE4DD, the hue of the tin enamel lifted to a clean
