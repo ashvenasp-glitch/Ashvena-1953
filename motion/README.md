@@ -85,7 +85,9 @@ ffmpeg -i master.mp4 -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p \
 ```
 
 The clip is retimed to 0–3.75 s, then blooms into the light and the logo section.
-In 9:16 the lockup is 624×700 px, centred, inside the Reels safe area.
+Over 3.25–3.75 s the renderer pushes in (up to 2.4×) toward the brightest
+region of the clip's last frame, the glowing lid, so the bloom reads as the
+camera moving into the light rather than a crossfade. In 9:16 the lockup is 624×700 px, centred, inside the Reels safe area.
 
 ## Re-rendering the parts that exist now
 
