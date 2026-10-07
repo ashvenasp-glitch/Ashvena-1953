@@ -1,6 +1,7 @@
 # Ashvena 1953: logo reveal ("revealed from the tin")
 
-An 8-second, 1920×1080, 30 fps logo reveal. The old tin opens, warm light spills
+An 8-second, 30 fps logo reveal. The final cut is a 1080×1920 (9:16) Instagram Reel;
+the renderer also renders 1920×1080 (16:9). The old tin opens, warm light spills
 out, the camera moves into the light, and the अ draws itself in crimson. The
 wordmark settles in beneath it.
 
@@ -15,9 +16,12 @@ wordmark settles in beneath it.
 
 ## Files
 
-- `ashvena-1953_logo-reveal_logo-section.mp4`: the finished logo section, 4.27 s, starting from the light. This part is final.
+- `ashvena-1953_logo-reveal.mp4`: **the final film**, 1080×1920 (9:16) for Instagram Reels, 8 s, no audio. AI tin shot + logo section.
+- `source/tin/keyframe-a_closed.png`, `source/tin/keyframe-b_open.png`: the Nano Banana Pro keyframes (9:16).
+- `source/tin/tin_open_seedance.mp4`: the raw Seedance clip (1076×1926, 24 fps, 4 s, HEVC, untouched original).
+- `ashvena-1953_logo-reveal_logo-section.mp4`: the logo section in 16:9, 4.27 s, starting from the light.
 - `ashvena-1953_logo-reveal_end-frame.png`: the closing lockup frame.
-- `ashvena-1953_logo-reveal_animatic.mp4`: the full 8 s timing. The opening is a **placeholder** built from a tin photo (push-in, light from above, spice dust) and is labelled as such. It gets replaced by the AI tin shot.
+- `ashvena-1953_logo-reveal_animatic.mp4`: the full 8 s timing. The opening is a **placeholder** built from a tin photo (push-in, light from above, spice dust) and is labelled as such. Superseded by the final film; kept for reference.
 - `a_strokes.json`: stroke centrelines, order, pauses and durations for the अ.
 - `../scripts/render_logo_reveal.py`: the renderer and compositor.
 
@@ -40,14 +44,21 @@ Colours: the mark and "1953" use Brick #941528, and "Ashvena" uses Deep Lac #350
 pale sea-green field is #CFE4DD, the hue of the tin enamel lifted to a clean
 field. It carries faint enamel texture, vignette and grain.
 
-## The AI tin shot (pending)
+## The AI tin shot (done)
 
-Nano Banana and Seedance run on Magnific. From the build session, Magnific's
-upload host (`ak-data.magnific.com`) and output CDN (`pikaso.cdnpk.net`) were
-blocked by the environment's network policy. Allowing those two hosts unblocks
-the step. These are the planned calls:
+Generated on Magnific, vertical for the Reel. The prompts below are the ones
+used; the vertical framing changed "filling about 70% of frame height" to
+"centred horizontally and filling about 60% of frame height, with dark space
+above the lid", and keyframe B and the animation got small additions noted
+after each prompt.
 
-**Keyframe A, closed tin.** Nano Banana Pro (`imagen-nano-banana-2`), 16:9, 2k.
+| Step | Model | Settings | Credits |
+|---|---|---|---|
+| Keyframe A | Nano Banana Pro (`imagen-nano-banana-2`) | 9:16, 2k, 2 variants; refs: tin photo, then lettering close-up. Picked the variant with the hasp and diamond plate | 150 |
+| Keyframe B | Nano Banana Pro | 9:16, 2k, 1 variant; ref: keyframe A | 75 |
+| Animation | Seedance 2.5 (`bytedance-seedance-pro-2.5`) | start A, end B, 4 s, 1080p, 9:16, no sound effects | 3,160 |
+
+**Keyframe A, closed tin.** Nano Banana Pro (`imagen-nano-banana-2`), 2k.
 References: the full photo of the tin (for form) and the crimson-lettered close-up (for lettering).
 
 > Photorealistic cinematic still. The exact antique spice tin from the first reference: same tall rectangular body, same flat hinged lid with the bent-wire hasp and diamond hasp plate, same dents, chipped edges and rust spots, in pale sea-green enamel. On its front face, hand-brushed crimson Urdu lettering copied exactly from the second reference (لاجونتی), same strokes, centred. No paper label, no marker writing, no other text. The tin is closed, standing on an old dark teak counter in a traditional pansari shop, background soft out-of-focus darkness of wooden drawers. Soft warm tungsten key light from the left, gentle rim light, shallow depth of field, 50 mm at eye level, front-on, tin centred and filling about 70% of frame height, slight film grain, nostalgic and quiet. No hands, no people.
@@ -56,18 +67,25 @@ References: the full photo of the tin (for form) and the crimson-lettered close-
 
 > Same photograph, same camera, framing and lighting. Only change: the hinged lid is open, swung up and back about 70° so its underside shows. Warm golden light glows from inside the tin and spills over the rim, lighting the lid's underside; a faint drift of fine golden spice dust floats up through the light. Surroundings slightly darker so the glow reads. Lettering unchanged.
 
-**Animation.** Seedance 2.5 (`bytedance-seedance-pro-2.5`), with A as the start frame and B as the end frame, 4 s, 1080p, 16:9.
+(As run, it also said: "the wire hasp hanging free", "Tin body, dents, rust and the crimson lettering unchanged, in the same position. No hands, no people.")
+
+**Animation.** Seedance 2.5 (`bytedance-seedance-pro-2.5`), with A as the start frame and B as the end frame, 4 s, 1080p, 9:16.
 
 > Slow cinematic push-in on an antique sea-green spice tin on a teak counter. For the first second only the slow push-in. Then the hinged lid lifts open by itself, slowly and smoothly; warm golden light swells from inside and spills over the rim; a faint drift of spice dust rises and glints in the light. The camera keeps gently pushing in toward the glowing opening. Calm, nostalgic, hand-made. Lettering stays exactly as is. No people, no hands, no fast motion, no cuts.
+
+(As run, it also said "the wire hasp slips free" and "The tin body keeps its exact shape".)
 
 **Final composite**
 
 ```
 python3 scripts/render_logo_reveal.py --logo motion/source/logo_final.ai \
-    --opening-clip tin_open.mp4 -o motion/ashvena-1953_logo-reveal.mp4
+    --opening-clip motion/source/tin/tin_open_seedance.mp4 --aspect 9:16 -o master.mp4
+ffmpeg -i master.mp4 -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p \
+    -movflags +faststart motion/ashvena-1953_logo-reveal.mp4
 ```
 
 The clip is retimed to 0–3.75 s, then blooms into the light and the logo section.
+In 9:16 the lockup is 624×700 px, centred, inside the Reels safe area.
 
 ## Re-rendering the parts that exist now
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Ashvena 1953 - logo-reveal film ("revealed from the tin"), ~8 s, 1920x1080.
+"""Ashvena 1953 - logo-reveal film ("revealed from the tin"), ~8 s, 1920x1080
+(or 1080x1920 for Instagram Reels with --aspect 9:16).
 
   0.00-3.75  opening: the old tin opens and light spills out. Either the AI
              tin clip (--opening-clip, Nano Banana keyframes animated with
@@ -20,6 +21,7 @@ page 1) and are never redrawn or approximated - only revealed.
 Usage:
   python3 scripts/render_logo_reveal.py --logo logo_final.ai --still tin.jpg -o out.mp4
   python3 scripts/render_logo_reveal.py --logo logo_final.ai --opening-clip tin_ai.mp4 -o out.mp4
+  python3 scripts/render_logo_reveal.py --logo logo_final.ai --opening-clip tin_ai_9x16.mp4 --aspect 9:16 -o out.mp4
 """
 import argparse
 import json
@@ -37,6 +39,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 STROKES = os.path.join(ROOT, "motion", "a_strokes.json")
 
 W, H, FPS, DUR = 1920, 1080, 30, 8.0
+SIZES = {"16:9": (1920, 1080), "9:16": (1080, 1920)}
 
 # Brand colours (sampled from the vector master) and the tin.
 DISPENSARY = (203, 233, 241)       # logo master background
@@ -298,7 +301,11 @@ def main():
     ap.add_argument("--logo-only", action="store_true", help="render only the sea-green logo section")
     ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--frames", help="also write these frame numbers as PNG (comma separated) for review")
+    ap.add_argument("--aspect", choices=sorted(SIZES), default="16:9",
+                    help="16:9 (1920x1080) or 9:16 (1080x1920, Instagram Reels)")
     args = ap.parse_args()
+    global W, H
+    W, H = SIZES[args.aspect]
 
     rng = np.random.default_rng(1953)
     cache = os.path.join(tempfile.gettempdir(), "ashvena_reveal_cache")
