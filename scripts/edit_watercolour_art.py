@@ -13,12 +13,12 @@ Edits
 - corner trees: clone a palm already in the painting (watercolour multiplies
   onto paper, so it is lifted as paper-relative colour and multiplied back),
   one at each end, mirrored on the right so both lean towards the centre.
-- colour: a gentle saturation lift over the whole painting.
+- tint: the white paper becomes a soft coloured wash from the belt palette.
 """
 import os
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 ART = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "packaging", "F-palace-garden", "art")
 REF_W = 2000
@@ -32,7 +32,8 @@ EDITS = {
                   mask=[[(636, 36), (836, 36), (836, 216), (636, 216)],
                         [(684, 210), (730, 210), (684, 396), (642, 396)]],
                   base=(662, 388)),
-        corners=(70, 1930), colour=1.3, flat_paper=True),
+        corners=(70, 1930), flat_paper=True,
+        tint="#e7e9c9"),                                   # pale lime-sage (palette lime)
     "aam-papad": dict(
         remove=[],
         floor=dict(y=427, sample=(1600, 1640)),
@@ -40,7 +41,9 @@ EDITS = {
                   mask=[[(1170, 28), (1396, 28), (1396, 222), (1170, 222)],
                         [(1238, 216), (1282, 216), (1232, 434), (1204, 434)]],
                   base=(1212, 427)),
-        corners=(80, 1920), colour=1.3),
+        corners=(80, 1920),
+        tint="#f7e3ab",                                    # soft mango (palette light yellow)
+        paper_sat=(26, 6)),                                # warm cream washes count as paper too
 }
 
 
@@ -117,8 +120,25 @@ def retouch(key, e):
         xa, xb = max(0, x0), min(a.shape[1], x0 + t.shape[1])
         a[y0:y0 + t.shape[0], xa:xb] *= t[:, xa - x0:xb - x0]
 
-    # 5. a little more colour (paper is near-neutral, so it stays paper)
-    img = ImageEnhance.Color(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))).enhance(e.get("colour", 1))
+    # 5. coloured paper: the white paper takes the wash colour, with a soft
+    #    low-frequency mottle so it reads as a watercolour wash
+    tint = np.array([int(e["tint"][i:i + 2], 16) for i in (1, 3, 5)], np.float32)
+    rng = np.random.default_rng(7)
+    h, w = a.shape[:2]
+    noise = Image.fromarray((rng.random((max(2, h // 60), max(2, w // 60))) * 255).astype(np.uint8))
+    noise = np.asarray(noise.resize((w, h), Image.BICUBIC).filter(ImageFilter.GaussianBlur(20 * k)), np.float32) / 255
+    mottle = 1 - 0.035 * (noise[..., None] - .5)
+    # only where the pixel is paper: painted motifs keep their own colours
+    # paper = light and neutral (includes the pale halos and paper streaks; keeps cream and pale leaves)
+    lum = a.mean(2, keepdims=True)
+    sat = a.max(2, keepdims=True) - a.min(2, keepdims=True)
+    s0, sw = e.get("paper_sat", (7, 10))
+    paperness = np.clip((lum - 215) / 20, 0, 1) * np.clip(1 - (sat - s0) / sw, 0, 1)
+    # soften the paper/wash boundary (also hides compression blocks in small copies)
+    pm = Image.fromarray((paperness[..., 0] * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.5 * k))
+    paperness = np.minimum(paperness, np.asarray(pm, np.float32)[..., None] / 255 + .15)
+    a = a * (1 - paperness) + a * (tint / paper) * mottle * paperness
+    img = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     out = os.path.join(ART, f"ashvena-{key}-watercolour.png")
     img.save(out, optimize=True)
     print(os.path.relpath(out, os.path.join(ART, "..", "..", "..")))
