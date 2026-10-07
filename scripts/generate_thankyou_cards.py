@@ -5,8 +5,8 @@ Fronts: four Gen Z "Heirloom, remixed" one-liners, type only, in the style of
 the client's reference cards: a tight stacked block of Anton caps centred on a
 light brand background (pink, white or blue), the colour changing
 phrase by phrase (brand red or deep blue with white or a lighter tint).
-Fronts sit on brick with the brush mark large and faint behind the message.
-Back: brick to match, the stacked logo, an Anton heading, a short note from
+Fronts sit on brick with the brush mark large and faint in the bottom-right corner.
+Back: brand blue with the same corner mark, the stacked logo, an Anton heading, a short note from
 the family story and a QR code to WhatsApp.
 
 Artboard: 111 x 154 mm = A6 105 x 148 mm trim + 3 mm bleed (4 px = 1 mm).
@@ -38,7 +38,7 @@ ROSE, PINK = "#d0566a", "#eea8b2"
 DEEP_BLUE, SKY, ICE = "#2b6a7c", "#9fcfdd", "#eef8fb"
 # watermark mark: a solid darker brick, the look of the mark at low opacity on brick,
 # kept solid so it prints the same everywhere (CorelDRAW drops transparency)
-WATERMARK = {BRICK: "#7d1222"}
+WATERMARK = {BRICK: "#7d1222", BLUE: "#b6dce7"}
 
 F_TYPE = "Anton, 'Bebas Neue', Impact, 'Arial Narrow', sans-serif"
 F_SERIF = "Fraunces, Georgia, serif"
@@ -142,8 +142,11 @@ def front_type(m, bg, lines):
     x = (W - widest) / 2
     top = (H - block_h) / 2 + 10                        # optically a touch below centre
     out = [text(x, top + cap + k * lead, t, size, c, F_TYPE, 400) for k, (t, c) in enumerate(lines)]
-    return [g("Background", f'<rect width="{W}" height="{H}" fill="{bg}"/>'), watermark(bg),
+    return [g("Background", f'<rect width="{W}" height="{H}" fill="{bg}"/>'), watermark(bg, **CORNER_MARK),
             g("Message", "\n".join(out))]
+
+
+CORNER_MARK = dict(w=430, dx=120, dy=150)          # bottom-right, bleeding off; dy=-150 for top-right
 
 
 def watermark(bg, w=470, dx=34, dy=26):
@@ -195,14 +198,14 @@ def qr_svg(x, y, size, data, fill):
 
 
 def back(m_type, m_serif, m_ital):
-    """Matches the C fronts: brick, faint mark, Anton heading, a note from the family story, QR."""
+    """Brand blue, faint mark bottom-right as on the fronts, Anton heading, a note from the family story, QR."""
     x0 = W * .13
     col_w = W * .74
-    o = [g("Background", f'<rect width="{W}" height="{H}" fill="{BRICK}"/>'), watermark(BRICK, w=430, dx=120, dy=150)]
-    lg, lh = logo("stacked", x0, TY0 + SAFE + 8, 74, {BRICK: BLUE, LAC: KHADI})
+    o = [g("Background", f'<rect width="{W}" height="{H}" fill="{BLUE}"/>'), watermark(BLUE, **CORNER_MARK)]
+    lg, lh = logo("stacked", x0, TY0 + SAFE + 8, 74)
     o.append(g("Logo", lg))
     # heading in the front style
-    head = [("THANK YOU FOR", ROSE), ("BRINGING US HOME.", BLUE)]
+    head = [("THANK YOU FOR", DEEP_BLUE), ("BRINGING US HOME.", BRICK)]
     size = col_w / max(m_type.width(t, 1) for t, _ in head)
     y = TY0 + SAFE + 8 + lh + 30 + size * .86
     o.append(g("Heading", "\n".join(text(x0, y + k * size, t, size, c, F_TYPE, 400) for k, (t, c) in enumerate(head))))
@@ -212,22 +215,22 @@ def back(m_type, m_serif, m_ital):
     for k, para in enumerate(BACK_NOTE):
         last = k == len(BACK_NOTE) - 1
         for ln in wrap(para, m_ital if last else m_serif, fs, col_w):
-            note.append(text(x0, y, ln, fs, BLUE if last else KHADI, F_SERIF, 600 if last else 400, italic=last))
+            note.append(text(x0, y, ln, fs, BRICK if last else LAC, F_SERIF, 600 if last else 400, italic=last))
             y += lead
         y += 6
     o.append(g("Note", "\n".join(note)))
-    o.append(g("Signature", text(x0, y + 8, "With love, the Ashvena family", 11.5, PINK, F_SERIF, 600, italic=True)))
+    o.append(g("Signature", text(x0, y + 8, "With love, the Ashvena family", 11.5, BRICK, F_SERIF, 600, italic=True)))
     # QR row
     qs = 80
     qy = TY1 - SAFE - qs - 10
-    o.append(g("QR_Code", f'<rect x="{x0 - 6:.1f}" y="{qy - 6}" width="{qs + 12}" height="{qs + 12}" rx="8" fill="{BLUE}"/>'
+    o.append(g("QR_Code", f'<rect x="{x0 - 6:.1f}" y="{qy - 6}" width="{qs + 12}" height="{qs + 12}" rx="8" fill="{WHITE}"/>'
                + qr_svg(x0, qy, qs, QR_URL, LAC)))
     tx = x0 + qs + 18
     o.append(g("QR_Label",
-               text(tx, qy + 22, "SCAN TO SAY HI", 17, ROSE, F_TYPE, 400, ls=.6)
-               + text(tx, qy + 42, "& REORDER ON WHATSAPP", 17, BLUE, F_TYPE, 400, ls=.6)
-               + text(tx, qy + 60, "+91 79886 26068", 11, KHADI, F_SANS, 600, ls=.6)
-               + text(tx, qy + 78, "Heirloom, remixed. · Since 1953", 9.5, KHADI, F_SERIF, 400, italic=True)))
+               text(tx, qy + 22, "SCAN TO SAY HI", 17, DEEP_BLUE, F_TYPE, 400, ls=.6)
+               + text(tx, qy + 42, "& REORDER ON WHATSAPP", 17, BRICK, F_TYPE, 400, ls=.6)
+               + text(tx, qy + 60, "+91 79886 26068", 11, LAC, F_SANS, 600, ls=.6)
+               + text(tx, qy + 78, "Heirloom, remixed. · Since 1953", 9.5, LAC, F_SERIF, 400, italic=True)))
     return doc("\n".join(o), "Ashvena thank-you card - back")
 
 
