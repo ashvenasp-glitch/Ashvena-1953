@@ -4,8 +4,8 @@ brush mark, and fuse into the solid logo as it zooms toward camera.
 
 Timeline (24 fps, 1080x1920, 9.25 s):
   0.0-1.25s  push-in (clip from its frame 12), latch lifts, light spills out
-  1.25-4.0s  golden sparkles stream out of the opening and gather into the mark,
-             written left to right; the tin's glow dims as its light leaves
+  1.25-4.0s  golden sparkles erupt from the tin's mouth and stream up into the
+             mark, written left to right; the tin's glow dims as its light leaves
              (second half of the clip slowed 2.5x with motion interpolation)
   4.0-4.7s   the sparkle mark hovers and glitters
   4.7-6.2s   it zooms toward camera; the sparkles melt together into the solid
@@ -230,12 +230,12 @@ class Sparkles:
         self.tu, self.tv = mark.sample_points(n, rng)
         # written left to right: particles bound for the left of the mark launch first
         rank = np.argsort(np.argsort(self.tu + rng.normal(0, 12, n))) / (n - 1)
-        self.t0 = F_EMIT0 + 34 * rank + rng.uniform(0, 10, n)
-        self.dur = rng.uniform(26, 38, n)
-        self.sx = rng.normal(TIN_CX, 110, n).clip(275, 815).astype(np.float32)
-        self.sy = (RIM_Y + rng.uniform(15, 60, n)).astype(np.float32)
-        self.c1 = np.stack([rng.normal(0, 50, n), -rng.uniform(230, 430, n)])   # up out of the tin
-        self.c2 = np.stack([rng.normal(0, 110, n), -rng.uniform(50, 170, n)])  # land from above
+        self.t0 = F_EMIT0 + 4 + 32 * rank + rng.uniform(0, 10, n)
+        self.dur = rng.uniform(28, 38, n)
+        self.sx = rng.normal(TIN_CX, 75, n).clip(300, 790).astype(np.float32)
+        self.sy = (RIM_Y + rng.uniform(4, 24, n)).astype(np.float32)
+        self.c1 = np.stack([rng.normal(0, 35, n), -rng.uniform(110, 220, n)])  # up out of the mouth
+        self.c2 = np.stack([rng.normal(0, 90, n), rng.uniform(20, 90, n)])     # curl in from below
         big = rng.random(n) < 0.05
         self.base = np.where(big, rng.uniform(1.4, 2.0, n), rng.uniform(0.45, 1.0, n))
         self.omega = rng.uniform(0.15, 0.45, n)
@@ -259,7 +259,7 @@ class Sparkles:
         tx, ty = cx + dx + jx, cy + dy + jy
 
         u = clamp01((f - self.t0) / self.dur)
-        e = 1 - (1 - u) ** 3
+        e = 1 - (1 - u) ** 2
         b0, b1, b2, b3 = (1 - e) ** 3, 3 * (1 - e) ** 2 * e, 3 * (1 - e) * e ** 2, e ** 3
         x = b0 * self.sx + b1 * (self.sx + self.c1[0]) + b2 * (tx + self.c2[0]) + b3 * tx
         y = b0 * self.sy + b1 * (self.sy + self.c1[1]) + b2 * (ty + self.c2[1]) + b3 * ty
@@ -283,58 +283,80 @@ class Sparkles:
         w = w * np.where(self.stray, 1 - prog(f, F_ZOOM0, F_ZOOM0 + 34), 1 - fuse)
         return x, y, w, u, tw
 
-    def render(self, f, state_at):
-        """Light (HxWx3) added by the sparkles, plus the unweighted point density."""
-        xs, ys, ws = [], [], []
-        for j in range(4):                                      # motion blur: 4 sub-frames
-            x, y, w, u, tw = self.positions(f - 0.4 * j / 3, state_at(f - 0.4 * j / 3))
-            xs.append(x)
-            ys.append(y)
-            ws.append(w / 4)
-        x, y, w = np.concatenate(xs), np.concatenate(ys), np.concatenate(ws)
-        pts = splat(x, y, w)
-        core = binomial3(pts) * 3.2
-        glow = gblur(pts, 3.5, down=2) * 4.5
-        wide = gblur(pts, 26, down=4) * 3.5
+    TRAIL = 6
+    TRAIL_W = (1 - np.arange(TRAIL) / TRAIL) ** 1.5
 
-        # four-point star glints on the brightest twinkles
+    def splats(self, f, state_at):
+        """Point and glint splats at time f, plus where the settled sparkles sit.
+
+        Sparkles in flight leave comet trails back toward the tin's mouth."""
         x0, y0, w0, u0, tw0 = self.positions(f, state_at(f))
-        g = w0 * self.glint * clamp01((tw0 - 0.75) / 0.25)
-        light = core[..., None] * SPARK_CORE + glow[..., None] * SPARK_GLOW + \
-            wide[..., None] * SPARK_WIDE
-        if g.any():
-            gp = splat(x0, y0, g)
-            star = gblur(gp, 9, axes=(1,)) + gblur(gp, 9, axes=(0,))
-            light += (star * 9.0)[..., None] * SPARK_CORE
+        moving = ((u0 > 0) & (u0 < 1)) | (self.stray & (f > F_ZOOM0))
+        norm = 1.6 / self.TRAIL_W.sum()
+        xs, ys, ws = [x0], [y0], [np.where(moving, w0 * norm, w0)]
+        for j in range(1, self.TRAIL):
+            t = f - 1.2 * j / (self.TRAIL - 1)
+            x, y, w, _, _ = self.positions(t, state_at(t))
+            xs.append(x[moving])
+            ys.append(y[moving])
+            ws.append(w[moving] * norm * self.TRAIL_W[j])
+        pts = splat(np.concatenate(xs), np.concatenate(ys), np.concatenate(ws))
+        glints = splat(x0, y0, w0 * self.glint * clamp01((tw0 - 0.75) / 0.25))
         settled = (u0 >= 1) & ~self.stray
-        return light, (x0[settled], y0[settled])
+        return pts, glints, (x0[settled], y0[settled])
 
 
-class Dust:
-    """Loose gold motes that drift up out of the tin and never join the mark."""
+class Fountain:
+    """A geyser of loose sparkles erupting from the tin's mouth while the mark gathers."""
 
-    def __init__(self, seed=7, n=260):
+    def __init__(self, seed=7, n=1800):
         rng = np.random.default_rng(seed)
-        self.t0 = rng.uniform(F_EMIT0 - 4, F_FLOOD1 - 4, n)
-        self.life = rng.uniform(30, 70, n)
-        self.x0 = rng.normal(TIN_CX, 130, n).clip(260, 830)
-        self.y0 = rng.uniform(560, RIM_Y - 4, n)
-        self.vy = -rng.uniform(1.0, 3.6, n)
-        self.vx = rng.normal(0, 0.8, n)
-        self.wob = rng.uniform(4, 22, n)
-        self.wfreq = rng.uniform(0.04, 0.12, n)
+        burst = rng.random(n) < 0.45                   # a dense first eruption, then a steady stream
+        self.t0 = np.where(burst, rng.uniform(F_EMIT0 - 4, F_EMIT0 + 14, n),
+                           F_EMIT0 + (F_ZOOM0 + 4 - F_EMIT0) * rng.beta(1.2, 2.0, n))
+        self.life = rng.uniform(18, 42, n)
+        self.x0 = rng.normal(TIN_CX, 85, n).clip(290, 800)
+        self.y0 = RIM_Y + rng.uniform(4, 30, n)
+        self.vx = rng.normal(0, 1.8, n)
+        self.vy = -rng.uniform(6, 18, n)
+        self.wob = rng.uniform(2, 10, n)
+        self.wfreq = rng.uniform(0.1, 0.3, n)
         self.phase = rng.uniform(0, 2 * np.pi, n)
-        self.amp = rng.uniform(0.3, 0.9, n)
+        self.omega = rng.uniform(0.2, 0.6, n)
+        self.amp = rng.uniform(0.6, 1.4, n)
 
-    def render(self, f):
+    def pos(self, a):
+        travel = (1 - np.exp(-0.07 * a)) / 0.07           # launched fast, slowed by drag
+        return (self.x0 + self.vx * travel + self.wob * np.sin(self.wfreq * a + self.phase),
+                self.y0 + self.vy * travel)
+
+    def splat(self, f):
         a = f - self.t0
         live = (a > 0) & (a < self.life)
-        x = self.x0 + self.vx * a + self.wob * np.sin(self.wfreq * a + self.phase)
-        y = self.y0 + self.vy * a - 0.01 * a * a
-        fade = clamp01(a / 8) * clamp01((self.life - a) / 20)
-        w = self.amp * fade * live * (0.7 + 0.3 * np.sin(0.7 * a + self.phase * 3))
-        pts = splat(x, y, w)
-        return binomial3(pts) * 2.2 + gblur(pts, 4, down=2) * 3.0
+        fade = clamp01(a / 3) * clamp01((self.life - a) / 14)
+        tw = (0.5 + 0.5 * np.sin(self.omega * f + self.phase)) ** 3
+        w = (self.amp * fade * (0.5 + 0.7 * tw))[live]
+        xs, ys, ws = [], [], []
+        for j in range(4):                                  # short trails
+            x, y = self.pos(np.maximum(a - 0.8 * j / 3, 0))
+            x, y = x[live], y[live]
+            xs.append(x)
+            ys.append(y)
+            ws.append(w * smoothstep(RIM_Y + 3, RIM_Y - 3, y) * (1 - j / 4) / 2.5)
+        return splat(np.concatenate(xs), np.concatenate(ys), np.concatenate(ws))
+
+
+def sparkle_light(pts, glints):
+    """Gold light from splatted sparkles: hot cores, glow, a wide warm haze, star glints."""
+    core = binomial3(pts) * 3.2
+    glow = gblur(pts, 3.5, down=2) * 4.5
+    wide = gblur(pts, 26, down=4) * 3.5
+    light = core[..., None] * SPARK_CORE + glow[..., None] * SPARK_GLOW + \
+        wide[..., None] * SPARK_WIDE
+    if glints.any():
+        star = gblur(glints, 9, axes=(1,)) + gblur(glints, 9, axes=(0,))
+        light += (star * 9.0)[..., None] * SPARK_CORE
+    return light
 
 
 # ---------------------------------------------------------------- plate
@@ -377,11 +399,12 @@ class Reveal:
         bg_rgb, self.c_mark, self.c_word, self.c_year = BACKGROUNDS[bg]
         self.c_bg = np.array(bg_rgb, np.float32) / 255
         self.sparkles = Sparkles(self.mark)
-        self.dust = Dust()
+        self.fountain = Fountain()
         self.mark_area = self.mark.area_pt2()
         yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
         self.dist = np.hypot(xx - LIGHT_SRC[0], yy - LIGHT_SRC[1])
         self.above_rim = smoothstep(RIM_Y + 2, RIM_Y - 2, yy)
+        self.mouth = np.exp(-((xx - TIN_CX) / 280) ** 2 - ((yy - (RIM_Y - 6)) / 26) ** 2)
 
     def hold(self, f):
         return 1 + 0.012 * prog(f, F_ZOOM1, TOTAL)     # slow breathe on the end card
@@ -408,7 +431,7 @@ class Reveal:
 
         if f < F_FLOOD1 + 1:
             # the tin's glow dims as its light leaves as sparkles
-            dim = smoothstep(F_EMIT0, F_EMIT0 + 44, f) * (1 - flood_t)
+            dim = smoothstep(F_EMIT0 - 2, F_EMIT0 + 18, f) * (1 - flood_t)
             if dim > 0:
                 bright = gblur(clamp01((img.mean(-1) - 0.45) / 0.3), 20, down=4) * self.above_rim
                 img = img * (1 - dim * (0.18 + 0.82 * bright[..., None] * (1 - EMBER_TINT)))
@@ -431,16 +454,21 @@ class Reveal:
         if f >= F_FLOOD1:
             img = lerp(img, self.c_bg, settle)
 
-        if F_EMIT0 - 4 <= f < F_FLOOD1:
-            dust = self.dust.render(f) * (1 - flood_t)
-            img = screen(img, dust[..., None] * SPARK_GLOW)
+        # a flare of light at the tin's mouth as the sparkles burst out
+        burst = smoothstep(F_EMIT0 - 8, F_EMIT0 + 2, f) * (1 - flood_t) * \
+            (0.35 + 0.65 * (1 - smoothstep(F_EMIT0 + 4, F_EMIT0 + 50, f)))
+        if burst > 0:
+            img = screen(img, (self.mouth * 0.55 * burst)[..., None] * SPARK_GLOW)
 
         # ---- the solid mark: sparkles melt together into it during the zoom
         state = self.mark_state(f)
         fuse = prog(f, F_FUSE0, F_FUSE1)
-        sparkles_on = F_EMIT0 <= f < F_FUSE1 + 2
+        sparkles_on = F_EMIT0 - 8 <= f < F_FUSE1 + 2
         if sparkles_on:
-            light, (sx, sy) = self.sparkles.render(f, self.mark_state)
+            pts, glints, (sx, sy) = self.sparkles.splats(f, self.mark_state)
+            if f < F_FLOOD1:
+                pts = pts + self.fountain.splat(f) * (1 - flood_t)
+            light = sparkle_light(pts, glints)
         if fuse > 0:
             s, c, rot = state
             mark_a = self.mark.place(s, c, rot)

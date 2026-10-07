@@ -7,7 +7,7 @@
 | Time | What happens |
 |---|---|
 | 0.0–1.25 s | Push-in on the antique sea-green tin. The latch lifts and light spills out. |
-| 1.25–4.0 s | Golden sparkles stream out of the opening and gather into the **अ** mark, written left to right. The tin's glow dims to amber as its light leaves. |
+| 1.25–4.0 s | Light flares at the tin's mouth and a fountain of golden sparkles erupts from inside. Sparkles trail up out of the opening and gather into the **अ** mark, written left to right. The tin's glow dims to amber as its light leaves. |
 | 4.0–4.7 s | The sparkle mark hovers and glitters. |
 | 4.7–6.2 s | The mark zooms toward camera. The sparkles melt together into the solid mark (gold → copper → brick) while the light over-exposes the frame. |
 | 6.2–6.8 s | The light settles into Dispensary Blue. |
