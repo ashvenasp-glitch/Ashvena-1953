@@ -303,6 +303,7 @@ def time_map(mark, samples):
     ink = mark > 0.02
     T = np.full(mark.shape, np.inf, np.float64)
     T2 = np.full(mark.shape, np.inf, np.float64)
+    held = []   # (place passed over without inking, time the brush left it)
     for smp in samples:
         P, tt, N = smp["path"], smp["t"], smp["nrm"]
         # brush size from the ink itself: the ink's extent either side of the
@@ -343,9 +344,15 @@ def time_map(mark, samples):
         for u in smp["under"]:
             a_, b_, c_, d_ = u[:4]
             band = sweep(K[c_], K[d_], UNDER_GROW)
-            if len(u) == 6:   # ... except where the stroke itself runs through it (knots e..f)
+            if len(u) >= 6:   # ... except where the stroke itself runs through it (knots e..f)
                 band &= ~sweep(K[u[4]], K[u[5]])
+            if len(u) >= 7:   # ... and never past this outline (mark px), e.g. a stroke's edge carried on
+                ox_, oy_ = MARK_ORIGIN[0] - CROP[0], MARK_ORIGIN[1] - CROP[1]
+                poly = Image.new("L", (wid, hgt), 0)
+                ImageDraw.Draw(poly).polygon([((x + ox_) * WORK, (y + oy_) * WORK) for x, y in u[6]], fill=1)
+                band |= np.asarray(poly, bool) & ink
             skip.append((K[a_], K[b_], band))
+            held.append((band, tt[K[b_]]))
         for i in range(0, len(P), 2):
             x, y = P[i]
             r = hw[i] * BRUSH_REACH + 1.5
@@ -379,12 +386,22 @@ def time_map(mark, samples):
             sub2[again] = t
             better = disk & (cand < sub)
             sub[better] = cand[better]
-    # ink the brush never touched follows the nearest touched ink
+    # ink the brush never touched follows the nearest touched ink; inside a
+    # place the brush passed over without inking, it follows the ink laid there
+    # later, never the stroke that passed over
     got = np.isfinite(T)
     miss = ink & ~got
+    v_med = np.median(np.concatenate([smp["v"] for smp in samples]))
+    for band, t_after in held:
+        m_ = miss & band
+        src = got & (T > t_after)
+        if m_.any() and src.any():
+            dist, (iy, ix) = ndimage.distance_transform_edt(~src, return_indices=True)
+            T[m_] = T[iy[m_], ix[m_]] + dist[m_] / v_med
+            miss &= ~m_
+            got = np.isfinite(T)
     if miss.any() and got.any():
         dist, (iy, ix) = ndimage.distance_transform_edt(~got, return_indices=True)
-        v_med = np.median(np.concatenate([smp["v"] for smp in samples]))
         T[miss] = T[iy[miss], ix[miss]] + dist[miss] / v_med
     T = np.where(ink, T, 1e9).astype(np.float32)
     T2 = np.where(ink, T2, np.inf).astype(np.float32)
