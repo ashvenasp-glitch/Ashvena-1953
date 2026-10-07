@@ -12,7 +12,7 @@ Back: Dispensary-blue card with a heartfelt note and a scannable Instagram QR.
 Artboard: 150 x 100 mm (4 px = 1 mm), landscape.
 Output: packaging/F-thank-you-card/ashvena-thank-you-card_<side>.svg
 
-Usage: python3 scripts/generate_thank_you_card.py [--insta HANDLE]
+Usage: python3 scripts/generate_thank_you_card.py [--insta HANDLE] [--phone NUMBER]
 """
 import argparse
 import json
@@ -28,6 +28,7 @@ LOGO = json.load(open(os.path.join(HERE, "..", "brand", "ashvena-logo-parts.json
 W, H = 600, 400
 
 INSTAGRAM = "ashvena.1953"  # PLACEHOLDER - confirm the real handle before print
+PHONE = "+91 XXXXX XXXXX"  # PLACEHOLDER - set with --phone
 
 F_SERIF = "'Bodoni Moda', 'Libre Caslon Display', Didot, serif"
 F_SANS = "Montserrat, Helvetica, Arial, sans-serif"
@@ -134,7 +135,16 @@ def insta_glyph(x, y, s, col):
             f'<circle cx="3.9" cy="-3.9" r=".9" fill="{col}"/></g>')
 
 
-def back(handle):
+def phone_glyph(x, y, s, col):
+    """Mobile phone outline, centred on (x, y), s px tall."""
+    k = s / 14
+    return (f'<g transform="translate({x} {y}) scale({k:.3f})">'
+            f'<rect x="-4.5" y="-7" width="9" height="14" rx="1.8" fill="none" stroke="{col}" stroke-width="1.4"/>'
+            f'<line x1="-1.5" y1="-5" x2="1.5" y2="-5" stroke="{col}" stroke-width="1"/>'
+            f'<circle cy="4.6" r=".9" fill="{col}"/></g>')
+
+
+def back(handle, phone):
     cx = W / 2
     o = [g("Background", f'<rect width="{W}" height="{H}" fill="{DISPENSARY}"/>')]
     o.append(g("Logo_Mark", logo_part("mark", cx - part_width("mark", 34) / 2, 24, 34, BRICK)))
@@ -151,19 +161,22 @@ def back(handle):
                qr_code(qx, qy, qs, url, DEEP_LAC)
                + f'<line x1="{qx + qs + 18}" y1="{qy + 6}" x2="{qx + qs + 18}" y2="{qy + qs - 6}" stroke="{BRICK}" '
                  f'stroke-width=".8" opacity=".45"/>'
-               + text(qx + qs + 34, qy + 22, "SCAN TO FOLLOW", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
-               + text(qx + qs + 34, qy + 38, "our story on Instagram", 11, DEEP_LAC, F_SANS, 500, anchor="start")
-               + insta_glyph(qx + qs + 41, qy + 58, 13, BRICK)
-               + text(qx + qs + 54, qy + 62, f"@{esc(handle)}", 11, BRICK, F_SANS, 600, .3, anchor="start")))
+               + text(qx + qs + 34, qy + 12, "SCAN TO FOLLOW", 8, BRICK, F_SANS, 700, 2.5, anchor="start")
+               + text(qx + qs + 34, qy + 28, "our story on Instagram", 11, DEEP_LAC, F_SANS, 500, anchor="start")
+               + insta_glyph(qx + qs + 41, qy + 50, 13, BRICK)
+               + text(qx + qs + 54, qy + 54, f"@{esc(handle)}", 11, BRICK, F_SANS, 600, .3, anchor="start")
+               + phone_glyph(qx + qs + 41, qy + 70, 13, BRICK)
+               + text(qx + qs + 54, qy + 74, esc(phone), 11, BRICK, F_SANS, 600, .3, anchor="start")))
     return svg_doc("\n".join(o), "Ashvena thank-you card - back")
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--insta", default=INSTAGRAM, help="Instagram handle without @")
+    ap.add_argument("--phone", default=PHONE, help="mobile number as printed, e.g. '+91 98765 43210'")
     a = ap.parse_args()
     os.makedirs(ROOT, exist_ok=True)
-    for side, svg in [("front", front()), ("back", back(a.insta.lstrip("@")))]:
+    for side, svg in [("front", front()), ("back", back(a.insta.lstrip("@"), a.phone))]:
         p = os.path.join(ROOT, f"ashvena-thank-you-card_{side}.svg")
         open(p, "w").write(svg)
         print(os.path.relpath(p, os.path.join(ROOT, "..", "..")))
