@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="150mm" height="100mm" viewBox="0 0 600 400">
+<title>Ashvena thank-you card - front</title>
+<defs>
+<radialGradient id="redBg" cx=".7" cy=".4" r=".9">
+  <stop offset="0" stop-color="#8f2533"/><stop offset=".6" stop-color="#7d1a26"/><stop offset="1" stop-color="#5e111c"/>
+</radialGradient>
+<clipPath id="cardClip"><rect width="600" height="400"/></clipPath>
+</defs>
+<g clip-path="url(#cardClip)">
+<g id="Background">
+<rect width="600" height="400" fill="url(#redBg)"/>
+</g>
+<g id="Logo_Watermark">
+<g opacity="0.55"><circle cx="462" cy="170" r="250" fill="none" stroke="#a33545" stroke-width="7"/><circle cx="462" cy="170" r="232.5" fill="none" stroke="#a33545" stroke-width="2"/><circle cx="462" cy="170" r="270.0" fill="none" stroke="#a33545" stroke-width="1.2"/><path d="M 462,-35.0 l 15.0,20.0 l -15.0,20.0 l -15.0,-20.0 Z" fill="#a33545"/><text x="462" y="270.0" font-family="Cinzel, 'Trajan Pro', serif" font-size="300.0" font-weight="600" fill="#a33545" text-anchor="middle">A</text></g>
+</g>
+<g id="Ashvena_Logo">
+<g opacity="1"><circle cx="64" cy="66" r="22" fill="none" stroke="#f6efe2" stroke-width="1.3"/><circle cx="64" cy="66" r="20.5" fill="none" stroke="#f6efe2" stroke-width="0.59"/><path d="M 64,48.8 l 1.5,2.0 l -1.5,2.0 l -1.5,-2.0 Z" fill="#f6efe2"/><text x="64" y="69.1" font-family="Cinzel, 'Trajan Pro', serif" font-size="18.0" font-weight="600" fill="#f6efe2" text-anchor="middle">A</text><path d="M -30,-8 C -34,12 -14,24 2,22 C 20,20 34,8 30,-10 C 28,-16 20,-16 18,-10 C 14,-2 8,4 0,4 C -8,4 -16,-2 -18,-10 C -20,-16 -28,-16 -30,-8 Z" transform="translate(64 75.2) scale(0.314)" fill="#f6efe2"/></g><text x="98.0" y="63.0" font-family="Cinzel, 'Trajan Pro', serif" font-size="17" font-weight="600" fill="#f6efe2" text-anchor="start" letter-spacing="5">ASHVENA</text><text x="99.0" y="77.0" font-family="Montserrat, Helvetica, Arial, sans-serif" font-size="6.5" font-weight="600" fill="#c9a45c" text-anchor="start" letter-spacing="3">EST. 1953</text>
+</g>
+<g id="Headline">
+<text x="46.0" y="272.0" font-family="Montserrat, Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#f6efe2" text-anchor="start" letter-spacing="1">Say</text><text x="152.0" y="268.0" font-family="'Pinyon Script', 'Great Vibes', cursive" font-size="92" font-weight="400" fill="#f6efe2" text-anchor="start" letter-spacing="0">hello</text><text x="46.0" y="322.0" font-family="Montserrat, Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#f6efe2" text-anchor="start" letter-spacing="0.5">to your new favourite.</text>
+</g>
+<g id="Blue_Foot">
+<rect x="0" y="370" width="600" height="30" fill="#123a6b"/><rect x="0" y="370" width="600" height="1.6" fill="#c9a45c"/><text x="300.0" y="388.5" font-family="Montserrat, Helvetica, Arial, sans-serif" font-size="7.5" font-weight="600" fill="#f6efe2" text-anchor="middle" letter-spacing="4">PREMIUM CASHEWS  ·  SINCE 1953</text>
+</g>
+</g>
+</svg>

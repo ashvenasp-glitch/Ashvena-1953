@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Render PNG previews and print-ready PDFs for every packaging SVG.
 
+Usage: python3 scripts/render_previews.py [FOLDER ...]  (default: all folders)
+
 Requires: pip install playwright  (uses Chromium) and the Cinzel,
 Cormorant Garamond and Montserrat fonts installed locally.
 """
 import glob
 import os
 import re
+import sys
 
 from playwright.sync_api import sync_playwright
 
@@ -15,7 +18,8 @@ CHROME = "/opt/pw-browsers/chromium"
 
 
 def main():
-    svgs = sorted(glob.glob(os.path.join(ROOT, "*", "*.svg")))
+    dirs = sys.argv[1:] or ["*"]  # optional: only these direction folders
+    svgs = sorted(f for d in dirs for f in glob.glob(os.path.join(ROOT, d, "*.svg")))
     kw = {}
     exe = glob.glob(CHROME + "*/chrome-linux/chrome")
     if exe:
