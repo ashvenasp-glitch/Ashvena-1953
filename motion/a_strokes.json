@@ -1,11 +1,271 @@
 {
- "_comment": "Centerlines of the Devanagari mark in calligraphic order. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100). 'gap' is the pause before the stroke (brush lift), 'dur' its duration in seconds, 'ease_in'/'end' shape the brush speed.",
+ "_comment": "Centerlines of the Devanagari mark, drawn as one continuous brush movement. Coordinates are px in the mark crop of logo_final.ai page 1 rendered at 400 dpi (crop origin x=980, y=1100). 'gap' is the time between strokes (0 = no lift), 'dur' each stroke's duration in seconds, 'ease_in'/'end' shape the brush speed. A stroke with 'branch' [stroke, point] starts when that stroke's brush passes that point and runs alongside it (ink flowing into the curl at the fork), without holding up the main stroke.",
  "strokes": [
-  {"name": "upper hook", "gap": 0.0, "dur": 0.62, "ease_in": true, "end": "settle",
-   "pts": [[110,860],[158,690],[232,520],[335,365],[460,232],[585,165],[690,150],[790,175],[862,250],[895,355],[872,465],[805,560],[705,650],[608,712],[548,752]]},
-  {"name": "lower bowl", "gap": 0.10, "dur": 0.48, "ease_in": true, "end": "flow",
-   "pts": [[1040,975],[1052,1060],[1045,1170],[1000,1278],[912,1350],[800,1390],[682,1395],[575,1365],[500,1290],[475,1180],[500,1078],[562,1000],[655,950]]},
-  {"name": "crossbar, top loop, stem and dry-brush tail", "gap": 0.0, "dur": 0.95, "ease_in": false, "end": "flick",
-   "pts": [[655,950],[760,905],[875,845],[1025,785],[1175,720],[1310,650],[1412,612],[1525,520],[1620,425],[1670,312],[1670,212],[1630,130],[1570,100],[1508,130],[1470,212],[1450,312],[1425,450],[1390,600],[1358,800],[1345,1000],[1352,1200],[1390,1390],[1462,1545],[1570,1670],[1705,1760],[1900,1825],[2120,1860],[2400,1885]]}
+  {
+   "name": "hook, through the joint, crossbar to the left and round the bowl",
+   "gap": 0.0,
+   "dur": 1.22,
+   "ease_in": true,
+   "end": "flow",
+   "pts": [
+    [
+     110,
+     860
+    ],
+    [
+     158,
+     690
+    ],
+    [
+     232,
+     520
+    ],
+    [
+     335,
+     365
+    ],
+    [
+     460,
+     232
+    ],
+    [
+     585,
+     165
+    ],
+    [
+     690,
+     150
+    ],
+    [
+     790,
+     175
+    ],
+    [
+     862,
+     250
+    ],
+    [
+     895,
+     355
+    ],
+    [
+     872,
+     465
+    ],
+    [
+     805,
+     560
+    ],
+    [
+     705,
+     650
+    ],
+    [
+     790,
+     735
+    ],
+    [
+     900,
+     805
+    ],
+    [
+     840,
+     862
+    ],
+    [
+     760,
+     905
+    ],
+    [
+     655,
+     950
+    ],
+    [
+     562,
+     1000
+    ],
+    [
+     500,
+     1078
+    ],
+    [
+     475,
+     1180
+    ],
+    [
+     500,
+     1290
+    ],
+    [
+     575,
+     1365
+    ],
+    [
+     682,
+     1395
+    ],
+    [
+     800,
+     1390
+    ],
+    [
+     912,
+     1350
+    ],
+    [
+     1000,
+     1278
+    ],
+    [
+     1045,
+     1170
+    ],
+    [
+     1052,
+     1060
+    ],
+    [
+     1040,
+     975
+    ]
+   ]
+  },
+  {
+   "name": "crossbar to the right, top loop, stem and dry-brush tail",
+   "gap": 0.0,
+   "dur": 0.93,
+   "ease_in": false,
+   "end": "flick",
+   "pts": [
+    [
+     990,
+     800
+    ],
+    [
+     1025,
+     785
+    ],
+    [
+     1175,
+     720
+    ],
+    [
+     1310,
+     650
+    ],
+    [
+     1412,
+     612
+    ],
+    [
+     1525,
+     520
+    ],
+    [
+     1620,
+     425
+    ],
+    [
+     1670,
+     312
+    ],
+    [
+     1670,
+     212
+    ],
+    [
+     1630,
+     130
+    ],
+    [
+     1570,
+     100
+    ],
+    [
+     1508,
+     130
+    ],
+    [
+     1470,
+     212
+    ],
+    [
+     1450,
+     312
+    ],
+    [
+     1425,
+     450
+    ],
+    [
+     1390,
+     600
+    ],
+    [
+     1358,
+     800
+    ],
+    [
+     1345,
+     1000
+    ],
+    [
+     1352,
+     1200
+    ],
+    [
+     1390,
+     1390
+    ],
+    [
+     1462,
+     1545
+    ],
+    [
+     1570,
+     1670
+    ],
+    [
+     1705,
+     1760
+    ],
+    [
+     1900,
+     1825
+    ],
+    [
+     2120,
+     1860
+    ],
+    [
+     2400,
+     1885
+    ]
+   ]
+  },
+  {
+   "name": "curl of the hook (ink flowing into it at the fork)",
+   "branch": [
+    0,
+    12
+   ],
+   "dur": 0.22,
+   "ease_in": false,
+   "end": "settle",
+   "pts": [
+    [
+     705,
+     650
+    ],
+    [
+     608,
+     712
+    ],
+    [
+     548,
+     752
+    ]
+   ]
+  }
  ]
 }

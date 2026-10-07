@@ -144,10 +144,17 @@ def resample(path, step):
 def stroke_schedule(spec, t0):
     """Sample every stroke centreline and give each sample its brush time."""
     samples, t = [], t0
+    ox, oy = MARK_ORIGIN[0] - CROP[0], MARK_ORIGIN[1] - CROP[1]
     for st in spec:
-        t += st["gap"]
-        ox, oy = MARK_ORIGIN[0] - CROP[0], MARK_ORIGIN[1] - CROP[1]
         pts = [((x + ox) * WORK, (y + oy) * WORK) for x, y in st["pts"]]
+        if "branch" in st:
+            # starts when the brush of another stroke passes a point; the main stroke is not held up
+            path0, tt0 = samples[st["branch"][0]]
+            bx, by = spec[st["branch"][0]]["pts"][st["branch"][1]]
+            start = tt0[np.argmin(np.hypot(path0[:, 0] - (bx + ox) * WORK, path0[:, 1] - (by + oy) * WORK))]
+        else:
+            t += st["gap"]
+            start = t
         path, L = resample(catmull_rom(pts), 1.5)
         u = np.linspace(0, 1, len(path))
         # curvature: brush slows in tight turns
@@ -162,9 +169,10 @@ def stroke_schedule(spec, t0):
         elif st["end"] == "flick":
             v *= 1.0 + 1.1 * smoothstep(0.80, 1.0, u)    # fast dry-brush release
         tt = np.concatenate([[0], np.cumsum(1.0 / v[:-1])])
-        tt = t + tt / tt[-1] * st["dur"]
+        tt = start + tt / tt[-1] * st["dur"]
         samples.append((path, tt))
-        t = tt[-1]
+        if "branch" not in st:
+            t = tt[-1]
     return samples, t
 
 
