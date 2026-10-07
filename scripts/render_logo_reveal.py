@@ -151,6 +151,7 @@ SHUTTER = 0.35           # exposure per frame, in frame intervals: a little moti
 TIP_RAMP = 0.006         # s, softness of the brush tip as it passes a pixel
 BRUSH_REACH = 1.06       # brush radius as a multiple of the stroke's half-width
 REWET_AFTER = 0.08       # s, a later pass of the brush over laid ink re-wets it
+JUNCTION_SPAN = 70       # work px either side over which the brush keeps its width through a junction
 
 
 def min_jerk(x):
@@ -265,6 +266,8 @@ def stroke_schedule(spec, t0):
         # overlap passes: break the centreline at the listed control points
         breaks = [0] + [int(round(knot_s[i] / DS)) for i in st.get("pass_breaks", [])] + [len(geom)]
         samples.append(dict(path=geom, t=t + tt, v=vv / scale, tan=tan, nrm=nrm, kappa=kap, hw=width / 2,
+                            knots=np.minimum(np.rint(knot_s / DS).astype(int), len(geom) - 1),
+                            under=st.get("under", []),
                             passes=list(zip(breaks[:-1], breaks[1:]))))
         t = t + tt[-1]
     return samples, t
@@ -289,7 +292,40 @@ def time_map(mark, samples):
     T = np.full(mark.shape, np.inf, np.float64)
     T2 = np.full(mark.shape, np.inf, np.float64)
     for smp in samples:
-        P, tt, hw = smp["path"], smp["t"], smp["hw"]
+        P, tt, N = smp["path"], smp["t"], smp["nrm"]
+        # brush size from the ink itself: the ink's extent either side of the
+        # centreline, measured across the stroke. Through a junction the extent
+        # jumps (another stroke runs off sideways), so the brush keeps the width
+        # of the stroke on either side of the junction instead of growing.
+        steps = np.arange(1, int(np.max(smp["hw"]) * 3), dtype=np.float64)
+        ext = []
+        for sgn in (1, -1):
+            q = P[:, None, :] + sgn * N[:, None, :] * steps[None, :, None]
+            qi = np.clip(np.rint(q[..., 1]).astype(int), 0, hgt - 1), np.clip(np.rint(q[..., 0]).astype(int), 0, wid - 1)
+            on = ink[qi]
+            ext.append(np.where(on.all(1), steps[-1], np.argmin(on, 1)).astype(np.float64))
+        meas = (ext[0] + ext[1]) / 2
+        win = int(JUNCTION_SPAN / DS)
+        steady = ndimage.percentile_filter(meas, 20, size=2 * win + 1, mode="nearest")
+        steady = ndimage.gaussian_filter1d(steady, win / 3, mode="nearest")
+        hw = np.minimum(np.minimum(meas, steady * 1.08), smp["hw"] * 1.15)
+        hw = np.maximum(ndimage.gaussian_filter1d(hw, 6 / DS, mode="nearest"), 4.0)
+        # "under": [a, b, c, d] - while drawing knots a..b the brush passes over
+        # the place of knots c..d (drawn later) without inking it; that part is
+        # laid whole, cleanly, when the brush gets there.
+        skip = []
+        for a_, b_, c_, d_ in smp["under"]:
+            K = smp["knots"]
+            later = np.arange(K[c_], K[d_] + 1)
+            band = np.zeros(mark.shape, bool)
+            for j in later[::2]:
+                x, y = P[j]
+                r = hw[j] * BRUSH_REACH + 1.5
+                yy, xx = np.ogrid[0:hgt, 0:wid]
+                x0, x1 = int(max(x - r, 0)), int(min(x + r + 1, wid))
+                y0, y1 = int(max(y - r, 0)), int(min(y + r + 1, hgt))
+                band[y0:y1, x0:x1] |= (xx[:, x0:x1] - x) ** 2 + (yy[y0:y1] - y) ** 2 <= r * r
+            skip.append((K[a_], K[b_], band))
         for i in range(0, len(P), 2):
             x, y = P[i]
             r = hw[i] * BRUSH_REACH + 1.5
@@ -299,6 +335,9 @@ def time_map(mark, samples):
                 continue
             yy, xx = np.ogrid[y0:y1, x0:x1]
             disk = ((xx - x) ** 2 + (yy - y) ** 2 <= r * r) & ink[y0:y1, x0:x1]
+            for a_, b_, band in skip:
+                if a_ <= i <= b_:
+                    disk &= ~band[y0:y1, x0:x1]
             if not disk.any():
                 continue
             # only ink joined to the brush centre within the disk
