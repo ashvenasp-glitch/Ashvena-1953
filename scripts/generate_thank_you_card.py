@@ -74,7 +74,7 @@ def part_width(name, h):
 def lockup_horizontal(x, y, h, mark_col, word_col, year_col):
     """Mark + 'Ashvena' / '1953' side by side (logo artboard 2 arrangement)."""
     o = [logo_part("mark", x, y, h, mark_col)]
-    wx = x + part_width("mark", h) + h * .22
+    wx = x + part_width("mark", h) * .9  # tuck the wordmark in over the end of the brush tail
     wh = h * .36
     o.append(logo_part("wordmark", wx, y + h * .22, wh, word_col))
     o.append(logo_part("year", wx + h * .02, y + h * .22 + wh + h * .06, wh * .5, year_col))
@@ -112,10 +112,7 @@ BODY = [
     "We’re truly honoured to be part of your celebrations.",
     "Every cashew is slow-roasted to our family recipe from 1953,",
     "bringing heritage, warmth and flavour to your table.",
-]
-OFFER = [
-    "As a small token of appreciation,",
-    'please enjoy <tspan font-weight="800">15% off</tspan> your next purchase.',
+    "",
     "Your trust means the world to us.",
 ]
 
@@ -151,8 +148,7 @@ def back(handle, phone):
     o.append(g("Heading",
                text(cx, 96, "Thank you for choosing us for", 25, DEEP_LAC, F_SERIF, 500)
                + text(cx, 136, "your special moments", 38, BRICK, F_SERIF, 400, extra=' font-style="italic"')))
-    o.append(g("Message", "".join(text(cx, 166 + i * 15.5, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(BODY))))
-    o.append(g("Offer", "".join(text(cx, 222 + i * 15.5, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(OFFER))))
+    o.append(g("Message", "".join(text(cx, 176 + i * 16, s, 11, DEEP_LAC, F_SANS, 500) for i, s in enumerate(BODY) if s)))
 
     # Instagram row: QR on the left, call to action on the right, centred as a unit
     url = f"https://www.instagram.com/{handle}/"

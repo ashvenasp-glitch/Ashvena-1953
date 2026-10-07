@@ -10,7 +10,7 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 | **B · Noir Royale** | Black and gold premium carton, oval beaded gold frame, gold-outlined botanicals, engraved vine on the side. |
 | **D · Peacock Flash** | Wrap-around jar/tin label (220 × 180 mm: 155 mm front + 65 mm info panel), modelled on the striped "tattoo mascot" label reference. Tattoo-style peacock perched on a chilli / curry-leaf branch, vertical ASHVENA on both sides, stripe bands, and a rotated info panel (about, ingredients, allergens, storage, manufacturer, barcode). Fonts: DM Serif Display + Inter. |
 | **E · Royal Collection** | Festive gift-box lid (250 × 250 mm) in *Midnight* and *Ivory* colourways. Ornamental vector elements (jaali lattice, lotus-petal border, mandala corner rosettes, a cusped Mughal jharokha arch with pillars and bead garland) around twin peacocks (Peri Peri chilli branch, Kadi Patta curry-leaf branch) and a brass urn of cashews. |
-| **F · Thank-You Card** | 150 × 100 mm order insert, modelled on the "Say hello to your new favorite" reference and set in the official logo colours and style (`brand/ashvena-logo_final.ai`). **Front:** Brick red with the brush-stroke "अ" mark blown up and inked tone-on-tone into the background, the horizontal logo lockup (mark in Dispensary blue, wordmark in Khadi Cream), and a Bodoni serif / italic headline. **Back:** Dispensary blue with a thank-you note, a 15% off line and a scannable Instagram QR code. Fonts: Bodoni Moda, Montserrat. See `F-thank-you-card/ashvena-thank-you-card_mockup.png`. |
+| **F · Thank-You Card** | 150 × 100 mm order insert, modelled on the "Say hello to your new favorite" reference and set in the official logo colours and style (`brand/ashvena-logo_final.ai`). **Front:** Brick red with the brush-stroke "अ" mark blown up and inked tone-on-tone into the background, the horizontal logo lockup (mark in Dispensary blue, wordmark in Khadi Cream), and a Bodoni serif / italic headline. **Back:** Dispensary blue with a thank-you note, a scannable Instagram QR code and the mobile number. Fonts: Bodoni Moda, Montserrat. See `F-thank-you-card/ashvena-thank-you-card_mockup.png`. |
 | **C · Spice Coast** | Bright illustrated scene: a bowl heaped with cashews, flowing botanicals, a wooden scoop, and a colour-block side panel. |
 
 ## Logo
@@ -26,7 +26,7 @@ Three carton design directions for **Peri Peri Cashews** and **Kadi Patta Cashew
 ## Before print, replace these placeholders
 - Nutrition values (indicative only), ingredient percentages, and claims ("Made in India"). Get them from your lab report and your recipe.
 - FSSAI licence no., address, MRP, barcode (EAN), QR code, batch and dates.
-- Thank-you card (F): the QR and handle point to `instagram.com/ashvena.1953`, which is a placeholder. Regenerate with `python3 scripts/generate_thank_you_card.py --insta <your_handle> --phone "<number>"`. Confirm the 15% offer (or remove it) and add 3 mm bleed.
+- Thank-you card (F): the QR and handle point to `instagram.com/ashvena.1953`, which is a placeholder. Regenerate with `python3 scripts/generate_thank_you_card.py --insta <your_handle> --phone "<number>"`. Add 3 mm bleed.
 - Add bleed (3 mm), glue flap, top and bottom tuck flaps for your printer's actual dieline.
 
 ## Regenerate
