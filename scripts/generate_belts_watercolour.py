@@ -8,7 +8,7 @@ product name, sign-off, candy strip, border bands, veg mark, net weight -
 so the type stays editable in Illustrator.
 
 Art goes in packaging/F-palace-garden/art/ashvena-<flavour>-watercolour.png
-(4096 x 1032 px, the belt's 3.97:1 ratio, full bleed under the bands).
+(3.97:1, full bleed under the bands; 4096 x 1032 px for print).
 Until it is there, the art layer shows a labelled placeholder.
 
 Artboard: 297.04 x 74.8 mm (4 px = 1 mm).
@@ -18,8 +18,10 @@ import os
 
 import generate_belts as gb
 from generate_belts import esc, g
-from generate_belts_heritage import (BAND, BY, F_SANS, F_SCRIPT, F_SERIF, FLAVOURS, H, SIGNOFF, W, W_MM, H_MM,
-                                     logo, strip_band, t, top_band)
+from generate_belts_heritage import (BAND, BY, F_DEVA, F_SANS, F_SCRIPT, F_SERIF, FLAVOURS, H, LOGO_DARK, LOGO_RED,
+                                     SIGNOFF, W, W_MM, H_MM, strip_band, t, top_band)
+
+WC_NAME_SIZE = {"aam-papad": 36, "fruit-cocktail": 30}   # fits the clear space above the bowl
 
 ROOT = gb.ROOT
 ART_DIR = "art"
@@ -38,29 +40,31 @@ def art_layer(key, f):
 
 
 def title_block(f):
+    """Logo, name and sign-off in the clear space above the bowl (about 54 mm wide)."""
     cx = W / 2
-    o = [  # soft cream glow so the type reads on any part of the painting
-        f'<radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="{f["field"]}" stop-opacity=".92"/>'
-        f'<stop offset=".6" stop-color="{f["field"]}" stop-opacity=".7"/><stop offset="1" stop-color="{f["field"]}" stop-opacity="0"/></radialGradient>',
-        f'<ellipse cx="{cx:.1f}" cy="{BY + 72}" rx="190" ry="78" fill="url(#glow)"/>',
-        logo(cx, BY + 2),
-        g("Product_Name", t(cx, BY + 106, f["name"], f["name_size"], f["head"], F_SCRIPT, 400, ls=.4)),
-        g("Signoff", t(cx, BY + 122, SIGNOFF, 8.5, f["ink"], F_SERIF, 400, italic=True, ls=.4))]
+    o = [  # soft glow over the faint arch and palm so the type reads cleanly
+        f'<radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="{f["field"]}" stop-opacity=".9"/>'
+        f'<stop offset=".65" stop-color="{f["field"]}" stop-opacity=".6"/><stop offset="1" stop-color="{f["field"]}" stop-opacity="0"/></radialGradient>',
+        f'<ellipse cx="{cx:.1f}" cy="{BY + 66}" rx="122" ry="72" fill="url(#glow)"/>',
+        g("Logo_PLACEHOLDER_replace_with_Ashvena_logo_final",
+          t(cx, BY + 23, "अ", 22, LOGO_RED, F_DEVA, 400)
+          + t(cx, BY + 39, "Ashvena", 15.5, LOGO_DARK, F_SERIF, 600, ls=.5)
+          + t(cx, BY + 47.5, "1953", 6.5, LOGO_RED, F_SANS, 700, ls=2)),
+        g("Product_Name", t(cx, BY + 84, f["name"], f["wc_name_size"], f["head"], F_SCRIPT, 400, ls=.3)),
+        g("Signoff", t(cx, BY + 99, SIGNOFF, 7, f["ink"], F_SERIF, 400, italic=True, ls=.3))]
     return g("Title_Type", "".join(o))
 
 
 def marks(f):
-    x0, x1, y = 22, W - 22, BY + 10
-    plaque = f'fill="{f["field"]}" opacity=".85"'
-    return (g("Veg_Mark", f'<rect x="{x0 - 4}" y="{y - 4}" width="20" height="20" rx="3" {plaque}/>'
-                          f'<rect x="{x0}" y="{y}" width="12" height="12" fill="#fff" stroke="#138a36" stroke-width="1.2"/>'
-                          f'<circle cx="{x0 + 6}" cy="{y + 6}" r="3.2" fill="#138a36"/>')
-            + g("Net_Wt_PLACEHOLDER", f'<rect x="{x1 - 78}" y="{y - 4}" width="82" height="20" rx="3" {plaque}/>'
-                + t(x1 - 2, y + 9.5, "NET WT. XXX g", 7.5, f["ink"], F_SANS, 700, "end", ls=1)))
+    """Veg mark and net weight as one small row under the sign-off, on the front face."""
+    cx, y = W / 2, BY + 106
+    return (g("Veg_Mark", f'<rect x="{cx - 38}" y="{y}" width="9" height="9" fill="#fff" stroke="#138a36" stroke-width="1"/>'
+                          f'<circle cx="{cx - 33.5}" cy="{y + 4.5}" r="2.4" fill="#138a36"/>')
+            + g("Net_Wt_PLACEHOLDER", t(cx - 25, y + 7.2, "NET WT. XXX g", 6.5, f["ink"], F_SANS, 700, "start", ls=.8)))
 
 
 def belt(key):
-    f = FLAVOURS[key]
+    f = dict(FLAVOURS[key], wc_name_size=WC_NAME_SIZE[key])
     gb.CREAM, gb.GOLD = f["cream"], f["gold"]
     o = [art_layer(key, f), title_block(f), marks(f),
          g("Border_Bands", top_band(f) + strip_band(f))]
