@@ -219,6 +219,18 @@ def time_map(mark, samples):
     return T
 
 
+def mark_reveal(mark, T, t):
+    """Alpha and colour of the mark at time t, from the brush arrival-time map T."""
+    rev = np.zeros_like(mark)
+    for sub in (-1 / 3, 0, 1 / 3):
+        rev += np.clip((t + sub / FPS - T) / 0.012, 0, 1)
+    rev /= 3
+    age = np.clip(t - T, 0, None)
+    wet = np.exp(-age / 0.28) * (rev > 0)
+    ink = BRICK[None, None, :] * (1 - 0.22 * wet[..., None])  # wet ink is darker, then settles
+    return mark * rev, ink
+
+
 # --------------------------------------------------------------------------- background
 
 def make_background(rng):
@@ -382,14 +394,7 @@ def main():
         field = bg + glow[..., None] * warm * (WARM_LIGHT - TIN_GREEN) * 0.6
 
         # ---------------- the mark: brush reveal, motion-blurred over the shutter
-        rev = np.zeros_like(mark)
-        for sub in (-1 / 3, 0, 1 / 3):
-            rev += np.clip((t + sub / FPS - T) / 0.012, 0, 1)
-        rev /= 3
-        a_mark = mark * rev
-        age = np.clip(t - T, 0, None)
-        wet = np.exp(-age / 0.28) * (rev > 0)
-        ink = BRICK[None, None, :] * (1 - 0.22 * wet[..., None])  # wet ink is darker, then settles
+        a_mark, ink = mark_reveal(mark, T, t)
 
         # ---------------- wordmark and year: soft left-to-right ink wipe and a small rise
         pw = ease_io((t - T_WORD[0]) / (T_WORD[1] - T_WORD[0]))
