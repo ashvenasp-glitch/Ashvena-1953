@@ -151,6 +151,7 @@ SHUTTER = 0.35           # exposure per frame, in frame intervals: a little moti
 TIP_RAMP = 0.006         # s, softness of the brush tip as it passes a pixel
 BRUSH_REACH = 1.06       # brush radius as a multiple of the stroke's half-width
 REWET_AFTER = 0.08       # s, a later pass of the brush over laid ink re-wets it
+UNDER_GROW = 2.4         # the place of a later stroke spans this many of its brush radii
 JUNCTION_SPAN = 70       # work px either side over which the brush keeps its width through a junction
 
 
@@ -310,21 +311,27 @@ def time_map(mark, samples):
         steady = ndimage.gaussian_filter1d(steady, win / 3, mode="nearest")
         hw = np.minimum(np.minimum(meas, steady * 1.08), smp["hw"] * 1.15)
         hw = np.maximum(ndimage.gaussian_filter1d(hw, 6 / DS, mode="nearest"), 4.0)
-        # "under": [a, b, c, d] - while drawing knots a..b the brush passes over
-        # the place of knots c..d (drawn later) without inking it; that part is
+        # "under": [a, b, c, d(, e, f)] - while drawing knots a..b the brush
+        # passes over the place of knots c..d (drawn later) without inking it,
+        # except inside its own band along knots e..f; the rest of that part is
         # laid whole, cleanly, when the brush gets there.
         skip = []
-        for a_, b_, c_, d_ in smp["under"]:
-            K = smp["knots"]
-            later = np.arange(K[c_], K[d_] + 1)
+        def sweep(j0, j1, grow=1.0):
             band = np.zeros(mark.shape, bool)
-            for j in later[::2]:
+            yy, xx = np.ogrid[0:hgt, 0:wid]
+            for j in range(j0, j1 + 1, 2):
                 x, y = P[j]
-                r = hw[j] * BRUSH_REACH + 1.5
-                yy, xx = np.ogrid[0:hgt, 0:wid]
+                r = hw[j] * BRUSH_REACH * grow + 1.5
                 x0, x1 = int(max(x - r, 0)), int(min(x + r + 1, wid))
                 y0, y1 = int(max(y - r, 0)), int(min(y + r + 1, hgt))
                 band[y0:y1, x0:x1] |= (xx[:, x0:x1] - x) ** 2 + (yy[y0:y1] - y) ** 2 <= r * r
+            return band
+        K = smp["knots"]
+        for u in smp["under"]:
+            a_, b_, c_, d_ = u[:4]
+            band = sweep(K[c_], K[d_], UNDER_GROW)
+            if len(u) == 6:   # ... except where the stroke itself runs through it (knots e..f)
+                band &= ~sweep(K[u[4]], K[u[5]])
             skip.append((K[a_], K[b_], band))
         for i in range(0, len(P), 2):
             x, y = P[i]
