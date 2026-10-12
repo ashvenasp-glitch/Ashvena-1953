@@ -1,26 +1,24 @@
 # Ashvena 1953: Logo Reveal
 
-A 14.8-second vertical reveal (1080 × 1920, 24 fps, with sound) for Reels, Shorts and Stories.
+A 12.6-second vertical reveal (1080 × 1920, 24 fps, with sound) for Reels, Shorts and Stories.
 
-**Final video:** [Ashvena 1953 logo reveal on Magnific](https://www.magnific.com/app/creation/ovlwJGq829), in the Personal project. Download the MP4 there.
+**Final video:** [Ashvena 1953 logo reveal on Magnific](https://www.magnific.com/app/creation/JNeIPHqOq4), in the Personal project. Download the MP4 there.
 
 | Frame | Time | Picture | Sound |
 |---|---|---|---|
-| 1 · Ribbon cut | 0–5 s | The gift-wrapped tin holds for a moment. Steel scissors slide in from the left and snip the organza ribbon, the bow falls away, and the camera eases in on the bare tin | Room tone, a crisp snip at 1.2 s, the ribbon swishing as it falls |
-| 2 · Tin opens | 5–6.5 s | The lid lifts on a warm gold glow | Latch click and lid creak |
-| 3 · Sparkles build the logo | 6.5–9.5 s | Gold sparkles gather on the inside of the lid into the brush mark अ | A rising sparkle shimmer |
-| 4 · Final logo | 9.5–14.8 s | A soft flash dissolves to the Dispensary-blue card, *Ashvena 1953* writes on, and the logo holds for about 2.8 s | A whoosh into the flash, then a warm chime that rings out |
+| 1 · Ribbon cut | 0–2.85 s | Close on the gift-wrapped tin. Brass scissor blades close on the organza ribbon and it parts | A crisp snip at about 2 s |
+| 2 · Tin opens | 2.85–4.5 s | Cut on the action to the same framing with the bare tin; the lid lifts on a warm gold glow | Latch and lid creak |
+| 3 · Sparkles build the logo | 4.5–7.5 s | Gold sparkles gather on the inside of the lid into the brush mark अ | A rising sparkle shimmer |
+| 4 · Final logo | 7.5–12.6 s | A soft flash dissolves to the Dispensary-blue card, *Ashvena 1953* writes on, and the logo holds for about 2.5 s | A whoosh into the flash, then a warm chime |
 
 ## How it was made (Magnific)
-1. **Ribbon cut:** a Kling 2.5 clip (5 s, 1080p) of the ribbon being cut. It starts on `source/tin-ribbon.jpg` and is locked to end on the exact frame of `source/tin-open-logo.mp4` at 0.625 s, where the latch is down and the lid closed. The tin, latch and lettering therefore line up across the cut into the main clip.
-2. **Main clip:** `source/tin-open-logo.mp4`, the earlier tin-opening and logo reveal, from 0.625 s. Its static logo card at the end was extended by one second.
-3. **Join:** the two clips are joined with a straight cut, at full resolution and normal speed.
-4. **Sound:** MMAudio generated sound effects to match the picture.
-
-Known nit: a small scrap of ribbon left on the table in the ribbon clip disappears at the cut (about 5 s), just as the lid starts to glow.
+1. **Start image:** `final.mp4`'s own tin frame at 0.625 s, with the organza ribbon and bow added in Ideogram 4.5. The snip shot therefore has the same tin and camera angle as the main clip.
+2. **Snip shot:** a Kling 3.0 clip (5 s, 1080p) from that start image, trimmed to its first 2.85 s, which ends just after the blades close and the ribbon parts.
+3. **Main clip:** `source/tin-open-logo.mp4` from 0.625 s, with its static logo card extended by one second.
+4. **Join and sound:** a straight cut, at full resolution and normal speed, then sound effects generated to the picture with MMAudio.
 
 ## Files
-- `source/tin-ribbon.jpg` is the start frame of the ribbon cut.
+- `source/tin-ribbon.jpg` is the original ribbon photo, the reference for the ribbon.
 - `source/tin-open-logo.mp4` is the tin-opening and logo clip, unedited.
 - `source/ashvena-logo-final.pdf` is the logo master.
 
