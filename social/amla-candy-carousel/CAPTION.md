@@ -24,7 +24,7 @@
 | 4 | Step 2 (murabba simmering) | slow-cooked in syrup, *dadi style.* / no rush, no shortcuts. this is murabba. |
 | 5 | Step 3 (cutting) | cut into small, *snackable* pieces. / the perfect "just one more" size. |
 | 6 | Step 4 (dryer trays) | dried till *perfectly chewy.* / clean machine dryers. same taste in every pack. |
-| 7 | Step 5 (candy in wooden bowl) | sour to sweet. *glow-up complete.* / chewy, tangy, sweet. one is never enough. |
+| 7 | Step 5 (candy in wooden bowl) | sour to sweet. *glow-up complete.* / chewy, tangy, sweet. dadi's rule: one after every meal. |
 | 8 | Quote | dadi never asked if we wanted amla. *she just handed it over.* / tag the friend whose dadi did this too |
 | 9 | Product + CTA (tin) | dadi's recipe, *now in a tin.* / order now · link in bio |
 
