@@ -2,7 +2,7 @@
 
 9 slides, 1080 × 1350 (4:5). The look is minimal and Gen Z: cream background, inset photos, lowercase Instrument Serif type.
 
-## Downloads (final slides, v2: simple copy)
+## Downloads (final slides, v3: relatable copy)
 - All 9 as PNG (zip): https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/c28ef4be-6fc0-47c9-9744-5f2676c0d765.zip
 - JPG, ready to post:
   1. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/d03b540a-c8db-4fd6-b446-8b44bf9fd58a.jpg
@@ -18,31 +18,27 @@
 ## Slide flow
 | # | Slide | Copy |
 |---|---|---|
-| 1 | Hook (Dadi at the kadhai) | sour amla *→ sweet candy.* / here's how dadi's recipe is made |
-| 2 | Step 1 (amla on the branch) | it all starts with *fresh amla.* / super sour, super healthy. yes, the one mummy made you eat. |
-| 3 | Why amla? (amla in palm) | small fruit, *big benefits.* Tags: rich in vitamin c · full of antioxidants · good for digestion · loved for hair & skin |
-| 4 | Step 2 (murabba simmering) | cooked slowly in *sugar syrup.* / low flame, lots of patience. this is how amla becomes murabba. |
-| 5 | Step 3 (cutting) | cut into *small pieces.* / easy to eat. hard to stop. |
-| 6 | Step 4 (dryer trays) | dried till *perfectly chewy.* / in clean machine dryers. no dust, same taste every time. |
-| 7 | Step 5 (candy in wooden bowl) | and your amla candy *is ready!* / chewy, tangy, sweet. one is never enough. |
-| 8 | Quote | dadi never asked if we wanted amla. *she just handed it over.* / tag someone who still eats amla after every meal |
+| 1 | Hook (Dadi at the kadhai) | that one amla dadi *always* made you eat? / here's how it becomes candy |
+| 2 | Step 1 (amla on the branch) | first, the *OG sour* amla. / one bite and your whole face scrunches up. iykyk. |
+| 3 | Why amla? (amla in palm) | dadi was right. *again.* Tags: rich in vitamin c · full of antioxidants · good for digestion · loved for hair & skin |
+| 4 | Step 2 (murabba simmering) | slow-cooked in syrup, *dadi style.* / no rush, no shortcuts. this is murabba. |
+| 5 | Step 3 (cutting) | cut into small, *snackable* pieces. / the perfect "just one more" size. |
+| 6 | Step 4 (dryer trays) | dried till *perfectly chewy.* / clean machine dryers. same taste in every pack. |
+| 7 | Step 5 (candy in wooden bowl) | sour to sweet. *glow-up complete.* / chewy, tangy, sweet. one is never enough. |
+| 8 | Quote | dadi never asked if we wanted amla. *she just handed it over.* / tag the friend whose dadi did this too |
 | 9 | Product + CTA (tin) | dadi's recipe, *now in a tin.* / order now · link in bio |
 
 ## Caption
 ```
-sour amla ➝ sweet amla candy 🍬
+if your dadi ever chased you with an amla after lunch... this one's for you 😭🫙
 
-this is how dadi's recipe is made:
-1. fresh amla
-2. cooked slowly into murabba
-3. cut into small pieces
-4. dried till perfectly chewy
-5. ready to eat!
+sour amla ➝ slow-cooked murabba ➝ cut ➝ dried ➝ chewy amla candy
 
-real fruit · no added colour · 73-year-old recipe
+same recipe. same taste. just no chasing anymore 😌
+real fruit · no added colour · 73 years strong
 
-tag someone who still eats amla after every meal 👇
-save this for later 🔖
+tag the friend whose dadi did this too 👇
+save it for your next post-dinner craving 🔖
 
 🛒 order now, link in bio
 ```
