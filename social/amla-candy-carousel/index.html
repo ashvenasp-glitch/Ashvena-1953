@@ -9,285 +9,173 @@
 <title>Ashvena Amla Candy Carousel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FBF3E0;
-    --paper: #F6EEDB;
-    --green: #1E4A2C;
-    --amla: #B5CF55;
-    --gold: #F2B84B;
-    --amber: #D98E2B;
-    --red: #B3242B;
-    --ink: #22180F;
+    --cream: #F3EDE2;
+    --ink: #1F1A14;
+    --mute: #8A7F72;
+    --accent: #B9782A;   /* murabba amber */
+    --green: #24452F;    /* tin green */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #111; font-family: 'Inter', sans-serif; }
-  .slide {
-    position: relative; width: 1080px; height: 1350px; overflow: hidden;
-    margin: 0 auto 40px; color: var(--cream);
-  }
-  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .shade { position: absolute; inset: 0; }
+  .slide { position: relative; width: 1080px; height: 1350px; overflow: hidden; margin: 0 auto 40px;
+           background: var(--cream); color: var(--ink); }
+  i { font-style: italic; }
+  .serif { font-family: 'Instrument Serif', serif; font-weight: 400; }
 
-  /* top bar */
-  .top { position: absolute; top: 56px; left: 64px; right: 64px; display: flex; justify-content: space-between; align-items: center; z-index: 5; }
-  .mark { font-family: 'DM Serif Display', serif; font-size: 34px; letter-spacing: 1px; }
-  .mark span { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 4px; margin-left: 12px; opacity: .8; vertical-align: middle; }
-  .count { font-size: 20px; font-weight: 600; letter-spacing: 3px; opacity: .85; }
+  .top { position: absolute; top: 44px; left: 64px; right: 64px; display: flex; justify-content: space-between; align-items: baseline; z-index: 5; }
+  .top .brand { font-family: 'Instrument Serif', serif; font-size: 38px; }
+  .top .n { font-size: 19px; letter-spacing: 1px; color: var(--mute); }
 
-  /* big outlined step numeral */
-  .num { position: absolute; top: 96px; right: 48px; font-family: 'DM Serif Display', serif; font-size: 300px; line-height: 1;
-         color: transparent; -webkit-text-stroke: 2px rgba(251,243,224,.55); z-index: 2; }
+  /* framed photo slides */
+  .frame { position: absolute; top: 112px; left: 64px; right: 64px; height: 880px; border-radius: 28px; overflow: hidden; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .txt { position: absolute; left: 64px; right: 64px; top: 1030px; }
+  .lbl { font-size: 20px; color: var(--mute); letter-spacing: .5px; }
+  .lbl b { color: var(--accent); font-weight: 500; }
+  .h { font-family: 'Instrument Serif', serif; font-size: 82px; line-height: .98; letter-spacing: -1px; margin-top: 14px; }
+  .h i { color: var(--accent); }
+  .sub { font-size: 25px; line-height: 1.4; color: #5b5147; margin-top: 16px; max-width: 760px; }
+  .swipe { position: absolute; right: 64px; bottom: 56px; font-size: 20px; color: var(--mute); }
 
-  .content { position: absolute; left: 64px; right: 64px; bottom: 200px; z-index: 5; }
-  .step { display: inline-block; font-size: 19px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
-          padding: 12px 22px; border-radius: 40px; background: var(--gold); color: var(--ink); margin-bottom: 28px; }
-  h1, h2 { font-family: 'DM Serif Display', serif; font-weight: 400; line-height: 1.02; letter-spacing: -.5px; }
-  h1 { font-size: 100px; }
-  h2 { font-size: 88px; }
-  h1 em, h2 em { color: var(--gold); }
-  .body { font-size: 32px; line-height: 1.42; margin-top: 26px; max-width: 860px; opacity: .93; }
-  .note { font-family: 'Caveat', cursive; font-weight: 700; font-size: 50px; color: var(--gold); margin-top: 22px; transform: rotate(-2deg); transform-origin: left; }
-  .note::before { content: '~ '; }
+  /* cover + product: full bleed */
+  .bleed .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .s1 { color: #FBF6EC; }
+  .s1 .bg { object-position: 50% 28%; }
+  .s1 .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,10,6,.88) 0%, rgba(18,10,6,.55) 30%, rgba(18,10,6,0) 55%),
+                                                      linear-gradient(180deg, rgba(18,10,6,.45) 0%, rgba(18,10,6,0) 16%); }
+  .s1 .top .n { color: rgba(251,246,236,.75); }
+  .s1 .cover { position: absolute; left: 64px; right: 64px; bottom: 64px; }
+  .s1 .cover .h { font-size: 136px; line-height: .92; letter-spacing: -2px; }
+  .s1 .cover .h i { color: #F0C27A; }
+  .s1 .row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 30px; font-size: 25px; color: rgba(251,246,236,.85); }
 
-  /* journey tracker */
-  .journey { position: absolute; left: 64px; right: 64px; bottom: 64px; height: 84px; z-index: 5; }
-  .journey .line { position: absolute; left: 14px; right: 14px; top: 13px; height: 2px; background: rgba(251,243,224,.35); }
-  .journey .fill { position: absolute; left: 14px; top: 13px; height: 2px; background: var(--gold); }
-  .journey ol { list-style: none; display: flex; justify-content: space-between; position: relative; }
-  .journey li { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; opacity: .6; width: 28px; white-space: nowrap; }
-  .journey li:first-child { align-items: flex-start; }
-  .journey li:last-child { align-items: flex-end; }
-  .journey li i { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(251,243,224,.7); background: #2a1d12; display: block; }
-  .journey li.done { opacity: .85; }
-  .journey li.done i { background: var(--gold); border-color: var(--gold); transform: scale(.6); }
-  .journey li.on { opacity: 1; color: var(--gold); }
-  .journey li.on i { background: var(--gold); border-color: var(--cream); box-shadow: 0 0 0 6px rgba(242,184,75,.3); }
+  .pills { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .pills span { border: 1.5px solid rgba(31,26,20,.35); border-radius: 40px; padding: 10px 22px; font-size: 22px; }
+  .fine { position: absolute; right: 64px; top: 1046px; font-size: 16px; color: var(--mute); }
 
-  .swipe { position: absolute; right: 64px; bottom: 200px; z-index: 6; font-size: 18px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
+  /* quote */
+  .s8 .q { position: absolute; left: 96px; right: 96px; top: 50%; transform: translateY(-58%); text-align: center; }
+  .s8 .q .h { font-size: 100px; line-height: 1; }
+  .s8 .q .by { font-size: 24px; color: var(--mute); margin-top: 34px; }
+  .s8 .bottom { position: absolute; left: 64px; right: 64px; bottom: 56px; display: flex; justify-content: space-between; font-size: 22px; color: var(--ink); }
+  .s8 .bottom span:last-child { color: var(--mute); }
 
-  /* ---------- 1 cover ---------- */
-  .s1 .bg { object-position: 50% 30%; }
-  .s1 .shade { background:
-      linear-gradient(180deg, rgba(15,8,5,.55) 0%, rgba(15,8,5,0) 22%),
-      linear-gradient(0deg, rgba(15,8,5,.94) 0%, rgba(15,8,5,.82) 34%, rgba(15,8,5,0) 62%); }
-  .s1 .content { bottom: 150px; }
-  .s1 .kicker { font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 26px; }
-  .s1 .row { display: flex; align-items: center; justify-content: space-between; margin-top: 36px; }
-  .s1 .row .body { margin-top: 0; font-size: 30px; }
-  .pill { display: inline-flex; align-items: center; gap: 14px; background: var(--cream); color: var(--ink); font-weight: 700; font-size: 22px; letter-spacing: 3px; text-transform: uppercase; padding: 20px 32px; border-radius: 60px; white-space: nowrap; }
-  .s1 .stamp { position: absolute; top: 150px; left: 64px; z-index: 5; width: 190px; height: 190px; border-radius: 50%; border: 2px dashed rgba(251,243,224,.8);
-               display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transform: rotate(-10deg); background: rgba(179,36,43,.85); }
-  .s1 .stamp b { font-family: 'DM Serif Display', serif; font-size: 64px; font-weight: 400; line-height: .95; }
-  .s1 .stamp small { font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
-
-  /* ---------- photo step slides ---------- */
-  .photo .shade { background:
-      linear-gradient(180deg, rgba(15,8,5,.6) 0%, rgba(15,8,5,0) 24%),
-      linear-gradient(0deg, rgba(15,8,5,.95) 0%, rgba(15,8,5,.85) 30%, rgba(15,8,5,0) 60%); }
-
-  /* ---------- 3 benefits ---------- */
-  .s3 { color: var(--ink); background: #DCD3C9; }
-  .s3 .bg { object-position: 50% 100%; }
-  .s3 .shade { background: linear-gradient(180deg, rgba(232,226,218,.97) 0%, rgba(232,226,218,.9) 44%, rgba(232,226,218,0) 60%); }
-  .s3 .top { color: var(--green); }
-  .s3 .head { position: absolute; top: 150px; left: 64px; right: 64px; z-index: 5; }
-  .s3 .head .step { background: var(--green); color: var(--cream); }
-  .s3 h2 { color: var(--green); font-size: 80px; }
-  .s3 h2 em { color: var(--amber); }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 36px; }
-  .card { background: rgba(255,252,244,.82); border: 1px solid rgba(30,74,44,.15); border-radius: 26px; padding: 24px 26px; display: flex; gap: 18px; align-items: flex-start; }
-  .card .ic { flex: none; width: 54px; height: 54px; border-radius: 50%; background: var(--green); color: var(--cream); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 26px; }
-  .card h3 { font-size: 25px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
-  .card p { font-size: 20px; line-height: 1.35; color: #4a3b2c; }
-  .s3 .note { position: absolute; z-index: 5; right: 70px; bottom: 360px; color: var(--red); font-size: 46px; transform: rotate(-6deg); margin: 0; text-align: right; }
-  .s3 .note::before { content: ''; }
-  .s3 .arrow { position: absolute; z-index: 5; right: 250px; bottom: 300px; }
-  .s3 .fine { position: absolute; z-index: 5; left: 64px; right: 64px; bottom: 56px; font-size: 16px; color: #6b5d50; text-align: center; }
-
-  /* ---------- 8 quote ---------- */
-  .s8 { background: var(--paper); color: var(--green);
-        background-image: radial-gradient(circle at 1px 1px, rgba(30,74,44,.10) 1.5px, transparent 0); background-size: 28px 28px; }
-  .s8 .top { color: var(--green); }
-  .s8 .frame { position: absolute; inset: 40px; border: 2px solid rgba(30,74,44,.25); border-radius: 36px; }
-  .s8 .circle { position: absolute; top: 160px; left: 50%; margin-left: -170px; width: 340px; height: 340px; border-radius: 50%; overflow: hidden; border: 10px solid var(--cream); box-shadow: 0 18px 40px rgba(34,24,15,.22); }
-  .s8 .circle img { width: 100%; height: 100%; object-fit: cover; }
-  .s8 .q { position: absolute; top: 580px; left: 96px; right: 96px; text-align: center; }
-  .s8 .q .mk { font-family: 'DM Serif Display', serif; font-size: 160px; line-height: .5; color: var(--amber); display: block; height: 70px; }
-  .s8 .q p { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 80px; line-height: 1.08; }
-  .s8 .q .by { font-family: 'Caveat', cursive; font-weight: 700; font-size: 46px; color: var(--red); margin-top: 26px; }
-  .s8 .tag { position: absolute; left: 96px; right: 96px; bottom: 100px; text-align: center; border-top: 2px dashed rgba(30,74,44,.3); padding-top: 40px; }
-  .s8 .tag b { display: block; font-size: 34px; font-weight: 700; color: var(--ink); }
-  .s8 .tag span { display: block; font-size: 24px; color: #5b4c3d; margin-top: 12px; }
-  .s8 .swipe { color: var(--green); bottom: 64px; }
-
-  /* ---------- 9 product ---------- */
+  /* product */
   .s9 { background: #BBE3EA; color: var(--green); }
-  .s9 .bg { object-position: 30% 50%; width: 100%; }
-  .s9 .top { color: var(--green); }
-  .s9 .side { position: absolute; z-index: 5; top: 170px; right: 64px; width: 420px; text-align: right; }
-  .s9 .side .lbl { font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--red); margin-bottom: 18px; }
-  .s9 h2 { font-size: 92px; color: var(--green); }
-  .s9 h2 em { color: var(--red); }
-  .s9 .side .body { font-size: 27px; margin-top: 22px; opacity: 1; color: #24443a; }
-  .s9 .badges { position: absolute; z-index: 5; left: 64px; bottom: 210px; display: flex; flex-direction: column; gap: 14px; }
-  .s9 .badges span { display: inline-flex; align-items: center; gap: 12px; align-self: flex-start; background: rgba(255,255,255,.75); border: 1px solid rgba(30,74,44,.18); border-radius: 40px; padding: 14px 24px; font-size: 21px; font-weight: 600; color: var(--green); }
-  .s9 .badges span::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--amla); border: 2px solid var(--green); }
-  .s9 .cta { position: absolute; z-index: 5; left: 64px; right: 64px; bottom: 64px; display: flex; justify-content: space-between; align-items: center; }
-  .s9 .cta .btn { background: var(--red); color: var(--cream); font-size: 26px; font-weight: 700; letter-spacing: 2px; padding: 26px 44px; border-radius: 60px; text-transform: uppercase; }
-  .s9 .hand { position: absolute; z-index: 5; left: 64px; bottom: 420px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 48px; color: var(--red); transform: rotate(-4deg); }
+  .s9 .top .n { color: rgba(36,69,47,.7); }
+  .s9 .side { position: absolute; top: 160px; right: 64px; width: 420px; text-align: right; }
+  .s9 .side .h { font-size: 104px; line-height: .92; color: var(--green); }
+  .s9 .side .h i { color: #B3242B; }
+  .s9 .foot { position: absolute; left: 64px; bottom: 60px; }
+  .s9 .foot p { font-size: 24px; line-height: 1.55; color: var(--green); }
+  .s9 .foot .link { display: inline-block; margin-top: 22px; font-family: 'Instrument Serif', serif; font-size: 48px; border-bottom: 2px solid var(--green); line-height: 1.1; }
 </style>
 </head>
 <body>
 
-<!-- 1 · COVER -->
-<section class="slide s1" data-canvas-width="1080" data-canvas-height="1350">
+<!-- 1 · cover -->
+<section class="slide bleed s1" data-canvas-width="1080" data-canvas-height="1350">
   <img class="bg" src="img/dadi-kadhai.webp" alt="">
   <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">01 / 09</div></div>
-  <div class="stamp"><b>73</b><small>years · one<br>recipe</small></div>
-  <div class="content">
-    <div class="kicker">From Dadi's kitchen</div>
-    <h1>How India's <em>sourest</em> fruit became its sweetest habit.</h1>
-    <div class="row">
-      <div class="body">Amla → candy, in 5 slow steps.</div>
-      <div class="pill">Swipe <span>&rarr;</span></div>
-    </div>
+  <div class="top"><div class="brand">ashvena</div><div class="n">1/9</div></div>
+  <div class="cover">
+    <div class="h">amla's <i>glow-up</i> era.</div>
+    <div class="row"><span>sour → sweet, in 5 slow steps</span><span>swipe →</span></div>
   </div>
 </section>
 
-<!-- 2 · STEP 01 THE FRUIT -->
-<section class="slide photo s2" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/gen-amla-branch.png" alt="" style="object-position:50% 35%">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">02 / 09</div></div>
-  <div class="num">01</div>
-  <div class="content">
-    <div class="step">Step 01 · The fruit</div>
-    <h2>It all starts with <em>amla.</em></h2>
-    <div class="body">Sour. Bitter. A little stubborn. The fruit nobody asks for, and everybody needs.</div>
-    <div class="note">pick them firm &amp; green</div>
+<!-- 2 · the og -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">2/9</div></div>
+  <div class="frame"><img src="img/gen-amla-branch.png" alt="" style="object-position:50% 40%"></div>
+  <div class="txt">
+    <div class="lbl"><b>01</b> &nbsp;the og</div>
+    <div class="h">sour. bitter. <i>zero chill.</i></div>
+    <div class="sub">every glow-up starts somewhere.</div>
   </div>
-  <div class="journey"><div class="line"></div><div class="fill" style="width:0"></div>
-    <ol><li class="on"><i></i>Amla</li><li><i></i>Murabba</li><li><i></i>Cut</li><li><i></i>Sun-dry</li><li><i></i>Candy</li></ol></div>
+  <div class="swipe">→</div>
 </section>
 
-<!-- 3 · WHY AMLA -->
-<section class="slide s3" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/amla-palm.webp" alt="">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">03 / 09</div></div>
-  <div class="head">
-    <div class="step">Why Dadi swore by it</div>
-    <h2>Small fruit. <em>Big résumé.</em></h2>
-    <div class="grid">
-      <div class="card"><div class="ic">C</div><div><h3>Vitamin C powerhouse</h3><p>One of nature's richest sources, gram for gram.</p></div></div>
-      <div class="card"><div class="ic">A</div><div><h3>Antioxidant-rich</h3><p>Naturally loaded with polyphenols.</p></div></div>
-      <div class="card"><div class="ic">D</div><div><h3>Digestion's best friend</h3><p>Ayurveda's go-to after a heavy meal.</p></div></div>
-      <div class="card"><div class="ic">G</div><div><h3>The Dadi glow</h3><p>Loved for generations for hair &amp; skin.</p></div></div>
-    </div>
+<!-- 3 · why amla -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">3/9</div></div>
+  <div class="frame" style="background:#DCD4CA"><img src="img/amla-palm.webp" alt="" style="object-position:50% 70%"></div>
+  <div class="txt">
+    <div class="lbl"><b>fyi</b> &nbsp;why dadi swore by it</div>
+    <div class="h">lowkey a <i>superfood.</i></div>
+    <div class="pills"><span>vitamin c</span><span>antioxidants</span><span>gut-friendly</span><span>the dadi glow</span></div>
   </div>
-  <div class="note">just one a day,<br>beta!</div>
-  <div class="fine">Traditional wisdom, not medical advice.</div>
+  <div class="fine">traditional wisdom, not medical advice</div>
 </section>
 
-<!-- 4 · STEP 02 MURABBA -->
-<section class="slide photo s4" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/gen-simmer.png" alt="" style="object-position:50% 40%">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">04 / 09</div></div>
-  <div class="num">02</div>
-  <div class="content">
-    <div class="step">Step 02 · The murabba</div>
-    <h2>Slow-simmered till it turns <em>gold.</em></h2>
-    <div class="body">Pricked, soaked, then cooked low and slow in sugar syrup until every fruit glows. This is murabba.</div>
-    <div class="note">never rush the syrup</div>
+<!-- 4 · slow cook -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">4/9</div></div>
+  <div class="frame"><img src="img/gen-simmer.png" alt="" style="object-position:50% 45%"></div>
+  <div class="txt">
+    <div class="lbl"><b>02</b> &nbsp;the slow cook</div>
+    <div class="h">simmered till it <i>glows.</i></div>
+    <div class="sub">low flame, sugar syrup, zero shortcuts. this is murabba.</div>
   </div>
-  <div class="journey"><div class="line"></div><div class="fill" style="width:25%"></div>
-    <ol><li class="done"><i></i>Amla</li><li class="on"><i></i>Murabba</li><li><i></i>Cut</li><li><i></i>Sun-dry</li><li><i></i>Candy</li></ol></div>
+  <div class="swipe">→</div>
 </section>
 
-<!-- 5 · STEP 03 CUT -->
-<section class="slide photo s5" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/gen-cutting.png" alt="" style="object-position:50% 30%">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">05 / 09</div></div>
-  <div class="num">03</div>
-  <div class="content">
-    <div class="step">Step 03 · The cut</div>
-    <h2>Sliced into <em>bite-sized</em> pieces.</h2>
-    <div class="body">Each glossy murabba, cut small enough to pop, big enough to savour.</div>
-    <div class="note">small enough to sneak one</div>
+<!-- 5 · the cut -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">5/9</div></div>
+  <div class="frame"><img src="img/gen-cutting.png" alt="" style="object-position:50% 45%"></div>
+  <div class="txt">
+    <div class="lbl"><b>03</b> &nbsp;the cut</div>
+    <div class="h">little crescents, <i>dangerously</i> snackable.</div>
   </div>
-  <div class="journey"><div class="line"></div><div class="fill" style="width:50%"></div>
-    <ol><li class="done"><i></i>Amla</li><li class="done"><i></i>Murabba</li><li class="on"><i></i>Cut</li><li><i></i>Sun-dry</li><li><i></i>Candy</li></ol></div>
+  <div class="swipe">→</div>
 </section>
 
-<!-- 6 · STEP 04 SUN-DRY -->
-<section class="slide photo s6" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/gen-sun-dry.png" alt="" style="object-position:50% 35%">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">06 / 09</div></div>
-  <div class="num">04</div>
-  <div class="content">
-    <div class="step">Step 04 · The sun</div>
-    <h2>Then the sun does <em>the rest.</em></h2>
-    <div class="body">Spread out under the open sky until every piece turns chewy, tangy and just a little crystallised.</div>
-    <div class="note">hardest part? not eating them yet</div>
+<!-- 6 · the dry -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">6/9</div></div>
+  <div class="frame"><img src="img/gen-dryer.png" alt="" style="object-position:50% 50%"></div>
+  <div class="txt">
+    <div class="lbl"><b>04</b> &nbsp;the dry</div>
+    <div class="h">dried low &amp; <i>slow.</i></div>
+    <div class="sub">controlled heat, clean trays, zero dust. same chew, every batch.</div>
   </div>
-  <div class="journey"><div class="line"></div><div class="fill" style="width:75%"></div>
-    <ol><li class="done"><i></i>Amla</li><li class="done"><i></i>Murabba</li><li class="done"><i></i>Cut</li><li class="on"><i></i>Sun-dry</li><li><i></i>Candy</li></ol></div>
+  <div class="swipe">→</div>
 </section>
 
-<!-- 7 · STEP 05 CANDY -->
-<section class="slide photo s7" data-canvas-width="1080" data-canvas-height="1350">
-  <img class="bg" src="img/gen-candy.png" alt="" style="object-position:50% 40%">
-  <div class="shade"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">07 / 09</div></div>
-  <div class="num">05</div>
-  <div class="content">
-    <div class="step">Step 05 · Ready</div>
-    <h2>Sour became sweet. <em>Patience became candy.</em></h2>
-    <div class="body">Chewy, tangy-sweet amla candy made with real fruit.</div>
-    <div class="note">one after every meal. dadi's rule.</div>
+<!-- 7 · main character -->
+<section class="slide" data-canvas-width="1080" data-canvas-height="1350">
+  <div class="top"><div class="brand">ashvena</div><div class="n">7/9</div></div>
+  <div class="frame"><img src="img/gen-candy.png" alt="" style="object-position:50% 45%"></div>
+  <div class="txt">
+    <div class="lbl"><b>05</b> &nbsp;main character</div>
+    <div class="h">chewy. tangy. <i>gone in seconds.</i></div>
   </div>
-  <div class="journey"><div class="line"></div><div class="fill" style="width:calc(100% - 28px)"></div>
-    <ol><li class="done"><i></i>Amla</li><li class="done"><i></i>Murabba</li><li class="done"><i></i>Cut</li><li class="done"><i></i>Sun-dry</li><li class="on"><i></i>Candy</li></ol></div>
+  <div class="swipe">→</div>
 </section>
 
-<!-- 8 · QUOTE / ENGAGEMENT -->
+<!-- 8 · quote -->
 <section class="slide s8" data-canvas-width="1080" data-canvas-height="1350">
-  <div class="frame"></div>
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">08 / 09</div></div>
-  <div class="circle"><img src="img/gen-candy.png" alt=""></div>
+  <div class="top"><div class="brand">ashvena</div><div class="n">8/9</div></div>
   <div class="q">
-    <span class="mk">&ldquo;</span>
-    <p>Dadi never asked if we wanted amla. She just handed it over.</p>
-    <div class="by">every Indian grandchild, ever</div>
+    <div class="h">dadi never asked if we wanted amla. <i>she just handed it over.</i></div>
+    <div class="by">— every desi grandkid, ever</div>
   </div>
-  <div class="tag">
-    <b>Tag the one who still keeps amla candy in their bag.</b>
-    <span>Save this for the next time someone says amla is too sour.</span>
-  </div>
+  <div class="bottom"><span>tag your amla hoarder ↓</span><span>→</span></div>
 </section>
 
-<!-- 9 · PRODUCT CTA -->
-<section class="slide s9" data-canvas-width="1080" data-canvas-height="1350">
+<!-- 9 · product -->
+<section class="slide bleed s9" data-canvas-width="1080" data-canvas-height="1350">
   <img class="bg" src="img/tin-blue.webp" alt="">
-  <div class="top"><div class="mark">Ashvena<span>EST. 1953</span></div><div class="count">09 / 09</div></div>
-  <div class="side">
-    <div class="lbl">Ashvena Amla Candy</div>
-    <h2>Dadi's recipe. <em>Now in a tin.</em></h2>
-    <div class="body">Same slow process. Same tangy-sweet bite. Delivered to your door.</div>
+  <div class="top"><div class="brand">ashvena</div><div class="n">9/9</div></div>
+  <div class="side"><div class="h">dadi's recipe, <i>now in a tin.</i></div></div>
+  <div class="foot">
+    <p>real fruit · 73-year-old recipe<br>no added colour</p>
+    <div class="link">shop via link in bio</div>
   </div>
-  <div class="badges">
-    <span>Made with real fruit</span>
-    <span>73-year-old recipe</span>
-    <span>No added colour</span>
-  </div>
-  <div class="hand">your daily dose of Dadi</div>
-  <div class="cta"><div class="btn">Order now &middot; link in bio</div></div>
 </section>
 
 </body>
