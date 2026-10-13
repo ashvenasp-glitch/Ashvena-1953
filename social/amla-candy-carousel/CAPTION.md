@@ -3,17 +3,17 @@
 9 slides, 1080 × 1350 (4:5). The look is minimal and Gen Z: cream background, inset photos, lowercase Instrument Serif type.
 
 ## Downloads (final slides, v3: relatable copy)
-- All 9 as PNG (zip): https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/c28ef4be-6fc0-47c9-9744-5f2676c0d765.zip
+- All 9 as PNG (zip): https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/fd1b5568-3e4b-4b4d-b85b-7a511f33f7bc.zip
 - JPG, ready to post:
-  1. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/d03b540a-c8db-4fd6-b446-8b44bf9fd58a.jpg
-  2. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/725efd92-76c1-4c02-a7f2-a5cfab7af329.jpg
-  3. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/85e2c803-c639-4c43-87f4-ca0c33c8a1ce.jpg
-  4. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/4926d68e-4426-445c-8c6c-c1c54c42d62d.jpg
-  5. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/24888bd0-e190-49a7-9289-b65c3d2c24fb.jpg
-  6. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/227675e2-1204-4072-a483-0b822c93b840.jpg
-  7. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/48a29342-4490-44e9-9582-b2d3c6eae97e.jpg
-  8. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/3a72bc0a-1705-490d-ae37-31fa1b069f8c.jpg
-  9. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/ed3f9924-3639-4398-9c06-d8f7a88d931f.jpg
+  1. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/9f14530c-b520-497a-b11c-53eb73510cc6.jpg
+  2. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/f72804fb-e8b7-4811-ac8c-df12c79f8304.jpg
+  3. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/5eff5b92-5a7f-4aa3-a611-9e383d4d9658.jpg
+  4. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/7d1f0273-9755-4511-af4b-3e61387b45a6.jpg
+  5. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/1b0d35c9-168e-4bb6-afc3-3d6009fd1f0a.jpg
+  6. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/32d0f99b-1c23-42b0-8693-27bb46d161cf.jpg
+  7. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/70aabd2d-1ec3-4dc5-b33d-fc8c5fdbb567.jpg
+  8. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/7a387adb-0176-4605-8d3a-4ca45dd890ab.jpg
+  9. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/1aaaa6b0-f512-4b7d-82ca-6a918af70767.jpg
 
 ## Slide flow
 | # | Slide | Copy |
