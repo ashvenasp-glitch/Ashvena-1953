@@ -2,46 +2,49 @@
 
 9 slides, 1080 × 1350 (4:5). The look is minimal and Gen Z: cream background, inset photos, lowercase Instrument Serif type.
 
-## Downloads (final slides)
-- All 9 as PNG (zip): https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/d6065e43-d3e1-471f-9c51-dc0920f3061c.zip
+## Downloads (final slides, v2: simple copy)
+- All 9 as PNG (zip): https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/c28ef4be-6fc0-47c9-9744-5f2676c0d765.zip
 - JPG, ready to post:
-  1. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/77af7359-5757-486c-a0f9-5b2949eae986.jpg
-  2. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/69578a5f-bdb9-49a9-9fd0-b3af381148be.jpg
-  3. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/ce2c2b0b-6a27-46d8-b545-e811a198480b.jpg
-  4. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/202a7ad8-8406-4579-b62f-2d2fe2ec69c2.jpg
-  5. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/dc3b257e-9309-476a-839c-ca35b8b485df.jpg
-  6. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/be830ee6-7f1e-423a-bbf1-1c1db9d7c215.jpg
-  7. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/b9ccc68a-61cf-4fb3-b35a-5b6c9e6a1f52.jpg
-  8. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/f1bad34e-493d-4e95-bfde-e20833543001.jpg
-  9. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/c8758580-1e02-4946-b82b-42477801b8aa.jpg
+  1. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/d03b540a-c8db-4fd6-b446-8b44bf9fd58a.jpg
+  2. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/725efd92-76c1-4c02-a7f2-a5cfab7af329.jpg
+  3. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/85e2c803-c639-4c43-87f4-ca0c33c8a1ce.jpg
+  4. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/4926d68e-4426-445c-8c6c-c1c54c42d62d.jpg
+  5. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/24888bd0-e190-49a7-9289-b65c3d2c24fb.jpg
+  6. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/227675e2-1204-4072-a483-0b822c93b840.jpg
+  7. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/48a29342-4490-44e9-9582-b2d3c6eae97e.jpg
+  8. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/3a72bc0a-1705-490d-ae37-31fa1b069f8c.jpg
+  9. https://d2ol7oe51mr4n9.cloudfront.net/user_3IRpaFmjmCNnBE9eeBeBsQWsBCM/ed3f9924-3639-4398-9c06-d8f7a88d931f.jpg
 
 ## Slide flow
 | # | Slide | Copy |
 |---|---|---|
-| 1 | Hook (Dadi at the kadhai) | amla's *glow-up* era. / sour → sweet, in 5 slow steps |
-| 2 | 01 the og (amla on the branch) | sour. bitter. *zero chill.* |
-| 3 | fyi (amla in palm) | lowkey a *superfood.* Tags: vitamin c · antioxidants · gut-friendly · the dadi glow |
-| 4 | 02 the slow cook (murabba simmering) | simmered till it *glows.* |
-| 5 | 03 the cut (murabba into crescents) | little crescents, *dangerously* snackable. |
-| 6 | 04 the dry (dehydrator trays) | dried low & *slow.* / controlled heat, clean trays, zero dust. |
-| 7 | 05 main character (candy bowl) | chewy. tangy. *gone in seconds.* |
-| 8 | Quote (engagement) | dadi never asked if we wanted amla. *she just handed it over.* / tag your amla hoarder |
-| 9 | Product + CTA (tin) | dadi's recipe, *now in a tin.* / shop via link in bio |
+| 1 | Hook (Dadi at the kadhai) | sour amla *→ sweet candy.* / here's how dadi's recipe is made |
+| 2 | Step 1 (amla on the branch) | it all starts with *fresh amla.* / super sour, super healthy. yes, the one mummy made you eat. |
+| 3 | Why amla? (amla in palm) | small fruit, *big benefits.* Tags: rich in vitamin c · full of antioxidants · good for digestion · loved for hair & skin |
+| 4 | Step 2 (murabba simmering) | cooked slowly in *sugar syrup.* / low flame, lots of patience. this is how amla becomes murabba. |
+| 5 | Step 3 (cutting) | cut into *small pieces.* / easy to eat. hard to stop. |
+| 6 | Step 4 (dryer trays) | dried till *perfectly chewy.* / in clean machine dryers. no dust, same taste every time. |
+| 7 | Step 5 (candy in wooden bowl) | and your amla candy *is ready!* / chewy, tangy, sweet. one is never enough. |
+| 8 | Quote | dadi never asked if we wanted amla. *she just handed it over.* / tag someone who still eats amla after every meal |
+| 9 | Product + CTA (tin) | dadi's recipe, *now in a tin.* / order now · link in bio |
 
 ## Caption
 ```
-amla walked so amla candy could run 🫙✨
+sour amla ➝ sweet amla candy 🍬
 
-sour → simmered → sliced → slow-dried → snack.
-73 years. one recipe. zero shortcuts.
+this is how dadi's recipe is made:
+1. fresh amla
+2. cooked slowly into murabba
+3. cut into small pieces
+4. dried till perfectly chewy
+5. ready to eat!
 
-made with real fruit, no added colour, and the same
-tangy-sweet chew dadi used to hand out after every meal.
+real fruit · no added colour · 73-year-old recipe
 
-tag your amla hoarder 👇
-save this for your next post-dinner craving 🔖
+tag someone who still eats amla after every meal 👇
+save this for later 🔖
 
-🛒 shop via link in bio
+🛒 order now, link in bio
 ```
 
 ## Hashtags (first comment)
@@ -56,7 +59,7 @@ save this for your next post-dinner craving 🔖
 4. Whole amla simmering in sugar syrup in a brass pan over a fire.
 5. Hands slicing a glossy amla murabba into crescent-shaped pieces.
 6. Amla pieces laid out on steel trays inside a food dehydrator.
-7. A ceramic bowl of chewy brown crescent-shaped amla candy.
+7. A wooden bowl of chewy brown crescent-shaped amla candy on a jute cloth.
 8. Text: "dadi never asked if we wanted amla. she just handed it over."
 9. Hands holding a tin of Ashvena Amla Candy and a fresh amla against a light blue background.
 
