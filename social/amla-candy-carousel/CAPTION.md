@@ -28,24 +28,59 @@
 | 8 | Quote | dadi never asked if we wanted amla. *she just handed it over.* / tag the friend whose dadi did this too |
 | 9 | Product + CTA (tin) | dadi's recipe, *now in a tin.* / order now · link in bio |
 
-## Caption
+## Caption (recommended: "the dadi chase")
 ```
-if your dadi ever chased you with an amla after lunch... this one's for you 😭🫙
+POV: it's 2 pm, you just finished lunch, and dadi walks in holding an amla 🫠
 
-sour amla ➝ slow-cooked murabba ➝ cut ➝ dried ➝ chewy amla candy
+we ran. she always won. 😂
 
-same recipe. same taste. just no chasing anymore 😌
-real fruit · no added colour · 73 years strong
+now that same sour amla gets the full dadi treatment:
+🟢 fresh amla
+🍯 slow-cooked into murabba
+🔪 cut into bite-size pieces
+💨 dried till perfectly chewy
+✨ amla candy, ready
 
-tag the friend whose dadi did this too 👇
-save it for your next post-dinner craving 🔖
+same 73-year-old recipe. zero chasing required.
+real fruit · no added colour
 
-🛒 order now, link in bio
+drop a 🫙 if your dadi did this too 👇
+save this for your next post-dinner craving 🔖
+🛒 link in bio
+```
+
+### Alt caption: nostalgic
+```
+some things dadi never explained. she just did them. 🤍
+
+like handing you an amla after every meal.
+like knowing it was good for you before you did.
+
+73 years later, we still make it her way:
+slow-cooked, cut small, dried till chewy.
+just sweeter, so you'll actually want it. 😌
+
+tag someone who grew up on dadi ke nuskhe 👇
+🛒 link in bio
+```
+
+### Alt caption: short + comment bait
+```
+sour → sweet. dadi approved. ✅
+
+amla candy made the OG way: real fruit, slow-cooked, cut small, dried chewy.
+
+be honest, which one were you?
+🅰️ ate dadi's amla straight away
+🅱️ hid it in your pocket for later
+tell us below 👇
+
+🛒 link in bio
 ```
 
 ## Hashtags (first comment)
 ```
-#amlacandy #amla #indiangooseberry #ashvena #murabba #desisnacks #dadikenuskhe #desigrandma #healthysnacking #vitaminc #madeinindia #snackstagram #indianfood #nostalgia #ayurveda
+#amlacandy #amla #amlamurabba #indiangooseberry #ashvena #dadikenuskhe #desisnacks #desikids #nostalgia #90skids #indianfood #healthysnacks #guiltfreesnacking #madeinindia #homemadegoodness
 ```
 
 ## Alt text
