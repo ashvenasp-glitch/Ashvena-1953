@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="1130" viewBox="0 0 1640 1130">
+<rect width="1640" height="1130" fill="#f6efe0"/>
+<rect x="14" y="14" width="1612" height="1102" fill="none" stroke="#c9a24a" stroke-width="2"/>
+<text x="820.0" y="74" font-family="Cinzel, 'Times New Roman', serif" font-size="40" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="14">ASHVENA</text>
+<text x="820.0" y="108" font-family="Montserrat, Arial, sans-serif" font-size="15" font-weight="600" fill="#7a1f1a" text-anchor="middle" letter-spacing="3">SOCIETY STALL LAYOUT  ·  6 ft TABLE  ·  FRONT VIEW + TOP VIEW</text>
+<text x="450" y="160" font-family="Montserrat, Arial, sans-serif" font-size="17" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="2">FRONT VIEW  (what visitors see)</text>
+<line x1="40" y1="800" x2="860" y2="800" stroke="#0f1a40" stroke-width="2"/>
+<rect x="235" y="335" width="420" height="455" fill="#0f1a40" stroke="#c9a24a" stroke-width="3"/>
+<defs><pattern id="jaali" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13,2 L24,13 L13,24 L2,13Z" fill="none" stroke="#c9a24a" stroke-opacity=".25"/></pattern></defs>
+<rect x="235" y="335" width="420" height="455" fill="url(#jaali)"/>
+<path d="M295,665 V485 C295,415 445,375 445,375 C445,375 595,415 595,485 V665Z" fill="#1d3a66" stroke="#c9a24a" stroke-width="3"/>
+<text x="445" y="371" font-family="Cinzel, 'Times New Roman', serif" font-size="30" font-weight="700" fill="#c9a24a" text-anchor="middle" letter-spacing="8">ASHVENA</text>
+<text x="445" y="391" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="600" fill="#f1e6cf" text-anchor="middle" letter-spacing="4">EST. 1953</text>
+<text x="445" y="431" font-family="Cinzel, 'Times New Roman', serif" font-size="13" font-weight="600" fill="#f1e6cf" text-anchor="middle" letter-spacing="2">Roasted · Spiced · Royal</text>
+<circle cx="249" cy="349" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="249" y="354" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">1</text>
+<rect x="235" y="615" width="420" height="185" fill="#f1e6cf" stroke="#c9a24a" stroke-width="2"/>
+<rect x="235" y="772" width="420" height="28" fill="#0f1a40"/>
+<rect x="229" y="609" width="432" height="10" fill="#7a5a22"/>
+<text x="347" y="677" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" fill="#7a1f1a" text-anchor="middle" letter-spacing="2">TRY BEFORE YOU BUY</text>
+<text x="347" y="697" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#7a1f1a" text-anchor="middle" letter-spacing="1">free samples</text>
+<circle cx="249" cy="651" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="249" y="656" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">2</text>
+<rect x="493" y="645" width="92" height="104" rx="4" fill="#fff" stroke="#c9a24a" stroke-width="2"/>
+<rect x="509" y="659" width="10" height="10" fill="#0f1a40"/>
+<rect x="533" y="659" width="10" height="10" fill="#0f1a40"/>
+<rect x="545" y="659" width="10" height="10" fill="#0f1a40"/>
+<rect x="557" y="659" width="10" height="10" fill="#0f1a40"/>
+<rect x="509" y="671" width="10" height="10" fill="#0f1a40"/>
+<rect x="521" y="671" width="10" height="10" fill="#0f1a40"/>
+<rect x="545" y="671" width="10" height="10" fill="#0f1a40"/>
+<rect x="557" y="671" width="10" height="10" fill="#0f1a40"/>
+<rect x="509" y="683" width="10" height="10" fill="#0f1a40"/>
+<rect x="521" y="683" width="10" height="10" fill="#0f1a40"/>
+<rect x="533" y="683" width="10" height="10" fill="#0f1a40"/>
+<rect x="557" y="683" width="10" height="10" fill="#0f1a40"/>
+<rect x="521" y="695" width="10" height="10" fill="#0f1a40"/>
+<rect x="533" y="695" width="10" height="10" fill="#0f1a40"/>
+<rect x="545" y="695" width="10" height="10" fill="#0f1a40"/>
+<rect x="509" y="707" width="10" height="10" fill="#0f1a40"/>
+<rect x="533" y="707" width="10" height="10" fill="#0f1a40"/>
+<rect x="545" y="707" width="10" height="10" fill="#0f1a40"/>
+<rect x="557" y="707" width="10" height="10" fill="#0f1a40"/>
+<text x="539" y="737" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="700" fill="#7a1f1a" text-anchor="middle" letter-spacing="1">SCAN TO ORDER</text>
+<circle cx="593" cy="649" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="593" y="654" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">7</text>
+<rect x="279" y="593" width="108" height="22" fill="#7a5a22" stroke="#c9a24a"/>
+<rect x="282.0" y="547" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="297.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="286.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="316.0" y="547" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="331.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="320.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="350.0" y="547" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="365.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="354.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="299.0" y="501" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="314.5" cy="521.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="303.0" y="538" width="23" height="3" fill="#c9a24a"/>
+<rect x="333.0" y="501" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="348.5" cy="521.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="337.0" y="538" width="23" height="3" fill="#c9a24a"/>
+<rect x="316.0" y="455" width="31" height="46" rx="2" fill="#b3301c" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="331.5" cy="475.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="320.0" y="492" width="23" height="3" fill="#c9a24a"/>
+<rect x="503" y="593" width="108" height="22" fill="#7a5a22" stroke="#c9a24a"/>
+<rect x="506.0" y="547" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="521.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="510.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="540.0" y="547" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="555.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="544.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="574.0" y="547" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="589.5" cy="567.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="578.0" y="584" width="23" height="3" fill="#c9a24a"/>
+<rect x="523.0" y="501" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="538.5" cy="521.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="527.0" y="538" width="23" height="3" fill="#c9a24a"/>
+<rect x="557.0" y="501" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="572.5" cy="521.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="561.0" y="538" width="23" height="3" fill="#c9a24a"/>
+<rect x="540.0" y="455" width="31" height="46" rx="2" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1.5"/>
+<ellipse cx="555.5" cy="475.7" rx="8.680000000000001" ry="9.200000000000001" fill="#f1e6cf" stroke="#c9a24a"/>
+<rect x="544.0" y="492" width="23" height="3" fill="#c9a24a"/>
+<text x="333" y="608" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="700" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">PERI PERI</text>
+<text x="557" y="608" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="700" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">KADI PATTA</text>
+<circle cx="333" cy="419" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="333" y="424" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">4</text>
+<circle cx="557" cy="419" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="557" y="424" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">4</text>
+<rect x="405" y="565" width="80" height="50" fill="#7a5a22" stroke="#c9a24a"/>
+<rect x="404" y="481" width="82" height="82" fill="#0f1a40" stroke="#c9a24a" stroke-width="3"/>
+<path d="M418,553 V515 C418,500 445,491 445,491 C445,491 472,500 472,515 V553Z" fill="#7a1f1a" stroke="#c9a24a" stroke-width="2"/>
+<text x="445" y="608" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="700" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">ROYAL</text>
+<circle cx="445" cy="459" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="445" y="464" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">3</text>
+<rect x="240" y="609" width="42" height="6" fill="#c9a24a"/>
+<rect x="243" y="599" width="6" height="10" fill="#fff" stroke="#0f1a40" stroke-width=".8"/>
+<rect x="251" y="599" width="6" height="10" fill="#fff" stroke="#0f1a40" stroke-width=".8"/>
+<rect x="259" y="599" width="6" height="10" fill="#fff" stroke="#0f1a40" stroke-width=".8"/>
+<rect x="267" y="599" width="6" height="10" fill="#fff" stroke="#0f1a40" stroke-width=".8"/>
+<rect x="275" y="599" width="6" height="10" fill="#fff" stroke="#0f1a40" stroke-width=".8"/>
+<circle cx="261" cy="583" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="261" y="588" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">5</text>
+<path d="M614,563 h38 l-3,38 h-32Z" fill="#fff" stroke="#0f1a40" stroke-width="1.5"/>
+<text x="633" y="583" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="700" fill="#7a1f1a" text-anchor="middle" letter-spacing="1">VOTE!</text>
+<rect x="616" y="587" width="16" height="24" rx="3" fill="#b3301c" fill-opacity=".85" stroke="#0f1a40"/>
+<rect x="636" y="587" width="16" height="24" rx="3" fill="#2f7a3b" fill-opacity=".85" stroke="#0f1a40"/>
+<circle cx="633" cy="545" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="633" y="550" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">6</text>
+<rect x="55" y="380" width="130" height="420" fill="#0f1a40" stroke="#c9a24a" stroke-width="3"/>
+<defs><pattern id="jaali" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13,2 L24,13 L13,24 L2,13Z" fill="none" stroke="#c9a24a" stroke-opacity=".25"/></pattern></defs>
+<rect x="55" y="380" width="130" height="420" fill="url(#jaali)"/>
+<text x="120" y="420" font-family="Cinzel, 'Times New Roman', serif" font-size="17" font-weight="700" fill="#c9a24a" text-anchor="middle" letter-spacing="4">ASHVENA</text>
+<g transform="translate(120,500) scale(0.8,0.8)">
+<path d="M-6,0 C-30,40 -34,110 -14,150 C-8,110 -4,60 6,0Z" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1"/>
+<circle cx="-18" cy="70" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-14" cy="100" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-20" cy="120" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-12" cy="135" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<ellipse cx="4" cy="-8" rx="16" ry="12" fill="#1e6fb0"/>
+<path d="M8,-12 C18,-30 16,-46 10,-54" stroke="#1e6fb0" stroke-width="9" fill="none" stroke-linecap="round"/>
+<circle cx="10" cy="-58" r="6" fill="#1e6fb0"/><path d="M14,-58 l9,2 l-9,3z" fill="#c9a24a"/>
+</g>
+<text x="120" y="630" font-family="Cinzel, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">FREE SAMPLES</text>
+<text x="120" y="654" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="500" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">Peri Peri · Kadi Patta</text>
+<rect x="70" y="688" width="100" height="30" rx="15" fill="#c9a24a"/>
+<text x="120" y="708" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="2">ASK ME</text>
+<circle cx="71" cy="396" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="71" y="401" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">8</text>
+<rect x="705" y="380" width="130" height="420" fill="#0f1a40" stroke="#c9a24a" stroke-width="3"/>
+<defs><pattern id="jaali" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13,2 L24,13 L13,24 L2,13Z" fill="none" stroke="#c9a24a" stroke-opacity=".25"/></pattern></defs>
+<rect x="705" y="380" width="130" height="420" fill="url(#jaali)"/>
+<text x="770" y="420" font-family="Cinzel, 'Times New Roman', serif" font-size="17" font-weight="700" fill="#c9a24a" text-anchor="middle" letter-spacing="4">ASHVENA</text>
+<g transform="translate(770,500) scale(0.8,0.8)">
+<path d="M-6,0 C-30,40 -34,110 -14,150 C-8,110 -4,60 6,0Z" fill="#2f7a3b" stroke="#c9a24a" stroke-width="1"/>
+<circle cx="-18" cy="70" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-14" cy="100" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-20" cy="120" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<circle cx="-12" cy="135" r="5" fill="#1fa09a" stroke="#c9a24a"/>
+<ellipse cx="4" cy="-8" rx="16" ry="12" fill="#1e6fb0"/>
+<path d="M8,-12 C18,-30 16,-46 10,-54" stroke="#1e6fb0" stroke-width="9" fill="none" stroke-linecap="round"/>
+<circle cx="10" cy="-58" r="6" fill="#1e6fb0"/><path d="M14,-58 l9,2 l-9,3z" fill="#c9a24a"/>
+</g>
+<text x="770" y="630" font-family="Cinzel, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">FESTIVE DUO</text>
+<text x="770" y="654" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="500" fill="#f1e6cf" text-anchor="middle" letter-spacing="1">Pre-order · flat delivery</text>
+<rect x="720" y="688" width="100" height="30" rx="15" fill="#c9a24a"/>
+<text x="770" y="708" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="2">ASK ME</text>
+<circle cx="721" cy="396" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="721" y="401" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">8</text>
+<path d="M235,836 H655 M235,830 v12 M655,830 v12" stroke="#7a1f1a" stroke-width="1.5" fill="none"/>
+<text x="445.0" y="827" font-family="Montserrat, Arial, sans-serif" font-size="13" font-weight="700" fill="#7a1f1a" text-anchor="middle" letter-spacing="0">6 ft table</text>
+<path d="M681,615 V800 M675,615 h12 M675,800 h12" stroke="#7a1f1a" stroke-width="1.5" fill="none"/>
+<text transform="translate(673,707.5) rotate(-90)" font-family="Montserrat, Arial, sans-serif" font-size="13" font-weight="700" fill="#7a1f1a" text-anchor="middle">2.5 ft</text>
+<text x="1220" y="160" font-family="Montserrat, Arial, sans-serif" font-size="17" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="2">TOP VIEW  (10 × 8 ft pitch)</text>
+<rect x="930" y="190" width="550" height="440" fill="#fbf6ea" stroke="#0f1a40" stroke-width="2" stroke-dasharray="9 6"/>
+<text x="938" y="182" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="600" fill="#0f1a40" text-anchor="start" letter-spacing="1">BACK  (wall / fence)</text>
+<rect x="1040" y="194" width="330" height="8" fill="#0f1a40" stroke="#c9a24a"/>
+<circle cx="1022" cy="198" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1022" y="203" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">1</text>
+<g transform="rotate(-14 991 260)"><rect x="936" y="256" width="110" height="8" fill="#0f1a40" stroke="#c9a24a"/></g>
+<g transform="rotate(14 1419 260)"><rect x="1364" y="256" width="110" height="8" fill="#0f1a40" stroke="#c9a24a"/></g>
+<circle cx="960" cy="302" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="960" y="307" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">8</text>
+<circle cx="1450" cy="302" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1450" y="307" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">8</text>
+<text x="1205" y="311.0" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="700" fill="#7a1f1a" text-anchor="middle" letter-spacing="2">SELLER ZONE (3 ft)</text>
+<circle cx="1205" cy="344.0" r="17" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1205" y="348.0" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">YOU</text>
+<circle cx="1282.0" cy="344.0" r="17" fill="#fff" stroke="#0f1a40" stroke-width="2"/>
+<text x="1282.0" y="348.0" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">HELP</text>
+<rect x="1051.0" y="212" width="88.0" height="30" fill="#e2c995" stroke="#7a5a22"/>
+<text x="1095" y="232" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="700" fill="#7a5a22" text-anchor="middle" letter-spacing="1">STOCK BOXES</text>
+<rect x="1040" y="371.5" width="330" height="137.5" fill="#f1e6cf" stroke="#7a5a22" stroke-width="3"/>
+<circle cx="1022" cy="385.5" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1022" y="390.5" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">2</text>
+<rect x="1100.5" y="407.25" width="71.5" height="44" rx="3" fill="#b3301c" stroke="#c9a24a"/>
+<rect x="1238.0" y="407.25" width="71.5" height="44" rx="3" fill="#2f7a3b" stroke="#c9a24a"/>
+<rect x="1180.25" y="403.25" width="55.0" height="52" fill="#0f1a40" stroke="#c9a24a" stroke-width="2"/>
+<text x="1136.25" y="433.25" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="0">PERI</text>
+<text x="1273.75" y="433.25" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="0">KADI</text>
+<text x="1207.75" y="433.25" font-family="Montserrat, Arial, sans-serif" font-size="10" font-weight="700" fill="#c9a24a" text-anchor="middle" letter-spacing="0">ROYAL</text>
+<circle cx="1136.25" cy="393.25" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1136.25" y="398.25" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">4</text>
+<circle cx="1207.75" cy="389.25" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1207.75" y="394.25" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">3</text>
+<rect x="1046.6" y="483.0" width="49.5" height="18" rx="3" fill="#fff" stroke="#c9a24a" stroke-width="2"/>
+<circle cx="1070.25" cy="471.0" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1070.25" y="476.0" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">5</text>
+<circle cx="1323.25" cy="491.0" r="9" fill="#b3301c" stroke="#0f1a40"/>
+<circle cx="1345.25" cy="491.0" r="9" fill="#2f7a3b" stroke="#0f1a40"/>
+<circle cx="1342.5" cy="471.0" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1342.5" y="476.0" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">6</text>
+<rect x="1188.5" y="505.0" width="38.5" height="8" fill="#fff" stroke="#c9a24a" stroke-width="2"/>
+<circle cx="1207.75" cy="531.0" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1207.75" y="536.0" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">7</text>
+<defs><marker id="arr" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto"><path d="M0,0 L14,7 L0,14Z" fill="#7a1f1a"/></marker></defs>
+<path d="M963.0,728 L1007.0,602 H1403.0 L1447.0,728" stroke="#7a1f1a" stroke-width="3" fill="none" stroke-dasharray="2 7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<text x="1205" y="588" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="600" fill="#7a1f1a" text-anchor="middle" letter-spacing="0">visitors queue at the sides, never in front of the table</text>
+<rect x="926" y="728" width="558" height="22" fill="#e9dcc0"/>
+<text x="1205.0" y="744" font-family="Montserrat, Arial, sans-serif" font-size="11" font-weight="700" fill="#7a5a22" text-anchor="middle" letter-spacing="5">SOCIETY WALKWAY</text>
+<line x1="40" y1="924" x2="1600" y2="924" stroke="#c9a24a" stroke-width="1.5"/>
+<circle cx="60" cy="960" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="60" y="965" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">1</text>
+<text x="86" y="959" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Backdrop banner</text>
+<text x="86" y="977" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">6 × 6.5 ft, midnight + gold arch art</text>
+<circle cx="455" cy="960" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="455" y="965" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">2</text>
+<text x="481" y="959" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Table, 6 × 2.5 ft</text>
+<text x="481" y="977" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Ivory cloth, midnight skirt, brand line</text>
+<circle cx="850" cy="960" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="850" y="965" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">3</text>
+<text x="876" y="959" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Hero gift box</text>
+<text x="876" y="977" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Royal Collection at eye level (4–5 ft)</text>
+<circle cx="1245" cy="960" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1245" y="965" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">4</text>
+<text x="1271" y="959" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Flavour towers</text>
+<text x="1271" y="977" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Peri Peri left, Kadi Patta right, on risers</text>
+<circle cx="60" cy="1022" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="60" y="1027" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">5</text>
+<text x="86" y="1021" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Sampling tray</text>
+<text x="86" y="1039" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Front corner, covered, with toothpicks</text>
+<circle cx="455" cy="1022" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="455" y="1027" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">6</text>
+<text x="481" y="1021" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Vote board</text>
+<text x="481" y="1039" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Two jars: drop a cashew in your favourite</text>
+<circle cx="850" cy="1022" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="850" y="1027" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">7</text>
+<text x="876" y="1021" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">QR + price card</text>
+<text x="876" y="1039" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Scan to order / pre-order via WhatsApp</text>
+<circle cx="1245" cy="1022" r="14" fill="#c9a24a" stroke="#0f1a40" stroke-width="2"/>
+<text x="1245" y="1027" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="middle" letter-spacing="0">8</text>
+<text x="1271" y="1021" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="700" fill="#0f1a40" text-anchor="start" letter-spacing="0">Side standees</text>
+<text x="1271" y="1039" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Free samples · Festive duo offer</text>
+<text x="820.0" y="1092" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="600" fill="#7a1f1a" text-anchor="middle" letter-spacing="1">Rule of thumb: hero product at eye level · trial packs at hand level · samples at the front corner · price and QR always visible</text>
+</svg>
