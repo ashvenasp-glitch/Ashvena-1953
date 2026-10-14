@@ -53,10 +53,10 @@ FONTS = {
 }
 
 CANDIES = [
-    dict(key="amla", name="Amla Candy", title="#2D6C4C", lid="lid-amla.png", line="Sweet, soft and chewy."),
-    dict(key="khatti-meethi", name="Khatti-Meethi Amla Candy", title="#1C6467", lid="lid-khatti-meethi.png",
+    dict(key="amla", name="Amla Candy", title="#2D6C4C", line="Sweet, soft and chewy."),
+    dict(key="khatti-meethi", name="Khatti-Meethi Amla Candy", title="#1C6467",
          line="Sweet, sour, with rock salt and spices."),
-    dict(key="carrot", name="Carrot Candy", title="#A85325", lid="lid-carrot.png", line="Made with real carrot."),
+    dict(key="carrot", name="Carrot Candy", title="#A85325", line="Made with real carrot."),
 ]
 MASALAS = [
     dict(key="cutting-chai", name="Cutting Chai", title="#81461F", art="cutting-chai-bowl.jpg",
@@ -208,15 +208,26 @@ def veg_mark(x, y, size=5.0):
              f'<circle cx="{px(x + size / 2):.2f}" cy="{px(y + size / 2):.2f}" r="{size * .25 * MM:.2f}" fill="{VEG}"/>')
 
 
-def lid(name, cx, cy, d):
-    img, _ = image(name, cx - d / 2, cy - d / 2, d, d, gid="Lid_" + name.split(".")[0].replace("lid-", ""))
-    return img
-
-
-def footer(y):
+def footer(y, line=RULE, col=INK):
     return g("Footer",
-             rule(6, TW - 6, y),
-             t(CX, y + 8, SIGN_OFF, 12, INK, "fraunces", 400, italic=True))
+             rule(6, TW - 6, y, line),
+             t(CX, y + 8, SIGN_OFF, 12, col, "fraunces", 400, italic=True))
+
+
+def arch_window(gid, x, apex, w, h, rise, wall, line, art):
+    """Light jharokha-style window (arched top) holding art painted on that wall colour."""
+    def shape(x0, y0, ww, hh, a):
+        ya, yb, r = y0 + a, y0 + hh, 2.5
+        return (f"M {px(x0):.2f},{px(yb - r):.2f} L {px(x0):.2f},{px(ya):.2f} "
+                f"A {ww / 2 * MM:.2f} {a * MM:.2f} 0 0 1 {px(x0 + ww):.2f},{px(ya):.2f} "
+                f"L {px(x0 + ww):.2f},{px(yb - r):.2f} Q {px(x0 + ww):.2f},{px(yb):.2f} {px(x0 + ww - r):.2f},{px(yb):.2f} "
+                f"L {px(x0 + r):.2f},{px(yb):.2f} Q {px(x0):.2f},{px(yb):.2f} {px(x0):.2f},{px(yb - r):.2f} Z")
+    o = 1.8
+    return g(gid,
+             f'<path d="{shape(x - o, apex - o, w + 2 * o, h + 2 * o, rise + o)}" fill="none" stroke="{line}" '
+             f'stroke-width="1.1"/>',
+             f'<path d="{shape(x, apex, w, h, rise)}" fill="{wall}"/>',
+             art)
 
 
 def svg_doc(body, title, wall, tw=TW, th=TH):
@@ -251,11 +262,10 @@ def standee_candies():
     step = (FOOTER_Y - 1 - top) / len(CANDIES)
     for i, c in enumerate(CANDIES):
         y = top + i * step
-        r = [lid(c["lid"], 15, y + step / 2 - .5, 16),
-             t(29, y + step / 2 - 1, c["name"], 21, c["title"], "lobster", anchor="start", maxw=TW - 35),
-             t(29, y + step / 2 + 5, c["line"], 10, STORY, italic=True, anchor="start", maxw=TW - 35)]
+        r = [t(CX, y + step / 2 - 1, c["name"], 22, c["title"], "lobster", maxw=TW - 16),
+             t(CX, y + step / 2 + 5.5, c["line"], 10.5, STORY, italic=True, maxw=TW - 16)]
         if i < len(CANDIES) - 1:
-            r.append(rule(29, TW - 6, y + step - .5))
+            r.append(rule(CX - 30, CX + 30, y + step - .5))
         o.append(g("Product_" + c["key"].replace("-", "_"), *r))
     o.append(footer(FOOTER_Y))
     return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Real Fruit Candies", WALL_CANDY)
@@ -300,6 +310,77 @@ def standee_pantry():
     o.append(g("Dry_Fruit_List", *rows))
     o.append(footer(FOOTER_Y))
     return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Masalas & Dry Fruits", WALL_PANTRY)
+
+
+# ---------------------------------------------------------------------------
+# Red menus (the stall's two side stands): Ashvena Red ground, one-colour cream
+# logo, cream / lid-blue type, art held in light arched windows.
+# ---------------------------------------------------------------------------
+
+def standee_candies_red():
+    o = [veg_mark(6, 6), logo(CX, 8, 28, one_colour=CREAM)]
+    o.append(g("Title",
+               t(CX, 49, "Real Fruit Candies", 30, CREAM, "lobster", maxw=TW - 20),
+               t(CX, 55.5, "Dadi never asked if we wanted amla.", 11, LID_BLUE, italic=True),
+               t(CX, 60.5, "She just handed it over.", 11, LID_BLUE, italic=True)))
+    apex, bottom, aw = 65, 134, 132
+    h = art_height("dadi-family-scene.jpg", aw)
+    art, _ = image("dadi-family-scene.jpg", CX - aw / 2, bottom - 1.5 - h, aw, gid="Art_Dadi_Scene")
+    o.append(arch_window("Window_Dadi", 8, apex, TW - 16, bottom - apex, 14, WALL_CANDY, LID_BLUE, art))
+    o.append(g("Claims_Strip", t(CX, bottom + 7.5, CLAIMS, 7, CREAM, "bricolage", 500, track=100, maxw=TW - 14)))
+
+    top = bottom + 11
+    step = (FOOTER_Y - 1 - top) / len(CANDIES)
+    for i, c in enumerate(CANDIES):
+        y = top + i * step
+        r = [t(CX, y + step / 2 - .5, c["name"], 21, CREAM, "lobster", maxw=TW - 16),
+             t(CX, y + step / 2 + 5.5, c["line"], 10.5, LID_BLUE, italic=True, maxw=TW - 16)]
+        if i < len(CANDIES) - 1:
+            r.append(rule(CX - 30, CX + 30, y + step - .3, LID_BLUE))
+        o.append(g("Product_" + c["key"].replace("-", "_"), *r))
+    o.append(footer(FOOTER_Y, LID_BLUE, LID_BLUE))
+    return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Real Fruit Candies (red)", RED)
+
+
+def standee_pantry_red():
+    o = [veg_mark(6, 6), logo(CX, 8, 28, one_colour=CREAM)]
+    o.append(g("Masala_Head",
+               t(CX, 48, "Recipe from 1953", 22, CREAM, italic=True),
+               t(CX, 54, "MASALAS", 7.5, LID_BLUE, "bricolage", 500, track=320)))
+    apex, bottom, ww, aw = 58, 105, 66, 62
+    for i, m in enumerate(MASALAS):
+        cx = TW / 4 + i * TW / 2 + (1 if i == 0 else -1)
+        h = art_height(m["art"], aw)
+        art, _ = image(m["art"], cx - aw / 2, bottom - 1.5 - h, aw, gid="Art_" + m["key"].replace("-", "_"))
+        o.append(g("Product_" + m["key"].replace("-", "_"),
+                   arch_window("Window_" + m["key"].replace("-", "_"), cx - ww / 2, apex, ww, bottom - apex, 8,
+                               WALL_PANTRY, LID_BLUE, art),
+                   t(cx, bottom + 10.5, m["name"], 19, CREAM, italic=True, maxw=68),
+                   t(cx, bottom + 15.5, "MASALA", 7, LID_BLUE, "bricolage", 500, track=320),
+                   t(cx, bottom + 21, m["line"], 10, CREAM, italic=True, maxw=68)))
+    y_div = bottom + 26.5
+    o.append(rule(6, TW - 6, y_div, LID_BLUE))
+
+    yt = y_div + 12
+    o.append(g("Dry_Fruit_Head",
+               t(6, yt, "Premium Dry Fruits", 21, CREAM, "lobster", anchor="start"),
+               t(6, yt + 6.3, DRY_FRUIT_LINE, 9.5, LID_BLUE, italic=True, anchor="start")))
+    px0, pw, paw = 76, TW - 6 - 76, 66
+    papex, pbottom = y_div + 5, FOOTER_Y - 4
+    ah = art_height("papa-family-scene.jpg", paw)
+    art, _ = image("papa-family-scene.jpg", px0 + (pw - paw) / 2, pbottom - 1 - ah, paw, gid="Art_Papa_Scene")
+    o.append(arch_window("Window_Papa", px0, papex, pw, pbottom - papex, 9, WALL_PANTRY, LID_BLUE, art))
+    rows, ly, rx = [], yt + 10, 70
+    step = (FOOTER_Y - 2 - ly) / len(DRY_FRUITS)
+    for i, d in enumerate(DRY_FRUITS):
+        y = ly + i * step
+        rows.append(g("Product_" + d["key"].replace("-", "_"),
+                      t(6, y + step / 2 + 2, d["name"], 16, CREAM, "lobster", anchor="start", maxw=rx - 6)))
+        if i < len(DRY_FRUITS) - 1:
+            rows.append(rule(6, rx, y + step, LID_BLUE, .5))
+    o.append(g("Dry_Fruit_List", *rows))
+    o.append(footer(FOOTER_Y, LID_BLUE, LID_BLUE))
+    return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Masalas & Dry Fruits (red)", RED)
 
 
 # ---------------------------------------------------------------------------
@@ -446,8 +527,10 @@ def tasting_counter(theme):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for name, fn in [("ashvena-standee_real-fruit-candies", standee_candies),
-                     ("ashvena-standee_masalas-dry-fruits", standee_pantry),
+    for name, fn in [("ashvena-standee_real-fruit-candies", standee_candies_red),
+                     ("ashvena-standee_masalas-dry-fruits", standee_pantry_red),
+                     ("ashvena-standee_real-fruit-candies-light", standee_candies),
+                     ("ashvena-standee_masalas-dry-fruits-light", standee_pantry),
                      ("ashvena-display_red-no-shortcuts", message_red),
                      ("ashvena-display_blue-house-rule", message_blue),
                      ("ashvena-a4_tasting-counter-red", lambda: tasting_counter("red")),

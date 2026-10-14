@@ -26,9 +26,9 @@ BOARDS = {
         [("ashvena-display_red-no-shortcuts", SIX_NINE), ("ashvena-display_blue-house-rule", SIX_NINE)],
         "6 × 9 IN ACRYLIC T-STAND · DISPLAY MESSAGES · ASHVENA RED · LID BLUE", 2.9),
     "ashvena-stall-layout-board": (
-        [("ashvena-standee_real-fruit-candies", SIX_NINE), ("ashvena-a4_tasting-counter-red", A4),
+        [("ashvena-standee_real-fruit-candies", SIX_NINE), ("ashvena-a4_tasting-counter-blue", A4),
          ("ashvena-standee_masalas-dry-fruits", SIX_NINE)],
-        "STALL LAYOUT · CANDIES 6 × 9 · TASTING COUNTER A4 · MASALAS &amp; DRY FRUITS 6 × 9", 2.35),
+        "STALL LAYOUT · RED SIDES 6 × 9 · BLUE TASTING COUNTER A4", 2.35),
 }
 
 CSS = """

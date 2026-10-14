@@ -2,7 +2,7 @@
 """Pull the approved Ashvena artwork and logo out of the brand guidelines PDF.
 
 The standees reuse the finished pack illustrations (watercolour + gold ink,
-Brand & Packaging Guidelines 2026, p. 8 and p. 19) instead of new art. The
+Brand & Packaging Guidelines 2026, p. 8) instead of new art. The
 PDF only holds the printed fronts, so each scene is cropped clear of the
 baked-in type, any stray glyphs are painted out with the wall colour, and the
 crop edges are faded into the standee wall in software (guidelines p. 11:
@@ -11,7 +11,7 @@ cropped.
 
 Writes:
   signage/brand/ashvena-logo-stacked.svg     vector stacked logo (p. 4)
-  signage/stall-standees/art/*.jpg|png       cropped scenes and candy lids
+  signage/stall-standees/art/*.jpg           cropped scenes
 
 Usage:  python3 scripts/prepare_standee_art.py <Ashvena-Brand-Packaging-Guidelines-2026.pdf>
 Needs:  poppler-utils (pdfimages, pdftocairo) and Pillow.
@@ -41,7 +41,6 @@ SCENES = {
                             (70, 40, 60, 30), WALL_PANTRY),
     "papa-family-scene": (8, 6, (455, 112, 1013, 537), ([], None), (60, 56, 22, 10), WALL_PANTRY),
 }
-LIDS = {"lid-khatti-meethi": (19, 0), "lid-amla": (19, 2), "lid-carrot": (19, 3)}
 
 
 def extract(pdf, page, tmp):
@@ -91,20 +90,6 @@ def scene(pdf, tmp, name, spec):
     return path
 
 
-def lid(pdf, tmp, name, spec):
-    page, idx = spec
-    im = Image.open(f"{extract(pdf, page, tmp)}-{idx:03d}.png").convert("RGB")
-    s = 4 * im.width
-    m = Image.new("L", (s, s), 0)
-    ImageDraw.Draw(m).ellipse((6, 6, s - 7, s - 7), fill=255)
-    m = m.resize(im.size, Image.Resampling.LANCZOS)
-    im.putalpha(m)
-    im = im.resize((360, 360), Image.Resampling.LANCZOS)
-    path = os.path.join(ART, name + ".png")
-    im.save(path, optimize=True)
-    return path
-
-
 def logo(pdf, tmp):
     svg = os.path.join(tmp, "p4.svg")
     subprocess.run(["pdftocairo", "-svg", "-f", "4", "-l", "4", pdf, svg], check=True)
@@ -133,7 +118,6 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         written = [logo(pdf, tmp)]
         written += [scene(pdf, tmp, k, v) for k, v in SCENES.items()]
-        written += [lid(pdf, tmp, k, v) for k, v in LIDS.items()]
     for p in written:
         print(os.path.relpath(p, BASE))
 

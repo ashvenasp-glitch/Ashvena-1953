@@ -6,8 +6,9 @@ Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in displ
 
 | File | What it is |
 |---|---|
-| `stall-standees/ashvena-standee_real-fruit-candies.*` | Standee 1: Amla Candy, Khatti-Meethi Amla Candy, Carrot Candy |
-| `stall-standees/ashvena-standee_masalas-dry-fruits.*` | Standee 2: Cutting Chai and Chatpata Chaat masalas (recipe from 1953), plus the premium dry fruits |
+| `stall-standees/ashvena-standee_real-fruit-candies.*` | Standee 1 (Ashvena Red): Amla Candy, Khatti-Meethi Amla Candy, Carrot Candy |
+| `stall-standees/ashvena-standee_masalas-dry-fruits.*` | Standee 2 (Ashvena Red): Cutting Chai and Chatpata Chaat masalas (recipe from 1953), plus the premium dry fruits |
+| `stall-standees/*-light.*` | Light-wall alternates of both menus, with titles in each range's title colour |
 | `stall-standees/ashvena-display_red-no-shortcuts.*` | Display card, Ashvena Red: "No shortcuts. Ever." |
 | `stall-standees/ashvena-display_blue-house-rule.*` | Display card, lid blue: "Nobody leaves without tasting." |
 | `stall-standees/ashvena-a4_tasting-counter-red.*` / `-blue.*` | A4 tasting counter (centre stand): six-taste flight, gifting ask, WhatsApp QR |
@@ -23,7 +24,9 @@ Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in displ
 - **Safe area:** 6 mm inside the trim. The bottom ~10 mm of the trim sits behind the stand's front lip, so it carries no copy.
 
 ## How the guidelines are applied
-- **Logo:** the stacked logo (अ mark + Ashvena + 1953), centred at the top, in its original colours, on a light wall. Its clear space is at least the height of the word "Ashvena". The veg mark sits top-left.
+- **Logo:** the stacked logo (अ mark + Ashvena + 1953), centred at the top, with clear space of at least the height of the word "Ashvena". The veg mark sits top-left.
+  - **Red menus:** the one-colour Heirloom Cream logo, which the guidelines allow only on a solid dark ground (as on their cover).
+  - **Light alternates and the blue A4:** the logo in its original colours.
 - **Type:**
   - Lobster for titles on the heritage ranges only: *Real Fruit Candies*, the candy names, *Premium Dry Fruits* and the dry-fruit names.
   - Fraunces (9 pt optical size) for the modern masala titles, taglines and the sign-off.
@@ -44,7 +47,10 @@ Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in displ
   | Seedless Raisins | #6D441B |
 
   Seedless Raisins uses its darkest range colour, because its title colour #D3992C is too pale at list size.
-- **Walls:** the backgrounds are the range walls: Khatti-Meethi aqua-sage for the candies, warm cream for the pantry card.
+- **Red menus:** the ground is Ashvena Red #941528. Titles are Heirloom Cream, with lines, rules and the sign-off in lid blue #CBE9F1.
+  - The art is painted on light walls, so each scene sits in a light **arched window** (a jharokha shape, echoing the niches in the art). Each window is the art's own wall colour, so the faded edges blend in.
+  - The range title colours apply on the light alternates only. On red they would lose contrast.
+- **Light alternates:** the backgrounds are the range walls, Khatti-Meethi aqua-sage for the candies and warm cream for the pantry card.
 - **Illustration:** only approved art is used. The candy card carries the Dadi scene (heritage), the masalas the hammered brass bowls with no people (modern), and the dry fruits the Papa scene (heritage). The art was cropped clear of the baked-in type, and its edges were faded into the wall in software. No bowl or figure is cropped, and none sits under type.
 - **Copy:** taglines come from the copy library (p. 26). The candy claims strip uses the allowed claims only, and Carrot carries its own "Made with real carrot". The sign-off is "Heirloom, remixed. · Since 1953". The customer-care line is the fixed text.
 
@@ -124,9 +130,11 @@ This is new copy in the brand voice. Use it only if the stall offers tastings. D
 
 | Position | Card | Job |
 |---|---|---|
-| Left (6 × 9) | Real Fruit Candies | Menu and prices for the candies |
-| **Centre (A4)** | **Tasting counter**, Ashvena Red (`ashvena-a4_tasting-counter-red.*`) | Stops people, guides the tasting, then hands off to buying, gifting and WhatsApp |
-| Right (6 × 9) | Masalas & Dry Fruits | Menu and prices for the masalas and dry fruits |
+| Left (6 × 9) | Real Fruit Candies, **red** | Candy menu |
+| **Centre (A4)** | **Tasting counter, blue** (`ashvena-a4_tasting-counter-blue.*`) | Stops people, guides the tasting, then hands off to buying, gifting and WhatsApp |
+| Right (6 × 9) | Masalas & Dry Fruits, **red** | Masala and dry-fruit menu |
+
+The light-blue centre between two red sides makes it the one card that breaks the pattern, so the eye lands on it first. Its red headline ties it back to the sides.
 
 **Why this layout (from the research):**
 - **Sampling sells, most of all for small sellers with a short range.** A *Journal of Retailing* study of six scanner datasets found that sampling lifted sales both right away and over the following weeks. It worked better than end-of-aisle displays, and smaller stores with less variety gained the most ([BYU](https://marriott.byu.edu/stories/faculty-research/free-samples-increase-sales)).
@@ -144,7 +152,7 @@ This is new copy in the brand voice. Use it only if the stall offers tastings. D
 - Offer each taste on its own spoon or toothpick, and keep the trays covered. The allergen line is already on the card.
 - Keep a few ready-packed gift boxes next to the tasting counter, so a "yes" can be packed straight away.
 - Chatpata Chaat is served on fresh fruit and Cutting Chai as a cup, so plan for both, or change those two notes in `TASTING`.
-- Most acrylic T-stands are double-sided. If yours are, slide the red **"No shortcuts. Ever."** card into the back of one 6 × 9 stand to face people walking up from that side. The blue house-rule card now repeats the A4 message, so keep it as a spare. You can also use the blue A4 (`ashvena-a4_tasting-counter-blue.*`) if the red one sits next to a red backdrop.
+- Most acrylic T-stands are double-sided. If yours are, slide the red **"No shortcuts. Ever."** card into the back of one 6 × 9 stand to face people walking up from that side. The blue house-rule card now repeats the A4 message, so keep it as a spare. A red A4 (`ashvena-a4_tasting-counter-red.*`) is also available, for a stall with a light backdrop where you want all three cards red.
 
 **A4 tasting counter: copy**
 - **Kicker:** TASTING COUNTER
