@@ -1,6 +1,6 @@
 # Ashvena 1953: Stall signage
 
-Two 6 × 9 in table standees for the stall's acrylic T-stands, built to the **Ashvena Brand & Packaging Guidelines 2026 (v1.0)**.
+Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in display cards and an A4 tasting-counter card. All are built to the **Ashvena Brand & Packaging Guidelines 2026 (v1.0)**.
 
 ![Board](stall-standees/ashvena-standees-board.png)
 
@@ -10,6 +10,7 @@ Two 6 × 9 in table standees for the stall's acrylic T-stands, built to the **As
 | `stall-standees/ashvena-standee_masalas-dry-fruits.*` | Standee 2: Cutting Chai and Chatpata Chaat masalas (recipe from 1953), plus the premium dry fruits |
 | `stall-standees/ashvena-display_red-no-shortcuts.*` | Display card, Ashvena Red: "No shortcuts. Ever." |
 | `stall-standees/ashvena-display_blue-house-rule.*` | Display card, lid blue: "Nobody leaves without tasting." |
+| `stall-standees/ashvena-a4_tasting-counter-red.*` / `-blue.*` | A4 tasting counter (centre stand): six-taste flight, gifting ask, WhatsApp QR |
 | `*.svg` | Editable master (live text, named layers: `Logo_Stacked`, `Title`, `Illustration`, `Product_*`, `Footer`, `Guides`) |
 | `*.pdf` | Print proof with fonts embedded |
 | `*.png` | Preview |
@@ -18,7 +19,7 @@ Two 6 × 9 in table standees for the stall's acrylic T-stands, built to the **As
 
 ## Size
 - **Trim:** 152.4 × 228.6 mm (6 × 9 in).
-- **Artboard:** 158.4 × 234.6 mm, which includes **3 mm bleed** on every side. Trim marks are on the hidden `Guides` layer.
+- **Artboard:** 158.4 × 234.6 mm, which includes **3 mm bleed** on every side. The A4 card is 210 × 297 mm trim, so its artboard is 216 × 303 mm. Trim marks are on the hidden `Guides` layer.
 - **Safe area:** 6 mm inside the trim. The bottom ~10 mm of the trim sits behind the stand's front lip, so it carries no copy.
 
 ## How the guidelines are applied
@@ -116,6 +117,53 @@ This is new copy in the brand voice. Use it only if the stall offers tastings. D
 |---|---|
 | Red | *Same recipes since 1953.* · *Everything we make feels like home.* |
 | Blue | *Papa's rule: try one before you pick a jar.* · *Taste first. Then decide.* |
+
+## Stall layout: two 6 × 9 in stands + one A4 stand
+
+![Stall layout](stall-standees/ashvena-stall-layout-board.png)
+
+| Position | Card | Job |
+|---|---|---|
+| Left (6 × 9) | Real Fruit Candies | Menu and prices for the candies |
+| **Centre (A4)** | **Tasting counter**, Ashvena Red (`ashvena-a4_tasting-counter-red.*`) | Stops people, guides the tasting, then hands off to buying, gifting and WhatsApp |
+| Right (6 × 9) | Masalas & Dry Fruits | Menu and prices for the masalas and dry fruits |
+
+**Why this layout (from the research):**
+- **Sampling sells, most of all for small sellers with a short range.** A *Journal of Retailing* study of six scanner datasets found that sampling lifted sales both right away and over the following weeks. It worked better than end-of-aisle displays, and smaller stores with less variety gained the most ([BYU](https://marriott.byu.edu/stories/faculty-research/free-samples-increase-sales)).
+- **Sampling also brings in people who weren't planning to buy.** A grocery field study found it pulled them into the category ([Heilman et al., *British Food Journal* 2011](https://www.emeraldinsight.com/doi/pdfplus/10.1108/00070701111177674)). So tasting gets the centre spot, and both menus sit within one glance of it.
+- **Keep the tasting short and in a set order.** In the jam study, the 24-jam table stopped more passers-by (60 % against 40 %). But about 30 % of tasters bought at the 6-jam table, against about 3 % at the 24-jam table ([Lumen summary](https://courses.lumenlearning.com/waymaker-psychology/?p=7485), [Tim Harford](https://timharford.com/2009/11/given-the-choice-how-much-choice-would-you-like/)).
+  - The bold centre card does the stopping, and the six-item flight does the converting.
+  - The order runs mild to bold, so each taste still reads: cashew, then sweet candy, then sweet-sour candy, then tangy chaat, ending on warm chai.
+- **Diwali is a dry-fruit gifting season.** Dry fruit remains the traditional premium Diwali gift, with demand driven by higher-income and corporate buyers ([Packaging South Asia](https://packagingsouthasia.com/supply-chain-function/design-marketing/premiumizing-diwali-gift-packs/), [Agro & Food Processing](https://agronfoodprocessing.com/festive-cheer-lifts-indias-dry-fruit-trade-as-imports-prices-surge-ahead-of-diwali/)). The card asks "Make it a Diwali gift. Ask us."
+- **Size the type for distance.** The sign-industry rule of thumb is about 1 in of letter height per 10 ft of viewing distance ([Signs.com](https://www.signs.com/blog/?p=16381), [SignsNY](https://signsny.com/resources/distance-visibility/)).
+  - The A4 headline (about 15 mm caps) reads from about 2 m, across the counter.
+  - The menus are sized for reading within arm's reach, once someone has stopped.
+
+**On the day:**
+- Stand the A4 on a small riser behind the sample trays, so the trays never cover the headline.
+- Offer each taste on its own spoon or toothpick, and keep the trays covered. The allergen line is already on the card.
+- Keep a few ready-packed gift boxes next to the tasting counter, so a "yes" can be packed straight away.
+- Chatpata Chaat is served on fresh fruit and Cutting Chai as a cup, so plan for both, or change those two notes in `TASTING`.
+- Most acrylic T-stands are double-sided. If yours are, slide the red **"No shortcuts. Ever."** card into the back of one 6 × 9 stand to face people walking up from that side. The blue house-rule card now repeats the A4 message, so keep it as a spare. You can also use the blue A4 (`ashvena-a4_tasting-counter-blue.*`) if the red one sits next to a red backdrop.
+
+**A4 tasting counter: copy**
+- **Kicker:** TASTING COUNTER
+- **Display:** *Nobody leaves without tasting.*
+- **Attribution:** *Dadi's house rule*
+- **Order:** TASTE IN THIS ORDER, MILD TO BOLD
+
+| # | Name | Note |
+|---|---|---|
+| 1 | *Whole Cashews* | Start mild. 100% cashew, no added salt or oil. |
+| 2 | *Carrot Candy* | Made with real carrot. |
+| 3 | *Amla Candy* | Made with real fruit. Sweet and chewy. |
+| 4 | *Khatti-Meethi Amla Candy* | Sweet, sour, with rock salt and spices. |
+| 5 | *Chatpata Chaat Masala* | On fresh fruit. Tangy, salty, a little wild. |
+| 6 | *Cutting Chai Masala* | Finish with a cup. Brewed strong. Poured slow. |
+
+- **Take-home:** LIKED IT? *Take it home, or make it a Diwali gift. Ask us.*
+- **Order again:** ORDER AGAIN · *Scan for WhatsApp* · +91 79886 26068. The QR is vector and points to `https://wa.me/917988626068`; it was checked by decoding the render.
+- **Footer:** the allergen advice line, then *Heirloom, remixed. · Since 1953*
 
 ## Before print, fill in or confirm
 - **MRP:** fill `MRP` in `scripts/generate_standees.py` (for example `{"amla": "180"}`) and regenerate. Any MRP left empty prints a write-in line.

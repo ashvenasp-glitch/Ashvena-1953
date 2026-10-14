@@ -233,16 +233,17 @@ def footer(y):
              t(CX, y + 12.5, CARE, 6.5, STORY, "bricolage", 400, track=20, maxw=TW - 16))
 
 
-def svg_doc(body, title, wall):
+def svg_doc(body, title, wall, tw=TW, th=TH):
+    w, h = (tw + 2 * BLEED) * MM, (th + 2 * BLEED) * MM
     return (f'<?xml version="1.0" encoding="UTF-8"?>\n'
             f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
-            f'width="{W / MM:.1f}mm" height="{H / MM:.1f}mm" viewBox="0 0 {W:.1f} {H:.1f}">\n'
+            f'width="{w / MM:.1f}mm" height="{h / MM:.1f}mm" viewBox="0 0 {w:.1f} {h:.1f}">\n'
             f'<title>{esc(title)}</title>\n'
-            f'<g id="Background"><rect width="{W:.1f}" height="{H:.1f}" fill="{wall}"/></g>\n'
+            f'<g id="Background"><rect width="{w:.1f}" height="{h:.1f}" fill="{wall}"/></g>\n'
             f'{body}\n'
             f'<g id="Guides" opacity="0">'
-            f'<rect id="Trim" x="{px(0)}" y="{px(0)}" width="{TW * MM:.1f}" height="{TH * MM:.1f}" fill="none" stroke="#ff00ff"/>'
-            f'<rect id="Safe_6mm" x="{px(6)}" y="{px(6)}" width="{(TW - 12) * MM:.1f}" height="{(TH - 16) * MM:.1f}" '
+            f'<rect id="Trim" x="{px(0)}" y="{px(0)}" width="{tw * MM:.1f}" height="{th * MM:.1f}" fill="none" stroke="#ff00ff"/>'
+            f'<rect id="Safe_6mm" x="{px(6)}" y="{px(6)}" width="{(tw - 12) * MM:.1f}" height="{(th - 16) * MM:.1f}" '
             f'fill="none" stroke="#00aaff" stroke-dasharray="6 4"/></g>\n</svg>\n')
 
 
@@ -379,12 +380,100 @@ def message_blue():
     return svg_doc("\n".join(o), "Ashvena 1953 display card - Nobody leaves without tasting. (blue)", LID_BLUE)
 
 
+# ---------------------------------------------------------------------------
+# A4 tasting counter (centre of the stall)
+# ---------------------------------------------------------------------------
+# A short, ordered flight converts better than an open spread (six-option
+# tasting: ~30 % of tasters bought vs ~3 % with 24 options), so the card
+# serves six samples, mild to bold, then hands off to gifting and WhatsApp.
+
+A4W, A4H = 210, 297
+WHATSAPP = "https://wa.me/917988626068"
+TASTING = [
+    ("Whole Cashews", "Start mild. 100% cashew, no added salt or oil."),
+    ("Carrot Candy", "Made with real carrot."),
+    ("Amla Candy", "Made with real fruit. Sweet and chewy."),
+    ("Khatti-Meethi Amla Candy", "Sweet, sour, with rock salt and spices."),
+    ("Chatpata Chaat Masala", "On fresh fruit. Tangy, salty, a little wild."),
+    ("Cutting Chai Masala", "Finish with a cup. Brewed strong. Poured slow."),
+]
+ALLERGEN = ("ALLERGEN ADVICE  ·  Cashews and other dry fruits are tree nuts. Everything is packed in a "
+            "facility that also handles tree nuts and peanuts.")
+TASTING_THEMES = {
+    # main = display + names, accent = kickers / rules / numbers, body = notes
+    "red": dict(bg=RED, logo=CREAM, main=CREAM, accent=LID_BLUE, body=CREAM, num_ink=RED),
+    "blue": dict(bg=LID_BLUE, logo=None, main=RED, accent=RED, body=INK, num_ink=LID_BLUE),
+}
+
+
+def qr_code(data, x, y, size, ink, paper):
+    """Vector QR (segno) on a quiet-zone tile, at trim-relative mm."""
+    import segno
+    rows = [list(r) for r in segno.make(data, error="m").matrix]
+    n = len(rows)
+    cell = size / (n + 8)
+    o = [f'<rect x="{px(x):.2f}" y="{px(y):.2f}" width="{size * MM:.2f}" height="{size * MM:.2f}" rx="{MM * 1.5}" '
+         f'fill="{paper}"/>']
+    d = []
+    for j, row in enumerate(rows):
+        for i, v in enumerate(row):
+            if v:
+                d.append(f"M{px(x + (i + 4) * cell):.2f},{px(y + (j + 4) * cell):.2f}h{cell * MM:.2f}v{cell * MM:.2f}"
+                         f"h{-cell * MM:.2f}z")
+    o.append(f'<path d="{"".join(d)}" fill="{ink}" shape-rendering="crispEdges"/>')
+    return g("QR_WhatsApp", *o)
+
+
+def tasting_counter(theme):
+    th = TASTING_THEMES[theme]
+    cx = A4W / 2
+    o = [veg_mark(9, 9, 6), logo(cx, 14, 30, one_colour=th["logo"]),
+         g("Kicker", t(cx, 60, "TASTING COUNTER", 10, th["accent"], "bricolage", 500, track=320)),
+         g("Display", t(cx, 82, "Nobody leaves", 60, th["main"], italic=True, maxw=A4W - 24),
+           t(cx, 103, "without tasting.", 60, th["main"], italic=True, maxw=A4W - 24)),
+         g("Attribution", t(cx, 114, "Dadi’s house rule", 14, th["accent"], italic=True)),
+         rule(cx - 15, cx + 15, 122, th["accent"], 1.4),
+         g("Order_Head", t(cx, 134, "TASTE IN THIS ORDER, MILD TO BOLD", 8.5, th["accent"], "bricolage", 500,
+                           track=260))]
+    # centre the flight as a block: number disc + widest name / note
+    text_w = max(max(measure(n, "fraunces", 17, 400, True), measure(d, "bricolage", 9)) for n, d in TASTING)
+    x_num = cx - (8.8 + 5.6 + text_w) / 2 + 4.4
+    x_txt, top, step = x_num + 10, 141, 13.6
+    rows = []
+    for i, (name, note) in enumerate(TASTING):
+        y = top + i * step
+        rows.append(g(f"Taste_{i + 1}",
+                      f'<circle cx="{px(x_num):.2f}" cy="{px(y + 5.6):.2f}" r="{4.4 * MM:.2f}" fill="{th["accent"]}"/>',
+                      t(x_num, y + 7.6, str(i + 1), 14, th["num_ink"], "fraunces", 600),
+                      t(x_txt, y + 5.4, name, 17, th["main"], italic=True, anchor="start", maxw=A4W - x_txt - 30),
+                      t(x_txt, y + 10.6, note, 9, th["body"], "bricolage", 400, "start", maxw=A4W - x_txt - 30)))
+    o.append(g("Tasting_Flight", *rows))
+
+    yb = top + len(TASTING) * step + 4
+    o.append(rule(16, A4W - 16, yb, th["accent"], .8))
+    qs = 30
+    o.append(g("Take_Home",
+               t(16, yb + 10, "LIKED IT?", 8.5, th["accent"], "bricolage", 500, "start", 260),
+               t(16, yb + 19, "Take it home, or make it", 15, th["main"], italic=True, anchor="start"),
+               t(16, yb + 26, "a Diwali gift. Ask us.", 15, th["main"], italic=True, anchor="start"),
+               qr_code(WHATSAPP, A4W - 16 - qs, yb + 4, qs, INK, CREAM),
+               t(A4W - 16 - qs - 5, yb + 12, "ORDER AGAIN", 8.5, th["accent"], "bricolage", 500, "end", 260),
+               t(A4W - 16 - qs - 5, yb + 19, "Scan for WhatsApp", 11, th["main"], italic=True, anchor="end"),
+               t(A4W - 16 - qs - 5, yb + 25, "+91 79886 26068", 11, th["main"], "fraunces", 600, "end")))
+    o.append(g("Footer",
+               t(cx, yb + 42, ALLERGEN, 7, th["body"], "bricolage", 400, maxw=A4W - 30),
+               t(cx, yb + 50, SIGN_OFF, 12, th["accent"], italic=True)))
+    return svg_doc("\n".join(o), f"Ashvena 1953 tasting counter A4 ({theme})", th["bg"], A4W, A4H)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     for name, fn in [("ashvena-standee_real-fruit-candies", standee_candies),
                      ("ashvena-standee_masalas-dry-fruits", standee_pantry),
                      ("ashvena-display_red-no-shortcuts", message_red),
-                     ("ashvena-display_blue-house-rule", message_blue)]:
+                     ("ashvena-display_blue-house-rule", message_blue),
+                     ("ashvena-a4_tasting-counter-red", lambda: tasting_counter("red")),
+                     ("ashvena-a4_tasting-counter-blue", lambda: tasting_counter("blue"))]:
         path = os.path.join(OUT, name + ".svg")
         with open(path, "w") as fh:
             fh.write(fn())
