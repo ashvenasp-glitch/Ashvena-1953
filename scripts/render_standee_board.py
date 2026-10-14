@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Render a presentation board: both stall standees in clear acrylic T-stands.
+"""Render presentation boards: the stall cards in clear acrylic T-stands.
 
 Reads the PNG previews (run render_previews.py signage first), trims the 3 mm
-bleed and writes signage/stall-standees/ashvena-standees-board.png.
+bleed and writes one board per entry in BOARDS to signage/stall-standees/.
 """
 import base64
 import glob
@@ -14,7 +14,12 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "signage", "stall-standees")
 CHROME = "/opt/pw-browsers/chromium"
-CARDS = ["ashvena-standee_real-fruit-candies", "ashvena-standee_masalas-dry-fruits"]
+BOARDS = {
+    "ashvena-standees-board": (["ashvena-standee_real-fruit-candies", "ashvena-standee_masalas-dry-fruits"],
+                               "REAL FRUIT CANDIES · MASALAS &amp; DRY FRUITS"),
+    "ashvena-display-cards-board": (["ashvena-display_red-no-shortcuts", "ashvena-display_blue-house-rule"],
+                                    "DISPLAY MESSAGES · ASHVENA RED · LID BLUE"),
+}
 BLEED_PX = 3 * 8                          # previews are 8 px per mm
 
 CSS = """
@@ -49,14 +54,17 @@ def card_uri(name):
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def main():
+def board_html(cards, sub):
     stands = "".join(f'<div class="stand {side}"><div class="shadow"></div><div class="base"></div>'
                      f'<img class="card" src="{card_uri(n)}"><div class="acrylic"></div><div class="lip"></div></div>'
-                     for n, side in zip(CARDS, ["l", "r"]))
-    html = (f"<html><head><style>{CSS}</style></head><body><div class='wall'></div><div class='table'></div>"
+                     for n, side in zip(cards, ["l", "r"]))
+    return (f"<html><head><style>{CSS}</style></head><body><div class='wall'></div><div class='table'></div>"
             f"<h1>Ashvena 1953 · Stall standees</h1>"
-            f"<p class='sub'>6 × 9 IN ACRYLIC T-STAND · REAL FRUIT CANDIES · MASALAS &amp; DRY FRUITS</p>"
+            f"<p class='sub'>6 × 9 IN ACRYLIC T-STAND · {sub}</p>"
             f"<div class='stage'>{stands}</div></body></html>")
+
+
+def main():
     kw = {}
     exe = glob.glob(CHROME + "*/chrome-linux/chrome")
     if exe:
@@ -64,13 +72,14 @@ def main():
     with sync_playwright() as p:
         b = p.chromium.launch(**kw)
         pg = b.new_page(viewport={"width": 1500, "height": 970}, device_scale_factor=1.5)
-        pg.set_content(html, wait_until="networkidle")
-        pg.evaluate("document.fonts.ready")
-        pg.wait_for_timeout(200)
-        out = os.path.join(ROOT, "ashvena-standees-board.png")
-        pg.screenshot(path=out, full_page=True)
+        for name, (cards, sub) in BOARDS.items():
+            pg.set_content(board_html(cards, sub), wait_until="networkidle")
+            pg.evaluate("document.fonts.ready")
+            pg.wait_for_timeout(200)
+            out = os.path.join(ROOT, name + ".png")
+            pg.screenshot(path=out, full_page=True)
+            print(os.path.relpath(out, os.path.join(ROOT, "..", "..")))
         b.close()
-    print(os.path.relpath(out, os.path.join(ROOT, "..", "..")))
 
 
 if __name__ == "__main__":

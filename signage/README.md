@@ -8,6 +8,8 @@ Two 6 × 9 in table standees for the stall's acrylic T-stands, built to the **As
 |---|---|
 | `stall-standees/ashvena-standee_real-fruit-candies.*` | Standee 1: Amla Candy, Khatti-Meethi Amla Candy, Carrot Candy |
 | `stall-standees/ashvena-standee_masalas-dry-fruits.*` | Standee 2: Cutting Chai and Chatpata Chaat masalas (recipe from 1953), plus the premium dry fruits |
+| `stall-standees/ashvena-display_red-no-shortcuts.*` | Display card, Ashvena Red: "No shortcuts. Ever." |
+| `stall-standees/ashvena-display_blue-house-rule.*` | Display card, lid blue: "Nobody leaves without tasting." |
 | `*.svg` | Editable master (live text, named layers: `Logo_Stacked`, `Title`, `Illustration`, `Product_*`, `Footer`, `Guides`) |
 | `*.pdf` | Print proof with fonts embedded |
 | `*.png` | Preview |
@@ -73,6 +75,48 @@ Two 6 × 9 in table standees for the stall's acrylic T-stands, built to the **As
 
 **Footer (both):** *Heirloom, remixed. · Since 1953* · MRP incl. of all taxes · Customer care +91 79886 26068 (WhatsApp)
 
+## Display cards
+
+![Display cards](stall-standees/ashvena-display-cards-board.png)
+
+These two type-led cards go in the same 6 × 9 in stands, between the menus. They mirror the candy lids (guidelines p. 19). The Amla lid is red with a light-blue mark, and the Khatti-Meethi lid is light blue (#CBE9F1) with a red mark.
+
+**Red card (Ashvena Red #941528)**
+- The logo is the one-colour Heirloom Cream version. The guidelines allow it only on a solid dark ground.
+- The text is cream, with light-blue accents.
+
+| Part | Text |
+|---|---|
+| Kicker | 73 YEARS IN |
+| Display | *No shortcuts. Ever.* |
+| Story | In 1947, when our family crossed the border, they carried one thing with them. An intention to do everything with purity. With honesty. |
+| Close | *That's why everything we make feels like home.* |
+| Sign-off | *Heirloom, remixed. · Since 1953* · SONIPAT, INDIA |
+
+All of this is approved story text (guidelines p. 3). The promise line is set as the display.
+
+**Blue card (lid blue #CBE9F1)**
+- The logo is in its original colours.
+- The display is Ashvena Red, and the body text is Ink.
+
+| Part | Text |
+|---|---|
+| Kicker | THE HOUSE RULE |
+| Display | *"Nobody leaves without tasting."* |
+| Attribution | *Dadi, every single day* |
+| Body | Ask us for a taste of our candies, masalas and dry fruits. |
+| Range | CANDIES · MASALAS · DRY FRUITS |
+| Sign-off | *Heirloom, remixed. · Since 1953* · SONIPAT, INDIA |
+
+This is new copy in the brand voice. Use it only if the stall offers tastings. Dadi is a heritage character, so the card sits best beside the candies.
+
+**Alternate lines.** Swap them into `MESSAGES` in `scripts/generate_standees.py`.
+
+| Card | Alternates |
+|---|---|
+| Red | *Same recipes since 1953.* · *Everything we make feels like home.* |
+| Blue | *Papa's rule: try one before you pick a jar.* · *Taste first. Then decide.* |
+
 ## Before print, fill in or confirm
 - **MRP:** fill `MRP` in `scripts/generate_standees.py` (for example `{"amla": "180"}`) and regenerate. Any MRP left empty prints a write-in line.
 - **New copy (not in the copy library):**
@@ -96,5 +140,5 @@ pip install playwright pillow fonttools
 python3 scripts/prepare_standee_art.py Ashvena-Brand-Packaging-Guidelines-2026.pdf   # art/ + logo (needs poppler)
 python3 scripts/generate_standees.py                                              # SVG masters
 python3 scripts/render_previews.py signage                                        # PNG + PDF
-python3 scripts/render_standee_board.py                                           # mockup board
+python3 scripts/render_standee_board.py                                           # mockup boards
 ```

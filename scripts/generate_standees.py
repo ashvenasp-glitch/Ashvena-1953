@@ -90,6 +90,21 @@ FOOTER_Y = 203                           # same on both cards, clear of the stan
 WALL_CANDY = "#e0efe1"                   # matches the faded edges baked into the art
 WALL_PANTRY = "#f9f3e1"
 
+# Display-message cards: the pair mirrors the Amla (red / light-blue mark) and
+# Khatti-Meethi (light blue / red mark) candy lids, guidelines p. 19.
+CREAM = "#F3E6C6"                        # Heirloom Cream: one-colour logo + text on a dark ground
+LID_BLUE = "#CBE9F1"
+MESSAGES = {
+    "red": dict(kicker="73 YEARS IN", display=["No shortcuts.", "Ever."],
+                story="In 1947, when our family crossed the border, they carried one thing with them. "
+                      "An intention to do everything with purity. With honesty.",
+                close="That’s why everything we make feels like home."),
+    "blue": dict(kicker="THE HOUSE RULE", display=["Nobody leaves", "without tasting."],
+                 by="Dadi, every single day",
+                 body=["Ask us for a taste of our", "candies, masalas and dry fruits."],
+                 range="CANDIES  ·  MASALAS  ·  DRY FRUITS"),
+}
+
 
 # ---------------------------------------------------------------------------
 # units, metrics, text
@@ -183,12 +198,17 @@ def image(name, x, y, w, h=None, gid=None):
             f'height="{h * MM:.2f}" preserveAspectRatio="xMidYMid meet" xlink:href="data:{mime};base64,{data}"/>'), h
 
 
-def logo(cx, top, height):
-    """Stacked logo, original colours. Clear space x = word height = 16 % of logo height."""
+def logo(cx, top, height, one_colour=None):
+    """Stacked logo, original colours. Clear space x = word height = 16 % of logo height.
+
+    `one_colour` (Heirloom Cream) is for solid dark grounds only, as on the guidelines cover.
+    """
     src = open(LOGO).read()
     vx, vy, vw, vh = map(float, re.search(r'viewBox="([^"]+)"', src).group(1).split())
     s = height * MM / vh
     body = "\n".join(re.findall(r'<g id="(?:Mark|Word|Year)".*?</g>', src, re.S))
+    if one_colour:
+        body = re.sub(r'fill="#[0-9A-Fa-f]{6}"', f'fill="{one_colour}"', body)
     x0 = px(cx) - vw * s / 2
     return f'<g id="Logo_Stacked" transform="translate({x0:.2f} {px(top):.2f}) scale({s:.5f}) translate({-vx} {-vy})">\n{body}\n</g>'
 
@@ -303,10 +323,68 @@ def standee_pantry():
     return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Masalas & Dry Fruits", WALL_PANTRY)
 
 
+# ---------------------------------------------------------------------------
+# Display-message cards (type only: Fraunces display, Bricolage kickers)
+# ---------------------------------------------------------------------------
+
+def wrap_mm(s, font, pt, weight, maxw, italic=False):
+    lines, cur = [], ""
+    for word in s.split():
+        nxt = (cur + " " + word).strip()
+        if cur and measure(nxt, font, pt, weight, italic) > maxw:
+            lines.append(cur)
+            cur = word
+        else:
+            cur = nxt
+    return lines + ([cur] if cur else [])
+
+
+def short_rule(y, col, w=24):
+    return rule(CX - w / 2, CX + w / 2, y, col, 1.2)
+
+
+def sign_off(col, sub_col):
+    return g("Sign_Off",
+             t(CX, FOOTER_Y + 6, SIGN_OFF, 12, col, italic=True),
+             t(CX, FOOTER_Y + 12, "SONIPAT, INDIA", 6, sub_col, "bricolage", 500, track=240))
+
+
+def message_red():
+    m = MESSAGES["red"]
+    o = [logo(CX, 16, 32, one_colour=CREAM),
+         g("Kicker", t(CX, 76, m["kicker"], 8, LID_BLUE, "bricolage", 500, track=320)),
+         g("Display", *[t(CX, 100 + i * 21, line, 56, CREAM, italic=True, maxw=TW - 18)
+                        for i, line in enumerate(m["display"])]),
+         short_rule(137, LID_BLUE)]
+    lines = wrap_mm(m["story"], "fraunces", 12.5, 400, 116)
+    o.append(g("Story", *[t(CX, 152 + i * 6.6, line, 12.5, CREAM) for i, line in enumerate(lines)],
+               t(CX, 152 + len(lines) * 6.6 + 5, m["close"], 12.5, LID_BLUE, italic=True, maxw=TW - 20)))
+    o.append(sign_off(LID_BLUE, CREAM))
+    return svg_doc("\n".join(o), "Ashvena 1953 display card - No shortcuts. Ever. (red)", RED)
+
+
+def message_blue():
+    m = MESSAGES["blue"]
+    o = [logo(CX, 16, 32),
+         g("Kicker", t(CX, 74, m["kicker"], 8, STORY, "bricolage", 500, track=320)),
+         g("Quote_Mark", t(CX, 110, "“", 88, RED, italic=True)),
+         g("Display", *[t(CX, 118 + i * 18, line, 46, RED, italic=True, maxw=TW - 16)
+                        for i, line in enumerate(m["display"])]),
+         g("Attribution", t(CX, 147.5, m["by"], 12.5, STORY, italic=True)),
+         short_rule(157, RED)]
+    lines = m["body"]
+    o.append(g("Body", *[t(CX, 170 + i * 6.6, line, 12.5, INK) for i, line in enumerate(lines)]))
+    o.append(g("Range", t(CX, 170 + len(lines) * 6.6 + 7, m["range"], 7, RED, "bricolage", 500, track=320)))
+    o.append(sign_off(RED, STORY))
+    return svg_doc("\n".join(o), "Ashvena 1953 display card - Nobody leaves without tasting. (blue)", LID_BLUE)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     for name, fn in [("ashvena-standee_real-fruit-candies", standee_candies),
-                     ("ashvena-standee_masalas-dry-fruits", standee_pantry)]:
+                     ("ashvena-standee_masalas-dry-fruits", standee_pantry),
+                     ("ashvena-display_red-no-shortcuts", message_red),
+                     ("ashvena-display_blue-house-rule", message_blue)]:
         path = os.path.join(OUT, name + ".svg")
         with open(path, "w") as fh:
             fh.write(fn())
