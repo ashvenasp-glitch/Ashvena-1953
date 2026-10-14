@@ -20,7 +20,7 @@ Artboard: 158.4 x 234.6 mm = 152.4 x 228.6 mm (6 x 9 in) trim + 3 mm bleed,
 4 px = 1 mm. Text is live and every region is a named group. The bottom
 ~10 mm of the trim sits behind the stand's lip, so it carries no key copy.
 
-Prices: fill MRP below (e.g. "amla": "180"); empty ones print a write-in line.
+The menus carry no prices or pack sizes: names, one short line each, art.
 
 Usage:  python3 scripts/prepare_standee_art.py <guidelines.pdf>   # once
         python3 scripts/generate_standees.py
@@ -52,39 +52,30 @@ FONTS = {
     "lobster": ("Lobster", "Lobster, cursive"),
 }
 
-MRP = {}                                 # product key -> price, e.g. {"amla": "180"}
-
 CANDIES = [
-    dict(key="amla", name="Amla Candy", title="#2D6C4C", lid="lid-amla.png", net="250 g",
-         lines=["Dried amla with sugar. Sweet, soft and chewy."]),
+    dict(key="amla", name="Amla Candy", title="#2D6C4C", lid="lid-amla.png", line="Sweet, soft and chewy."),
     dict(key="khatti-meethi", name="Khatti-Meethi Amla Candy", title="#1C6467", lid="lid-khatti-meethi.png",
-         net="250 g", lines=["Dried amla with sugar, rock salt and spices."]),
-    dict(key="carrot", name="Carrot Candy", title="#A85325", lid="lid-carrot.png", net="250 g",
-         lines=["Because Dadi always said carrots are good for your eyes."], claim="MADE WITH REAL CARROT"),
+         line="Sweet, sour, with rock salt and spices."),
+    dict(key="carrot", name="Carrot Candy", title="#A85325", lid="lid-carrot.png", line="Made with real carrot."),
 ]
 MASALAS = [
-    dict(key="cutting-chai", name="Cutting Chai", title="#81461F", art="cutting-chai-bowl.jpg", net="100 g",
+    dict(key="cutting-chai", name="Cutting Chai", title="#81461F", art="cutting-chai-bowl.jpg",
          line="Brewed strong. Poured slow."),
-    dict(key="chatpata-chaat", name="Chatpata Chaat", title="#982820", art="chatpata-chaat-bowl.jpg", net="100 g",
+    dict(key="chatpata-chaat", name="Chatpata Chaat", title="#982820", art="chatpata-chaat-bowl.jpg",
          line="Tangy, salty, a little wild."),
 ]
 DRY_FRUITS = [
-    dict(key="whole-cashews", name="Whole Cashews", title="#6C5020", net="250 g",
-         line="Papa’s rule: whole ones for the guests. We only pack whole ones."),
-    dict(key="akbari-pistachios", name="Akbari Pistachios", title="#414A27", net="250 g",
-         line="Papa’s rule: crack them open yourself. They taste better."),
-    dict(key="california-almonds", name="California Almonds", title="#985E31", net="250 g",
-         line="Mum’s rule: soak five at night, eat them at sunrise."),
+    dict(key="whole-cashews", name="Whole Cashews", title="#6C5020"),
+    dict(key="akbari-pistachios", name="Akbari Pistachios", title="#414A27"),
+    dict(key="california-almonds", name="California Almonds", title="#985E31"),
     # raisin title #D3992C is too pale at list size on cream: use the darkest range colour (head)
-    dict(key="seedless-raisins", name="Seedless Raisins", title="#6D441B", net="250 g",
-         line="Papa’s rule: one handful a day. Papa has big hands."),
-    dict(key="walnut-kernels", name="Walnut Kernels", title="#9A7040", net="250 g",
-         line="Papa’s rule: walnuts look like brains for a reason."),
+    dict(key="seedless-raisins", name="Seedless Raisins", title="#6D441B"),
+    dict(key="walnut-kernels", name="Walnut Kernels", title="#9A7040"),
 ]
+DRY_FRUIT_LINE = "Papa’s rule: whole ones for the guests."
 
 CLAIMS = "MADE WITH REAL FRUIT  ·  73-YEAR-OLD RECIPE  ·  NO ADDED COLOUR"
 SIGN_OFF = "Heirloom, remixed. · Since 1953"
-CARE = "MRP incl. of all taxes  ·  Customer care +91 79886 26068 (WhatsApp)"
 
 FOOTER_Y = 203                           # same on both cards, clear of the stand's lip
 WALL_CANDY = "#e0efe1"                   # matches the faded edges baked into the art
@@ -175,10 +166,6 @@ def rule(x0, x1, y, col=RULE, w=.6):
     return f'<line x1="{px(x0):.1f}" y1="{px(y):.1f}" x2="{px(x1):.1f}" y2="{px(y):.1f}" stroke="{col}" stroke-width="{w}"/>'
 
 
-def mrp(key):
-    return f"MRP ₹ {MRP[key]}" if MRP.get(key) else "MRP ₹ ________"
-
-
 # ---------------------------------------------------------------------------
 # brand elements
 # ---------------------------------------------------------------------------
@@ -229,8 +216,7 @@ def lid(name, cx, cy, d):
 def footer(y):
     return g("Footer",
              rule(6, TW - 6, y),
-             t(CX, y + 7, SIGN_OFF, 11, INK, "fraunces", 400, italic=True),
-             t(CX, y + 12.5, CARE, 6.5, STORY, "bricolage", 400, track=20, maxw=TW - 16))
+             t(CX, y + 8, SIGN_OFF, 12, INK, "fraunces", 400, italic=True))
 
 
 def svg_doc(body, title, wall, tw=TW, th=TH):
@@ -265,17 +251,11 @@ def standee_candies():
     step = (FOOTER_Y - 1 - top) / len(CANDIES)
     for i, c in enumerate(CANDIES):
         y = top + i * step
-        r = [lid(c["lid"], 13, y + 10.5, 14),
-             t(25, y + 8.5, c["name"], 18, c["title"], "lobster", anchor="start", maxw=88),
-             t(TW - 6, y + 4.6, "NET WT.", 5.2, STORY, "bricolage", 500, "end", 100),
-             t(TW - 6, y + 10.2, c["net"], 14, c["title"], "fraunces", 600, "end"),
-             t(TW - 6, y + 15.6, mrp(c["key"]), 7.5, STORY, "bricolage", 400, "end")]
-        for j, line in enumerate(c["lines"]):
-            r.append(t(25, y + 14 + j * 4.4, line, 8.5, STORY, italic=True, anchor="start", maxw=92))
-        if c.get("claim"):
-            r.append(t(25, y + 14 + len(c["lines"]) * 4.4, c["claim"], 5.6, STORY, "bricolage", 500, "start", 100))
+        r = [lid(c["lid"], 15, y + step / 2 - .5, 16),
+             t(29, y + step / 2 - 1, c["name"], 21, c["title"], "lobster", anchor="start", maxw=TW - 35),
+             t(29, y + step / 2 + 5, c["line"], 10, STORY, italic=True, anchor="start", maxw=TW - 35)]
         if i < len(CANDIES) - 1:
-            r.append(rule(25, TW - 6, y + step - 1))
+            r.append(rule(29, TW - 6, y + step - .5))
         o.append(g("Product_" + c["key"].replace("-", "_"), *r))
     o.append(footer(FOOTER_Y))
     return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Real Fruit Candies", WALL_CANDY)
@@ -286,39 +266,37 @@ def standee_candies():
 # ---------------------------------------------------------------------------
 
 def standee_pantry():
-    o = [veg_mark(6, 6), logo(CX, 7, 24)]
+    o = [veg_mark(6, 6), logo(CX, 8, 28)]
     o.append(g("Masala_Head",
-               t(CX, 41, "Recipe from 1953", 20, INK, italic=True),
-               t(CX, 46.5, "MASALAS", 7, "#3D2313", "bricolage", 500, track=320)))
+               t(CX, 48, "Recipe from 1953", 22, INK, italic=True),
+               t(CX, 54, "MASALAS", 7.5, "#3D2313", "bricolage", 500, track=320)))
     for i, m in enumerate(MASALAS):
         cx = TW / 4 + i * TW / 2
-        art, h = image(m["art"], cx - 37, 47.5, 74, gid="Art_" + m["key"].replace("-", "_"))
-        y = 47.5 + h
+        art, h = image(m["art"], cx - 37, 56, 74, gid="Art_" + m["key"].replace("-", "_"))
+        y = 56 + h
         o.append(g("Product_" + m["key"].replace("-", "_"),
                    art,
-                   t(cx, y + 7, m["name"], 17, m["title"], italic=True, maxw=68),
-                   t(cx, y + 11.5, "MASALA", 6.5, "#3D2313", "bricolage", 500, track=320),
-                   t(cx, y + 16.5, m["line"], 8.5, STORY, italic=True, maxw=68),
-                   t(cx, y + 22, f"NET WT. {m['net']}   ·   {mrp(m['key'])}", 7, STORY, "bricolage", 400, maxw=70)))
-    y_div = 47.5 + h + 27
+                   t(cx, y + 7.5, m["name"], 19, m["title"], italic=True, maxw=68),
+                   t(cx, y + 12.5, "MASALA", 7, "#3D2313", "bricolage", 500, track=320),
+                   t(cx, y + 18, m["line"], 10, STORY, italic=True, maxw=68)))
+    y_div = 56 + h + 25
     o.append(rule(6, TW - 6, y_div))
 
-    yt = y_div + 11
-    o.append(g("Dry_Fruit_Head", t(6, yt, "Premium Dry Fruits", 22, "#6C5020", "lobster", anchor="start")))
+    yt = y_div + 12
+    o.append(g("Dry_Fruit_Head",
+               t(6, yt, "Premium Dry Fruits", 24, "#6C5020", "lobster", anchor="start"),
+               t(6, yt + 6.5, DRY_FRUIT_LINE, 10, STORY, italic=True, anchor="start")))
     ah = art_height("papa-family-scene.jpg", 78)
     art, _ = image("papa-family-scene.jpg", TW + BLEED - 78, FOOTER_Y - 3.5 - ah, 78, gid="Art_Papa_Scene")
     o.append(g("Illustration", art))
-    rows, ly, rx = [], yt + 7, 76
+    rows, ly, rx = [], yt + 11, 72
     step = (FOOTER_Y - 2 - ly) / len(DRY_FRUITS)
     for i, d in enumerate(DRY_FRUITS):
         y = ly + i * step
         rows.append(g("Product_" + d["key"].replace("-", "_"),
-                      t(6, y + 4.8, d["name"], 13, d["title"], "lobster", anchor="start", maxw=50),
-                      t(rx, y + 4.4, f"{d['net']}  ·  {mrp(d['key']).replace('MRP ', '')}", 6.8, STORY, "bricolage",
-                        400, "end"),
-                      t(6, y + 9.2, d["line"], 6.6, STORY, italic=True, anchor="start", maxw=rx - 6)))
+                      t(6, y + step / 2 + 2.2, d["name"], 17, d["title"], "lobster", anchor="start", maxw=rx - 6)))
         if i < len(DRY_FRUITS) - 1:
-            rows.append(rule(6, rx, y + step - 1.3))
+            rows.append(rule(6, rx, y + step))
     o.append(g("Dry_Fruit_List", *rows))
     o.append(footer(FOOTER_Y))
     return svg_doc("\n".join(o), "Ashvena 1953 stall standee - Masalas & Dry Fruits", WALL_PANTRY)

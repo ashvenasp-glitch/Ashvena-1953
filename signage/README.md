@@ -27,7 +27,7 @@ Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in displ
 - **Type:**
   - Lobster for titles on the heritage ranges only: *Real Fruit Candies*, the candy names, *Premium Dry Fruits* and the dry-fruit names.
   - Fraunces (9 pt optical size) for the modern masala titles, taglines and the sign-off.
-  - Bricolage Grotesque (14 pt) for category words, NET WT., the MRP lines and the claims strip.
+  - Bricolage Grotesque (14 pt) for category words, kickers and the claims strip.
 - **Colour:** each title uses its range's title colour from p. 6:
 
   | Product | Title colour |
@@ -50,31 +50,31 @@ Cards for the stall's acrylic T-stands: two 6 × 9 in menus, two 6 × 9 in displ
 
 ## Copy deck
 
+The menus carry no prices or pack sizes, just names, one short line each and the art.
+
 **Standee 1: Real Fruit Candies**
 
-| | Name | Line | Pack |
-|---|---|---|---|
-| Title | Real Fruit Candies | *Dadi never asked if we wanted amla. She just handed it over.* | |
-| Strip | | MADE WITH REAL FRUIT · 73-YEAR-OLD RECIPE · NO ADDED COLOUR | |
-| 1 | Amla Candy | *Dried amla with sugar. Sweet, soft and chewy.* | NET WT. 250 g · MRP ₹ ____ |
-| 2 | Khatti-Meethi Amla Candy | *Dried amla with sugar, rock salt and spices.* | NET WT. 250 g · MRP ₹ ____ |
-| 3 | Carrot Candy | *Because Dadi always said carrots are good for your eyes.* · MADE WITH REAL CARROT | NET WT. 250 g · MRP ₹ ____ |
+| | Name | Line |
+|---|---|---|
+| Title | Real Fruit Candies | *Dadi never asked if we wanted amla. She just handed it over.* |
+| Strip | | MADE WITH REAL FRUIT · 73-YEAR-OLD RECIPE · NO ADDED COLOUR |
+| 1 | Amla Candy | *Sweet, soft and chewy.* |
+| 2 | Khatti-Meethi Amla Candy | *Sweet, sour, with rock salt and spices.* |
+| 3 | Carrot Candy | *Made with real carrot.* |
 
 **Standee 2: Masalas & Dry Fruits**
 
-| | Name | Line | Pack |
-|---|---|---|---|
-| Head | *Recipe from 1953* · MASALAS | | |
-| 1 | *Cutting Chai* MASALA | *Brewed strong. Poured slow.* | NET WT. 100 g · MRP ₹ ____ |
-| 2 | *Chatpata Chaat* MASALA | *Tangy, salty, a little wild.* | NET WT. 100 g · MRP ₹ ____ |
-| Head | Premium Dry Fruits | | |
-| 3 | Whole Cashews | *Papa's rule: whole ones for the guests. We only pack whole ones.* | 250 g · ₹ ____ |
-| 4 | Akbari Pistachios | *Papa's rule: crack them open yourself. They taste better.* | 250 g · ₹ ____ |
-| 5 | California Almonds | *Mum's rule: soak five at night, eat them at sunrise.* | 250 g · ₹ ____ |
-| 6 | Seedless Raisins | *Papa's rule: one handful a day. Papa has big hands.* | 250 g · ₹ ____ |
-| 7 | Walnut Kernels | *Papa's rule: walnuts look like brains for a reason.* | 250 g · ₹ ____ |
+| | Name | Line |
+|---|---|---|
+| Head | *Recipe from 1953* · MASALAS | |
+| 1 | *Cutting Chai* MASALA | *Brewed strong. Poured slow.* |
+| 2 | *Chatpata Chaat* MASALA | *Tangy, salty, a little wild.* |
+| Head | Premium Dry Fruits | *Papa's rule: whole ones for the guests.* |
+| 3–7 | Whole Cashews · Akbari Pistachios · California Almonds · Seedless Raisins · Walnut Kernels | names only |
 
-**Footer (both):** *Heirloom, remixed. · Since 1953* · MRP incl. of all taxes · Customer care +91 79886 26068 (WhatsApp)
+**Footer (both):** *Heirloom, remixed. · Since 1953*
+
+The longer copy-library lines (*"Papa's rule: crack them open yourself…"*, *"Because Dadi always said carrots are good for your eyes."*) are good for staff to say aloud at the counter.
 
 ## Display cards
 
@@ -166,15 +166,10 @@ This is new copy in the brand voice. Use it only if the stall offers tastings. D
 - **Footer:** the allergen advice line, then *Heirloom, remixed. · Since 1953*
 
 ## Before print, fill in or confirm
-- **MRP:** fill `MRP` in `scripts/generate_standees.py` (for example `{"amla": "180"}`) and regenerate. Any MRP left empty prints a write-in line.
 - **New copy (not in the copy library):**
   - "Real Fruit Candies" and "Recipe from 1953", which match the allowed 73-year-old-recipe claim.
-  - The Amla Candy line *"Dried amla with sugar. Sweet, soft and chewy."*: check it against that candy's ingredients.
-  - The Khatti-Meethi line is its legal descriptor from the tin.
-- **Pack sizes:**
-  - Candies: 250 g (tin spec).
-  - Masalas: 100 g.
-  - Dry fruits: 250 g. The Walnut Kernels jar is taller, so confirm its weight.
+  - The Amla Candy line *"Sweet, soft and chewy."*.
+  - The Khatti-Meethi line is shortened from its legal descriptor on the tin, and *"Papa's rule: whole ones for the guests."* is the first half of the Whole Cashews tagline.
 - **Colour:** the PDFs are RGB proofs. The guidelines print in CMYK, so convert in Illustrator from the HEX values, or have the printer do it.
 - **CorelDRAW:** outline the text first (guidelines p. 27).
 - **Art resolution:** the art comes from the scenes embedded in the guidelines PDF, about 150 to 200 ppi of real detail, upscaled 2× for print. That is fine for a table standee. For a sharper print, re-crop from the 300 ppi masters in *Final Packaging Designs* using the same file names in `stall-standees/art/`.
